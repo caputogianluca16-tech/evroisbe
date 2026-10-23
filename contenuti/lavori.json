@@ -158,6 +158,15 @@
         "file": "/scarica/infrangere-il-cemento-graphic-novel.pdf",
         "testo": "scarica la graphic novel (pdf, 10 MB)"
       },
+      "libro": {
+        "titolo": "«R-esistenze» · Save the World – Connecting Cultures · Antologia 2025/2026",
+        "nota": "Albertina Press / Gli Ori",
+        "copertina": "/immagini/infrangere-il-cemento/libro-copertina.jpg",
+        "pagine": [
+          "/immagini/infrangere-il-cemento/libro-93.jpg"
+        ],
+        "prima_pagina": 93
+      },
       "tecnica": "Soggetto, sceneggiatura, storyboard e tavole",
       "luogo": "«R-esistenze», Antologia 2025/2026, p. 93",
       "crediti": "Nata per l'esame di Drammaturgia multimediale, prof. Andrea Balzola"

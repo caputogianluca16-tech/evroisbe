@@ -687,7 +687,7 @@ button { font: inherit; color: inherit; }
 .libro__scena:focus-visible { outline: 2px solid var(--rosso); outline-offset: -2px; }
 .libro__volume {
   --pagina: 0.7;
-  --carta-libro: #FBFAF6;
+  --carta-libro: #FFFFFF;
   position: relative;
   width: min(100%, calc(74vh * 2 * var(--pagina)), 1120px);
   aspect-ratio: 1.4 / 1;
@@ -934,6 +934,7 @@ button { font: inherit; color: inherit; }
   }
   .lightbox__freccia { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 4px); transform: none; }
   .libro__scena { padding: var(--s3) 0 var(--s4); }
+  .libro--sinistra-vuota .libro__volume { width: 180%; max-width: none; transform: translateX(-25%); }
   .libro__nota { align-items: flex-start; }
 }
 

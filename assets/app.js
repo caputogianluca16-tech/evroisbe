@@ -608,6 +608,8 @@
         });
         box.classList.toggle("libro--chiuso", conCopertina && pos === 0);
         var sx = facce[2 * pos - 1], dx = facce[2 * pos];
+        /* sul telefono, se a sinistra non c'è niente, si vede solo la pagina di destra, più grande */
+        box.classList.toggle("libro--sinistra-vuota", !sx);
         var numeri = [sx, dx].filter(function (f) { return f && f.numero; }).map(function (f) { return f.numero; });
         stato.textContent = conCopertina && pos === 0 ? "apri il libro"
           : numeri.length === 2 ? "pp. " + numeri[0] + "–" + numeri[1]
