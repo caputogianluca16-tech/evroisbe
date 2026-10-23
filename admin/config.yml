@@ -11,6 +11,10 @@ app_title: EVROISBE · pannello
 site_url: https://evroisbe.com
 show_preview_links: false
 
+# I campi facoltativi lasciati vuoti non vengono scritti nei file.
+output:
+  omit_empty_optional_fields: true
+
 # Le immagini caricate dal pannello vanno nella cartella «immagini».
 media_folder: immagini
 public_folder: /immagini
@@ -118,6 +122,63 @@ singletons:
             required: false
             choose_url: false
             hint: Compaiono nell'ordine in cui sono qui. Se la prima è orizzontale, occupa tutta la larghezza.
+          - name: scarica
+            label: File da scaricare
+            widget: object
+            required: false
+            collapsed: true
+            hint: Facoltativo. Sotto il testo compare un pulsante rosso per scaricarlo.
+            fields:
+              - name: file
+                label: File (PDF)
+                widget: file
+                choose_url: false
+                accept: application/pdf,.pdf
+                media_folder: /scarica
+                public_folder: /scarica
+                hint: Fino a 25 MB.
+                media_libraries:
+                  default:
+                    config:
+                      max_file_size: 26214400
+              - name: testo
+                label: Testo del pulsante
+                widget: string
+                required: false
+                hint: Per esempio «scarica la graphic novel (pdf, 10 MB)».
+          - name: libro
+            label: Pubblicazione (libro da sfogliare)
+            widget: object
+            required: false
+            collapsed: true
+            hint: Facoltativo. Le pagine compaiono dentro un libro che si sfoglia e non si possono scaricare.
+            fields:
+              - name: titolo
+                label: Titolo del libro
+                widget: string
+                required: false
+              - name: nota
+                label: Editore e anno
+                widget: string
+                required: false
+              - name: copertina
+                label: Copertina del libro
+                widget: image
+                required: false
+                choose_url: false
+                hint: Facoltativa. Se c'è, il libro compare chiuso e si apre con un clic.
+              - name: pagine
+                label: Le tue pagine
+                widget: image
+                multiple: true
+                choose_url: false
+                hint: Nell'ordine del libro.
+              - name: prima_pagina
+                label: Numero della prima pagina
+                widget: number
+                value_type: int
+                required: false
+                hint: Per esempio 93. Un numero dispari va a destra, uno pari a sinistra.
           - name: tecnica
             label: Tecnica
             widget: string

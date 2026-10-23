@@ -112,6 +112,30 @@
       }).filter(Boolean);
     }
 
+    /* Un file da scaricare: { file: "/scarica/...pdf", testo: "scarica ..." } */
+    function scaricaDati(s) {
+      if (!s) return null;
+      if (typeof s === "string") return testo(s) ? { file: relativo(s), testo: "" } : null;
+      var f = typeof s === "object" ? relativo(s.file) : "";
+      return f ? { file: f, testo: testo(s.testo) } : null;
+    }
+
+    /* Una pubblicazione da sfogliare:
+       { titolo, nota, copertina, pagine: [...], prima_pagina: 93 } */
+    function libroDati(b) {
+      if (!b || typeof b !== "object") return null;
+      var pagine = lista(b.pagine).map(relativo);
+      if (!pagine.length) return null;
+      var prima = parseInt(b.prima_pagina, 10);
+      return {
+        titolo: testo(b.titolo),
+        nota: testo(b.nota),
+        copertina: relativo(b.copertina),
+        pagine: pagine,
+        prima: isNaN(prima) || prima < 1 ? 0 : prima
+      };
+    }
+
     var progetti = (Array.isArray(D.progetti) ? D.progetti : []).filter(Boolean).map(function (p) {
       var categoria = testo(p.categoria);
       var immagini = lista(p.immagini).map(relativo);
@@ -126,7 +150,9 @@
         testo: lista(p.testo),
         tecnica: testo(p.tecnica),
         luogo: testo(p.luogo),
-        crediti: testo(p.crediti)
+        crediti: testo(p.crediti),
+        scarica: scaricaDati(p.scarica),
+        libro: libroDati(p.libro)
       };
     });
 
@@ -502,6 +528,139 @@
       });
     }
 
+    /* ---------- pulsante per scaricare un file (per esempio un PDF) ---------- */
+    function pulsanteScarica(p) {
+      if (!p.scarica) return null;
+      return el("div", { class: "lavoro__scarica" }, [
+        el("a", { class: "bottone", href: p.scarica.file, target: "_blank", rel: "noopener", text: p.scarica.testo || "scarica (pdf)" })
+      ]);
+    }
+
+    /* ---------- pubblicazione: un libro che si sfoglia ----------
+       Ogni foglio gira attorno al dorso: davanti ha la pagina di destra,
+       dietro quella di sinistra. Le pagine sono sfondi, non immagini
+       da aprire o scaricare. */
+    function libro(p) {
+      var L = p.libro;
+      var conCopertina = !!L.copertina;
+      var aSinistra = L.prima > 0 && L.prima % 2 === 0;   /* numero pari = pagina di sinistra */
+
+      /* le facce dei fogli in fila: fronte, retro, fronte, retro... (null = carta bianca) */
+      var facce = [];
+      if (conCopertina) {
+        facce.push({ src: L.copertina, nome: "copertina", copertina: true });
+        if (!aSinistra) facce.push(null);   /* l'interno della copertina */
+      } else if (aSinistra) {
+        facce.push(null);
+      }
+      L.pagine.forEach(function (src, j) {
+        facce.push({ src: src, nome: L.prima ? "pagina " + (L.prima + j) : "pagina " + (j + 1), numero: L.prima ? L.prima + j : 0 });
+      });
+
+      var nFogli = Math.ceil(facce.length / 2);
+      var min = !conCopertina && aSinistra ? 1 : 0;
+      var max = min;
+      for (var k = min; k <= nFogli; k++) if (facce[2 * k - 1] || facce[2 * k]) max = k;
+      var pos = min;
+
+      var volume = el("div", { class: "libro__volume" }, [
+        el("div", { class: "libro__base libro__base--sx" }),
+        el("div", { class: "libro__base libro__base--dx" })
+      ]);
+      function faccia(f, lato) {
+        var d = el("div", { class: "libro__faccia libro__faccia--" + lato + (f && f.copertina ? " libro__faccia--copertina" : "") });
+        if (f) {
+          var assoluto = new URL(f.src, document.baseURI).href;
+          d.style.backgroundImage = "url(\"" + assoluto.replace(/"/g, "%22") + "\")";
+          d.setAttribute("role", "img");
+          d.setAttribute("aria-label", (L.titolo ? L.titolo + ", " : "") + f.nome);
+        }
+        return d;
+      }
+      var fogli = [];
+      for (var i = 0; i < nFogli; i++) {
+        var foglio = el("div", { class: "libro__foglio" }, [faccia(facce[2 * i], "fronte"), faccia(facce[2 * i + 1], "retro")]);
+        fogli.push(foglio);
+        volume.appendChild(foglio);
+      }
+
+      var box = el("figure", { class: "libro" });
+      var stato = el("span", { class: "libro__stato", "aria-live": "polite" });
+      var prec = el("button", { class: "libro__freccia", type: "button", "aria-label": "Pagina precedente", text: "‹" });
+      var succ = el("button", { class: "libro__freccia", type: "button", "aria-label": "Pagina successiva", text: "›" });
+      var scena = el("div", { class: "libro__scena", tabindex: "0", "aria-label": "Libro da sfogliare" + (L.titolo ? ": " + L.titolo : "") }, [volume]);
+
+      function atterra(f, i) {
+        f.classList.remove("libro__foglio--in-volo");
+        f.style.zIndex = String(i < pos ? i + 1 : nFogli - i);
+      }
+      function disponi(animato) {
+        fogli.forEach(function (f, i) {
+          var girato = i < pos;
+          f.classList.toggle("libro__foglio--girato", girato);
+          f.style.zIndex = String(girato ? i + 1 : nFogli - i);
+          if (animato === i) {
+            f.style.zIndex = String(nFogli + 2);
+            f.classList.add("libro__foglio--in-volo");
+            clearTimeout(f._atterra);
+            f._atterra = setTimeout(function () { atterra(f, i); }, 1000);
+          }
+        });
+        box.classList.toggle("libro--chiuso", conCopertina && pos === 0);
+        var sx = facce[2 * pos - 1], dx = facce[2 * pos];
+        var numeri = [sx, dx].filter(function (f) { return f && f.numero; }).map(function (f) { return f.numero; });
+        stato.textContent = conCopertina && pos === 0 ? "apri il libro"
+          : numeri.length === 2 ? "pp. " + numeri[0] + "–" + numeri[1]
+          : numeri.length === 1 ? "p. " + numeri[0] : "";
+        prec.disabled = pos <= min;
+        succ.disabled = pos >= max;
+      }
+      function gira(d) {
+        var nuovo = pos + d;
+        if (nuovo < min || nuovo > max) return;
+        var mosso = d > 0 ? pos : pos - 1;
+        pos = nuovo;
+        disponi(mosso);
+      }
+      fogli.forEach(function (f, i) {
+        f.addEventListener("transitionend", function (e) {
+          if (e.target !== f || e.propertyName !== "transform") return;
+          clearTimeout(f._atterra);
+          atterra(f, i);
+        });
+      });
+      prec.addEventListener("click", function () { gira(-1); });
+      succ.addEventListener("click", function () { gira(1); });
+      volume.addEventListener("click", function (e) {
+        var r = volume.getBoundingClientRect();
+        var aDestra = e.clientX > r.left + r.width / 2;
+        if (conCopertina && pos === 0) gira(1); else gira(aDestra ? 1 : -1);
+      });
+      scena.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") { e.preventDefault(); gira(1); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); gira(-1); }
+      });
+
+      /* le proporzioni della pagina le prendo dalla prima pagina */
+      var misura = new Image();
+      misura.onload = function () {
+        if (!misura.naturalWidth || !misura.naturalHeight) return;
+        var r = misura.naturalWidth / misura.naturalHeight;
+        volume.style.setProperty("--pagina", String(r));
+        volume.style.aspectRatio = String(2 * r);
+      };
+      misura.src = L.pagine[0];
+
+      disponi();
+      var nota = [L.titolo, L.nota].filter(Boolean);
+      box.appendChild(scena);
+      box.appendChild(el("figcaption", { class: "libro__nota" }, [
+        el("span", { class: "libro__titolo", text: nota.join(" · ") }),
+        max > min ? el("span", { class: "libro__comandi" }, [prec, stato, succ]) : stato
+      ]));
+      return el("section", { class: "lavoro__libro", "aria-label": "Pubblicazione" }, [box]);
+    }
+
     /* ---------- pagina del singolo lavoro ---------- */
     var ripristina = false;
 
@@ -529,6 +688,8 @@
         ]),
         p.video.length ? el("div", { class: "lavoro__video" }, p.video.map(function (v) { return lettore(v, p); })) : null,
         p.testo.length ? el("div", { class: "lavoro__testo" }, [el("div", null, p.testo.map(function (t) { return el("p", { text: t }); }))]) : null,
+        pulsanteScarica(p),
+        p.libro ? libro(p) : null,
         p.immagini.length ? galleria(p) : null,
         n > 1 ? el("nav", { class: "lavoro__altri", "aria-label": "Altri lavori" }, [
           el("a", { href: "#" + prec.slug, rel: "prev" }, [el("small", { text: "precedente" }), el("strong", { text: prec.titolo })]),
