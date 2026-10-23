@@ -264,22 +264,21 @@
     },
     {
       "titolo": "Legàmi",
-      "anno": "2023",
+      "anno": "2023–2026",
       "categoria": "stills",
       "copertina": "/immagini/legami/copertina.jpg",
       "video": [],
-      "testo": "Una serie di dodici scatti in bianco e nero, con un contrasto forte e una grana spessa e visibile. Due figure maschili e una relazione che si intuisce soltanto: il tema è l'oppressione dentro un legame, l'amore tossico.\n\nI riferimenti sono le copertine del post-punk fra anni '70 e '80 (Joy Division, The Smiths, The Cure) e il trucco degli anni '20: ombretti scuri, incarnato pallido, guance arrossate, per esaltare la luce e l'ombra sui volti. In alcuni scatti l'immagine porta i segni di un file digitale corrotto.",
+      "testo": "Legàmi nasce nel 2023 come una serie di scatti in bianco e nero: due figure maschili e una relazione che si intuisce soltanto. Il tema è l'oppressione dentro un legame, l'amore tossico.\n\nNel 2026 sono tornato su quelle fotografie e le ho trasformate in sei collage digitali a colori, in cui i volti dei due si sovrappongono, si sdoppiano e si confondono.\n\nI riferimenti restano le copertine del post-punk fra anni '70 e '80 (Joy Division, The Smiths, The Cure) e il trucco degli anni '20: ombretti scuri, incarnato pallido, guance arrossate, per esaltare la luce e l'ombra sui volti.",
       "immagini": [
+        "/immagini/legami/panorama.jpg",
         "/immagini/legami/1.jpg",
         "/immagini/legami/2.jpg",
         "/immagini/legami/3.jpg",
         "/immagini/legami/4.jpg",
         "/immagini/legami/5.jpg",
-        "/immagini/legami/6.jpg",
-        "/immagini/legami/7.jpg",
-        "/immagini/legami/8.jpg"
+        "/immagini/legami/6.jpg"
       ],
-      "tecnica": "Fotografia in bianco e nero",
+      "tecnica": "Fotografia in bianco e nero, collage digitale",
       "luogo": "Esame di Fotografia 3, Accademia di Belle Arti di Bari",
       "crediti": "Docente prof. Umberto Agnello"
     },
@@ -347,25 +346,6 @@
       "tecnica": "Illustrator",
       "luogo": "",
       "crediti": "Identità visiva su commissione"
-    },
-    {
-      "titolo": "Illustrazioni",
-      "anno": "2019–2023",
-      "categoria": "graphics",
-      "copertina": "/immagini/illustrazioni/copertina.jpg",
-      "video": [],
-      "testo": "Disegni e illustrazioni, a mano e in digitale: personaggi, ritratti, fumetto e pop art.",
-      "immagini": [
-        "/immagini/illustrazioni/1.jpg",
-        "/immagini/illustrazioni/2.jpg",
-        "/immagini/illustrazioni/3.jpg",
-        "/immagini/illustrazioni/4.jpg",
-        "/immagini/illustrazioni/5.jpg",
-        "/immagini/illustrazioni/6.jpg"
-      ],
-      "tecnica": "Disegno a mano, Procreate",
-      "luogo": "",
-      "crediti": ""
     }
   ]
 }
