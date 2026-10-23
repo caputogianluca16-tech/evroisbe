@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EVROISBE | Gianluca Caputo</title>
+<meta name="description" content="Gianluca Caputo (EVROISBE), digital &amp; media artist. Installazioni interattive, creative coding, video, grafica e fotografia.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EVROISBE | Gianluca Caputo">
+<meta property="og:description" content="Digital &amp; media artist. Installazioni interattive, creative coding, video, grafica e fotografia.">
+<meta property="og:url" content="https://evroisbe.com/">
+<meta property="og:image" content="https://evroisbe.com/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#EBEBE9">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a class="salta" href="#portfolio">vai ai lavori</a>
+
+<p class="bozza" id="bozza" hidden>Contenuti di esempio</p>
+
+<header class="testata pagina">
+  <a class="testata__firma" href="#" data-firma>EVROISBE</a>
+  <nav class="testata__nav" aria-label="Sezioni">
+    <a href="#portfolio">portfolio</a>
+    <a href="#about">about</a>
+    <a href="#curriculum">curriculum</a>
+    <a href="#contatti">contatti</a>
+  </nav>
+</header>
+
+<main id="home">
+
+  <section class="apertura pagina" aria-label="Presentazione">
+    <h1 class="apertura__firma" id="firma-grande" data-firma>EVROISBE</h1>
+    <div class="apertura__barra" aria-hidden="true"></div>
+    <div class="apertura__info">
+      <p class="apertura__nome" data-nome>Gianluca Caputo</p>
+      <p class="apertura__ruolo" data-ruolo>Digital &amp; Media Artist</p>
+    </div>
+  </section>
+
+  <section class="sezione pagina" id="portfolio" aria-labelledby="t-portfolio">
+    <div class="sezione__testa">
+      <h2 class="sezione__titolo" id="t-portfolio">portfolio</h2>
+      <p class="sezione__nota" id="anni-lavori"></p>
+    </div>
+    <div class="filtri" id="filtri" role="group" aria-label="Filtra i lavori per categoria"></div>
+    <div class="griglia" id="griglia"></div>
+  </section>
+
+  <section class="sezione pagina" id="about" aria-labelledby="t-about">
+    <div class="sezione__testa">
+      <h2 class="sezione__titolo" id="t-about">about</h2>
+    </div>
+    <div class="about">
+      <p class="about__citazione" id="citazione"></p>
+      <div class="about__testo" id="about-testo"></div>
+    </div>
+  </section>
+
+</main>
+
+<main id="lavoro" hidden></main>
+
+<div class="fondo">
+  <section class="sezione sezione--nera pagina" id="curriculum" aria-labelledby="t-curriculum">
+    <div class="sezione__testa">
+      <h2 class="sezione__titolo" id="t-curriculum">curriculum</h2>
+      <a class="bottone" id="link-cv" href="cv/gianluca-caputo-cv.pdf" target="_blank" rel="noopener">scarica il cv (pdf)</a>
+    </div>
+    <div class="cv" id="cv"></div>
+  </section>
+
+  <footer class="contatti pagina" id="contatti" aria-labelledby="t-contatti">
+    <h2 class="contatti__titolo" id="t-contatti">contatti</h2>
+    <div class="contatti__email">
+      <a class="contatti__indirizzo" id="email" href="mailto:evroisbe@pm.me">evroisbe@pm.me</a>
+      <button class="contatti__copia" id="copia-email" type="button">copia</button>
+    </div>
+    <ul class="contatti__social" id="social"></ul>
+    <p class="contatti__piede"><span id="copyright"></span> <a href="#">torna su</a></p>
+  </footer>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Immagini del lavoro" hidden>
+  <img class="lightbox__img" id="lightbox-img" alt="">
+  <p class="lightbox__conta" id="lightbox-conta"></p>
+  <button class="lightbox__chiudi" id="lightbox-chiudi" type="button">chiudi</button>
+  <button class="lightbox__freccia lightbox__freccia--prec" id="lightbox-prec" type="button" aria-label="Immagine precedente"><span aria-hidden="true">&#8249;</span></button>
+  <button class="lightbox__freccia lightbox__freccia--succ" id="lightbox-succ" type="button" aria-label="Immagine successiva"><span aria-hidden="true">&#8250;</span></button>
+</div>
+
+<noscript><p class="errore pagina">Per vedere il sito attiva JavaScript nel browser.</p></noscript>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

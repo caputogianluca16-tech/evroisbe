@@ -1,0 +1,106 @@
+{
+  "curriculum": [
+    {
+      "sezione": "Esperienze lavorative",
+      "voci": [
+        {
+          "anni": "2026 – oggi",
+          "testo": "Collaboratore della cattedra di Drammaturgia multimediale (prof. Andrea Balzola)\nAccademia Albertina di Belle Arti, Torino\nCoordinamento redazionale della rivista «R-esistenze» (Albertina Press / Gli Ori): redazione, impaginazione e revisione dei testi, coordinamento degli studenti collaboratori. Digitalizzazione e sottotitolazione in italiano di circa 30 film per il corso. Cultore della materia in Drammaturgia multimediale."
+        },
+        {
+          "anni": "2025 – oggi",
+          "testo": "Graphic designer\nAccademia Albertina di Belle Arti, Scuola di Nuove Tecnologie dell'Arte, Torino\nProgettazione grafica dei materiali di comunicazione di convegni, rassegne e mostre: manifesti, locandine, dépliant, programmi, cataloghi e versioni per i social. Fra i lavori: il convegno internazionale WP3-INAR, il documentario in VR «I Remember. Digitali immortali» al Museo Nazionale del Cinema, l'incontro con Nick Brandt con Gallerie d'Italia, catalogo e manifesto della mostra «Who Are We Speaking To?» a Hydra con la Scuola di Belle Arti di Atene."
+        },
+        {
+          "anni": "2020 – 2023",
+          "testo": "Graphic designer e illustratore, libera professione\nCommittenti privati e aziende, da remoto\nGrafica e illustrazione dal brief agli esecutivi per stampa e web; fra i lavori, Planetary Go (2021) e l'identità visiva «We Matter» (2022)."
+        },
+        {
+          "anni": "2019 – 2020",
+          "testo": "Graphic designer, tirocinio Erasmus+\nCommuniqué Ltd, La Valletta (Malta)\nConcept visivi per la comunicazione B2B e B2C, identità visive dei clienti su canali digitali e a stampa, esecutivi di stampa e formati social. Lavoro in inglese."
+        },
+        {
+          "anni": "2018 – 2019",
+          "testo": "Graphic designer\nAll in One Consulting\nBrochure, manifesti e locandine, rebranding di marchi, contenuti per i social."
+        },
+        {
+          "anni": "2016 – 2018",
+          "testo": "Visual merchandiser, alternanza scuola-lavoro\nPrisma (BT)\nAllestimento di vetrine e spazi espositivi."
+        }
+      ]
+    },
+    {
+      "sezione": "Esperienze formative",
+      "voci": [
+        {
+          "anni": "2026",
+          "testo": "Tirocinio in catalogazione e archivio digitale\nPinacoteca dell'Accademia Albertina (CoopCulture), Torino\nArchivio delle opere per il sito web di ARWE, Art Research World Expo: raccolta e catalogazione per artista delle immagini di circa 300 artisti, con il prof. Riccardo Gagliarducci."
+        }
+      ]
+    },
+    {
+      "sezione": "Formazione",
+      "voci": [
+        {
+          "anni": "2024 – 2026",
+          "testo": "Laurea magistrale in Nuove Tecnologie dell'Arte, 110/110 e lode\nAccademia Albertina di Belle Arti, Torino\nIndirizzo Multimedia Exhibit & Digital Performance. Tesi «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale», relatore prof. Andrea Balzola; elaborato finale l'installazione «Störungsbild» (12 ottobre 2026)."
+        },
+        {
+          "anni": "2020 – 2023",
+          "testo": "Laurea triennale in Nuove Tecnologie dell'Arte, 110/110\nAccademia di Belle Arti di Bari\nTesi «L. Moholy-Nagy: dare forma alla luce»."
+        },
+        {
+          "anni": "2014 – 2019",
+          "testo": "Diploma di liceo artistico, indirizzo Grafica\nIISS «Leontine e Giuseppe De Nittis», Barletta"
+        }
+      ]
+    },
+    {
+      "sezione": "Pubblicazioni",
+      "voci": [
+        {
+          "anni": "2025/26",
+          "testo": "«Infrangere il cemento», graphic novel\nIn «R-esistenze», Antologia 2025/2026, Albertina Press / Gli Ori, p. 93\nSoggetto, sceneggiatura, storyboard e tavole. Il volume raccoglie, fra gli altri, contributi di Marina Abramović e Tony Cragg."
+        }
+      ]
+    },
+    {
+      "sezione": "Lingue",
+      "voci": [
+        {
+          "anni": "",
+          "testo": "Italiano\nLingua madre"
+        },
+        {
+          "anni": "",
+          "testo": "Inglese\nLivello C1. Certificato Trinity GESE Grade 6 (B1), corso di livello B2, un anno di lavoro in inglese a Malta."
+        }
+      ]
+    },
+    {
+      "sezione": "Competenze",
+      "voci": [
+        {
+          "anni": "",
+          "testo": "Tempo reale\nTouchDesigner, Max/MSP (Max 9), Kinect V2, MediaPipe, OSC"
+        },
+        {
+          "anni": "",
+          "testo": "Allestimento\nVideo mapping su più superfici, impianti audio e video per installazioni"
+        },
+        {
+          "anni": "",
+          "testo": "Grafica ed editoria\nAdobe Photoshop, InDesign, Illustrator; Procreate"
+        },
+        {
+          "anni": "",
+          "testo": "Video\nAdobe Premiere Pro, After Effects; datamoshing, pixel sorting"
+        },
+        {
+          "anni": "",
+          "testo": "IA generativa\nUso quotidiano, con flussi che combinano più modelli (fra cui Claude, ChatGPT, Gemini, Runway)"
+        }
+      ]
+    }
+  ]
+}

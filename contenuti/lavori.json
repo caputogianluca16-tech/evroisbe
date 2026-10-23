@@ -1,0 +1,371 @@
+{
+  "progetti": [
+    {
+      "titolo": "Störungsbild",
+      "anno": "2026",
+      "categoria": "creative coding",
+      "copertina": "/immagini/storungsbild/copertina.jpg",
+      "video": [],
+      "testo": "Un'installazione che distrugge un volto ogni volta che ti muovi. Il volto non è mai esistito, e per farlo tornare c'è un solo modo: stare fermi.\n\nAl buio è proiettato uno di nove ritratti generati con Gemini e animati con Runway. Un Kinect V2 legge all'infrarosso 21 giunture del corpo di chi guarda. TouchDesigner trasforma posa, movimento e vicinanza in un numero da 0 a 1, e il numero decide come si rompe il volto: degradazione, datamoshing, pixel sorting. In Max 9 suona un pezzo di 192 secondi: chi guarda non suona note, lo disturba come disturba il volto.\n\nDavanti a un'opera interattiva viene spontaneo agitare le braccia per vedere cosa succede. Qui è proprio quel gesto a cancellare il ritratto: chi guarda scopre di essere la causa di quello che cercava di vedere.",
+      "immagini": [
+        "/immagini/storungsbild/4.jpg",
+        "/immagini/storungsbild/1.jpg",
+        "/immagini/storungsbild/2.jpg",
+        "/immagini/storungsbild/3.jpg",
+        "/immagini/storungsbild/5.jpg",
+        "/immagini/storungsbild/6.jpg",
+        "/immagini/storungsbild/7.jpg",
+        "/immagini/storungsbild/8.jpg",
+        "/immagini/storungsbild/9.jpg"
+      ],
+      "tecnica": "Kinect V2, TouchDesigner, Max 9. Gira a 60 fotogrammi al secondo su un portatile.",
+      "luogo": "Accademia Albertina di Belle Arti, Torino, 12 ottobre 2026",
+      "crediti": "Elaborato della laurea magistrale, relatore prof. Andrea Balzola"
+    },
+    {
+      "titolo": "Genealogie dell'instabilità",
+      "anno": "2026",
+      "categoria": "graphics",
+      "copertina": "/immagini/genealogie-dellinstabilita/copertina.jpg",
+      "video": [],
+      "testo": "Il volume teorico della mia tesi magistrale, «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale»: 328 pagine in A5 che ricostruiscono un secolo di immagini instabili, dal cinema di Weimar al glitch. L'ho scritto e impaginato io.\n\nOgni parte parla la lingua visiva dell'epoca che studia: il Bauhaus e la grafica svizzera nella premessa, Weimar e il Dada nella prima parte, il noir nella seconda, il glitch nella quarta e nella quinta. Le conclusioni rimettono insieme gli stili.\n\nGli stili stanno solo nelle aperture, nei titoli, nelle cornici e nei colori: il testo corrente è lo stesso dalla prima all'ultima pagina. Il libro si guarda come una genealogia e si legge come un testo solo.",
+      "immagini": [
+        "/immagini/genealogie-dellinstabilita/1.jpg",
+        "/immagini/genealogie-dellinstabilita/2.jpg",
+        "/immagini/genealogie-dellinstabilita/3.jpg",
+        "/immagini/genealogie-dellinstabilita/4.jpg",
+        "/immagini/genealogie-dellinstabilita/5.jpg",
+        "/immagini/genealogie-dellinstabilita/6.jpg",
+        "/immagini/genealogie-dellinstabilita/7.jpg"
+      ],
+      "tecnica": "InDesign, 328 pagine in A5",
+      "luogo": "",
+      "crediti": "Tesi di laurea magistrale in Nuove Tecnologie dell'Arte, relatore prof. Andrea Balzola"
+    },
+    {
+      "titolo": "L'altare cibernetico",
+      "anno": "2026",
+      "categoria": "creative coding",
+      "copertina": "/immagini/laltare-cibernetico/copertina.jpg",
+      "video": [
+        {
+          "file": "",
+          "link": "https://drive.google.com/file/d/1beBAQnb-gTulioz12KXI_afwiuhQf2ve/view",
+          "titolo": "",
+          "anteprima": "",
+          "formato": ""
+        }
+      ],
+      "testo": "Un'installazione audiovisiva pensata come un altare: tre pannelli, tre finestre su un purgatorio digitale, dove scheletri in wireframe e un mandala centrale ballano una danza macabra guidata dal suono.\n\nAl centro c'è un paradosso: la speranza di conservare i propri dati per sempre, contro il decadimento inevitabile della carne digitale. Teschi e scheletri riducono l'identità alla sua struttura; loop di feedback, distorsioni ed effetti VHS la lasciano corrompere.\n\nNon è un video montato ma un sistema generativo che reagisce al brano in tempo reale. In TouchDesigner l'audio viene scomposto in cassa, bassi e frequenze alte: i colpi di cassa deformano gli scheletri laterali, le frequenze medie e alte il mandala al centro. Le figure in wireframe sono un omaggio all'estetica della label Union Trance Mission.",
+      "immagini": [
+        "/immagini/laltare-cibernetico/2.jpg",
+        "/immagini/laltare-cibernetico/1.jpg",
+        "/immagini/laltare-cibernetico/3.jpg",
+        "/immagini/laltare-cibernetico/4.jpg",
+        "/immagini/laltare-cibernetico/5.jpg",
+        "/immagini/laltare-cibernetico/6.jpg"
+      ],
+      "tecnica": "TouchDesigner, mapping su tre pannelli",
+      "luogo": "Corso di Tecniche dei nuovi media integrati 2, Accademia Albertina",
+      "crediti": "Musica: «Unstable Mind», Red Scan"
+    },
+    {
+      "titolo": "latency",
+      "anno": "2026",
+      "categoria": "creative coding",
+      "copertina": "/immagini/latency/copertina.jpg",
+      "video": [
+        {
+          "file": "",
+          "link": "https://drive.google.com/file/d/1068a4RB1EHK6mubd9k7EMHvUFXyC9jtu/view",
+          "titolo": "",
+          "anteprima": "",
+          "formato": "1920:816"
+        }
+      ],
+      "testo": "Un corpo che cerca di muoversi in modo fluido e resta intrappolato nella tecnologia: scatti, ripetizioni involontarie, pixel che si sfaldano. Il tema è il disallineamento fra il corpo fisico e la sua immagine digitale, quello che vediamo ogni giorno nelle videochiamate: ritardi, buffer, glitch.\n\nIl montaggio non l'ho fatto a mano. Uno script in Python analizza il brano, trova i colpi e le frequenze e li usa come mappa: ogni taglio dura esattamente lo spazio fra un colpo e l'altro. I bassi scatenano il jitter e la distruzione geometrica, gli alti accendono i wireframe al neon.\n\nMediaPipe traccia volto, mani e posa: dove c'è una figura umana la distorsione si moltiplica. La camera è fissa, come una webcam o una telecamera di sorveglianza, e la probabilità degli effetti sale dal 90 al 99% nel corso del brano, fino alla distruzione. Riferimenti: Alva Noto e Raster-Noton per l'immagine, Merce Cunningham per la coreografia.",
+      "immagini": [
+        "/immagini/latency/1.jpg",
+        "/immagini/latency/2.jpg",
+        "/immagini/latency/3.jpg",
+        "/immagini/latency/4.jpg",
+        "/immagini/latency/5.jpg",
+        "/immagini/latency/6.jpg"
+      ],
+      "tecnica": "Python, MediaPipe",
+      "luogo": "Corso di Coreografia digitale, Accademia Albertina",
+      "crediti": "Musica: «Afx237 v7», Aphex Twin"
+    },
+    {
+      "titolo": "Noia, Paura, Pelle",
+      "anno": "2026",
+      "categoria": "motion",
+      "copertina": "/immagini/noia-paura-pelle/copertina.jpg",
+      "video": [
+        {
+          "file": "/video/noia.mp4",
+          "link": "",
+          "titolo": "Noia · Скука · First experiment",
+          "anteprima": "/immagini/noia-paura-pelle/noia.jpg",
+          "formato": ""
+        },
+        {
+          "file": "/video/paura.mp4",
+          "link": "",
+          "titolo": "Paura · Жуткий · One Hour Landscape",
+          "anteprima": "/immagini/noia-paura-pelle/paura.jpg",
+          "formato": "3:4"
+        },
+        {
+          "file": "/video/pelle.mp4",
+          "link": "",
+          "titolo": "Pelle · Кожа · SKIN FILM",
+          "anteprima": "/immagini/noia-paura-pelle/pelle.jpg",
+          "formato": "3:4"
+        }
+      ],
+      "testo": "Tre video brevi, ognuno costruito su una parola russa: Скука (noia), Жуткий (inquietante), Кожа (pelle).\n\n«Noia» è un televisore a tubo catodico acceso sul rumore bianco. «Paura» è una sagoma nera ferma davanti a un parco. «Pelle» riprende la pelle così da vicino che si perde la scala.",
+      "immagini": [],
+      "tecnica": "",
+      "luogo": "",
+      "crediti": ""
+    },
+    {
+      "titolo": "Manifesti per l'Accademia Albertina",
+      "anno": "2025–2026",
+      "categoria": "graphics",
+      "copertina": "/immagini/manifesti-albertina/copertina.jpg",
+      "video": [],
+      "testo": "Da novembre 2025 curo la grafica degli eventi della Scuola di Nuove Tecnologie dell'Arte dell'Accademia Albertina: manifesti, programmi, cataloghi e versioni per i social. Sei eventi in otto mesi, fra cui il convegno internazionale WP3-INAR, il documentario in VR «I Remember. Digitali immortali» al Museo Nazionale del Cinema e l'incontro con Nick Brandt con Gallerie d'Italia.\n\nQui due manifesti: «Who Are We Speaking To?», la mostra a Hydra con la Scuola di Belle Arti di Atene (giugno 2026), e la proiezione del documentario «Il codice del bosco» (12 novembre 2025).\n\nIn quasi tutti c'era una fila di loghi istituzionali da far stare insieme a un titolo che si legga da lontano. È la parte del lavoro che non si nota, quando è fatta bene.",
+      "immagini": [
+        "/immagini/manifesti-albertina/1.jpg",
+        "/immagini/manifesti-albertina/2.jpg"
+      ],
+      "tecnica": "Photoshop, InDesign",
+      "luogo": "Scuola di Nuove Tecnologie dell'Arte, Accademia Albertina di Belle Arti, Torino",
+      "crediti": ""
+    },
+    {
+      "titolo": "Infrangere il cemento",
+      "anno": "2025",
+      "categoria": "graphics",
+      "copertina": "/immagini/infrangere-il-cemento/copertina.jpg",
+      "video": [],
+      "testo": "Una graphic novel nata da un haiku: «Gaia scienza / cemento avanza / resilienza». Il tema è lo scontro fra l'artificio tecnologico e la forza vitale della natura.\n\nIn una città di cemento dove gli esseri umani sembrano scomparsi, il robot X-7 fa le pulizie: stermina ogni pianta e ogni insetto che rompe l'ordine. Ma le piante entrano nelle crepe, poi nei suoi circuiti. Il guasto gli cambia lo sguardo: da sterminatore diventa guardiano, e alla fine pianta un seme.\n\nUna tavola è pubblicata a pagina 93 di «R-esistenze. Culture etiche ed artistiche differenti», Antologia 2025/2026 (Albertina Press / Gli Ori), insieme a contributi, fra gli altri, di Marina Abramović e Tony Cragg.",
+      "immagini": [
+        "/immagini/infrangere-il-cemento/1.jpg",
+        "/immagini/infrangere-il-cemento/2.jpg",
+        "/immagini/infrangere-il-cemento/3.jpg",
+        "/immagini/infrangere-il-cemento/4.jpg",
+        "/immagini/infrangere-il-cemento/5.jpg",
+        "/immagini/infrangere-il-cemento/6.jpg",
+        "/immagini/infrangere-il-cemento/7.jpg",
+        "/immagini/infrangere-il-cemento/8.jpg",
+        "/immagini/infrangere-il-cemento/9.jpg",
+        "/immagini/infrangere-il-cemento/10.jpg"
+      ],
+      "tecnica": "Soggetto, sceneggiatura, storyboard e tavole",
+      "luogo": "«R-esistenze», Antologia 2025/2026, p. 93",
+      "crediti": "Nata per l'esame di Drammaturgia multimediale, prof. Andrea Balzola"
+    },
+    {
+      "titolo": "Slut Commandments",
+      "anno": "2025",
+      "categoria": "motion",
+      "copertina": "/immagini/slut-commandments/copertina.jpg",
+      "video": [
+        {
+          "file": "/video/slut-commandments.mp4",
+          "link": "",
+          "titolo": "",
+          "anteprima": "/immagini/slut-commandments/video.jpg",
+          "formato": ""
+        }
+      ],
+      "testo": "Un video mapping su sei pannelli verticali disposti a semicerchio. Su ogni schermo, primi piani di corpi filtrati con colori saturi e contrasti estremi, in un vedo-non-vedo che viene dai poster. Labbra rosse sincronizzate con il brano scandiscono le parole della canzone.\n\nÈ una celebrazione sensuale e provocatoria, e insieme una presa di posizione contro i limiti che la società mette alla libertà sessuale: il corpo come spazio di espressione e di piacere, non come terreno per moralismi e giudizi.\n\nL'estetica viene dalla glitch art e dalle registrazioni su nastro VHS: distorsioni e artefatti che sottolineano discontinuità e frammentazione.",
+      "immagini": [
+        "/immagini/slut-commandments/1.jpg",
+        "/immagini/slut-commandments/2.jpg",
+        "/immagini/slut-commandments/3.jpg",
+        "/immagini/slut-commandments/4.jpg",
+        "/immagini/slut-commandments/5.jpg",
+        "/immagini/slut-commandments/6.jpg"
+      ],
+      "tecnica": "Video mapping su sei pannelli verticali",
+      "luogo": "Corso di Tecniche dei nuovi media integrati, Accademia Albertina",
+      "crediti": "Musica: «Slut Commandments», Miss Bashful"
+    },
+    {
+      "titolo": "ASCII",
+      "anno": "2025",
+      "categoria": "creative coding",
+      "copertina": "/immagini/ascii/copertina.jpg",
+      "video": [
+        {
+          "file": "/video/ascii.mp4",
+          "link": "",
+          "titolo": "",
+          "anteprima": "/immagini/ascii/video.jpg",
+          "formato": "1:1"
+        }
+      ],
+      "testo": "Una bocca ricomposta con centinaia di altre bocche. Come in un'immagine ASCII, dove i caratteri compongono un disegno, qui ogni tessera è una fotografia, e solo da lontano le tessere tornano a essere una bocca.",
+      "immagini": [
+        "/immagini/ascii/1.jpg"
+      ],
+      "tecnica": "",
+      "luogo": "",
+      "crediti": ""
+    },
+    {
+      "titolo": "Olympia",
+      "anno": "2024",
+      "categoria": "motion",
+      "copertina": "/immagini/olympia/copertina.jpg",
+      "video": [
+        {
+          "file": "",
+          "link": "https://drive.google.com/file/d/1dFwfHInBb67G90jzktuIytK3TJpjB9dz/view",
+          "titolo": "",
+          "anteprima": "",
+          "formato": "936:720"
+        }
+      ],
+      "testo": "Una ricontestualizzazione: le immagini di «Olympia», il film di Leni Riefenstahl sui Giochi di Berlino del 1936, rimontate sul brano «На дне» dei Molchat Doma.\n\nInsieme al video, un manifesto costruito con i caratteri del Bauhaus.",
+      "immagini": [
+        "/immagini/olympia/1.jpg",
+        "/immagini/olympia/2.jpg",
+        "/immagini/olympia/3.jpg",
+        "/immagini/olympia/4.jpg",
+        "/immagini/olympia/5.jpg"
+      ],
+      "tecnica": "Montaggio video, manifesto",
+      "luogo": "",
+      "crediti": "Musica: «На дне», Molchat Doma. Immagini d'archivio da «Olympia» di Leni Riefenstahl (1938)"
+    },
+    {
+      "titolo": "Fotomontaggi",
+      "anno": "2024",
+      "categoria": "stills",
+      "copertina": "/immagini/fotomontaggi/copertina.jpg",
+      "video": [],
+      "testo": "Fotografie in bianco e nero rielaborate in digitale: corpi e volti specchiati fino a diventare altre creature, negativi, fumo, una testa di capra al posto di un volto.",
+      "immagini": [
+        "/immagini/fotomontaggi/1.jpg",
+        "/immagini/fotomontaggi/2.jpg",
+        "/immagini/fotomontaggi/3.jpg",
+        "/immagini/fotomontaggi/4.jpg",
+        "/immagini/fotomontaggi/5.jpg",
+        "/immagini/fotomontaggi/6.jpg"
+      ],
+      "tecnica": "Fotografia, Photoshop",
+      "luogo": "",
+      "crediti": ""
+    },
+    {
+      "titolo": "Legàmi",
+      "anno": "2023",
+      "categoria": "stills",
+      "copertina": "/immagini/legami/copertina.jpg",
+      "video": [],
+      "testo": "Una serie di dodici scatti in bianco e nero, con un contrasto forte e una grana spessa e visibile. Due figure maschili e una relazione che si intuisce soltanto: il tema è l'oppressione dentro un legame, l'amore tossico.\n\nI riferimenti sono le copertine del post-punk fra anni '70 e '80 (Joy Division, The Smiths, The Cure) e il trucco degli anni '20: ombretti scuri, incarnato pallido, guance arrossate, per esaltare la luce e l'ombra sui volti. In alcuni scatti l'immagine porta i segni di un file digitale corrotto.",
+      "immagini": [
+        "/immagini/legami/1.jpg",
+        "/immagini/legami/2.jpg",
+        "/immagini/legami/3.jpg",
+        "/immagini/legami/4.jpg",
+        "/immagini/legami/5.jpg",
+        "/immagini/legami/6.jpg",
+        "/immagini/legami/7.jpg",
+        "/immagini/legami/8.jpg"
+      ],
+      "tecnica": "Fotografia in bianco e nero",
+      "luogo": "Esame di Fotografia 3, Accademia di Belle Arti di Bari",
+      "crediti": "Docente prof. Umberto Agnello"
+    },
+    {
+      "titolo": "Ritratti",
+      "anno": "2023",
+      "categoria": "stills",
+      "copertina": "/immagini/ritratti/copertina.jpg",
+      "video": [],
+      "testo": "Una serie di ritratti in bianco e nero, fra la luce dello studio e quella naturale.",
+      "immagini": [
+        "/immagini/ritratti/1.jpg",
+        "/immagini/ritratti/2.jpg",
+        "/immagini/ritratti/3.jpg",
+        "/immagini/ritratti/4.jpg",
+        "/immagini/ritratti/5.jpg",
+        "/immagini/ritratti/6.jpg"
+      ],
+      "tecnica": "Fotografia in bianco e nero",
+      "luogo": "",
+      "crediti": ""
+    },
+    {
+      "titolo": "Student reel",
+      "anno": "2023",
+      "categoria": "motion",
+      "copertina": "/immagini/student-reel/copertina.jpg",
+      "video": [
+        {
+          "file": "/video/student-reel.mp4",
+          "link": "",
+          "titolo": "",
+          "anteprima": "/immagini/student-reel/video.jpg",
+          "formato": ""
+        }
+      ],
+      "testo": "Un ambiente costruito e animato in Unreal Engine per lo student reel dell'Accademia di Belle Arti di Bari: una grotta in luce rossa, piante, un altare con un teschio di montone.",
+      "immagini": [
+        "/immagini/student-reel/1.jpg",
+        "/immagini/student-reel/2.jpg",
+        "/immagini/student-reel/3.jpg",
+        "/immagini/student-reel/4.jpg",
+        "/immagini/student-reel/5.jpg",
+        "/immagini/student-reel/6.jpg"
+      ],
+      "tecnica": "Unreal Engine",
+      "luogo": "Accademia di Belle Arti di Bari",
+      "crediti": ""
+    },
+    {
+      "titolo": "We Matter",
+      "anno": "2022",
+      "categoria": "graphics",
+      "copertina": "/immagini/we-matter/copertina.jpg",
+      "video": [],
+      "testo": "Il marchio di «We Matter» (noi valiamo), per una content creator che in diretta parla di attualità e di inclusione sociale: diritti della comunità LGBTQ+, delle donne e delle categorie discriminate.\n\nFra le proposte, la cliente ha scelto questa: un'iniziale in 3D la cui ombra forma l'altra iniziale. Su sua richiesta il marchio non ha colore: ne ho fatto due versioni in bianco e nero, positiva e negativa, che funzionano su qualsiasi fondo.",
+      "immagini": [
+        "/immagini/we-matter/6.jpg",
+        "/immagini/we-matter/1.jpg",
+        "/immagini/we-matter/2.jpg",
+        "/immagini/we-matter/3.jpg",
+        "/immagini/we-matter/4.jpg",
+        "/immagini/we-matter/5.jpg"
+      ],
+      "tecnica": "Illustrator",
+      "luogo": "",
+      "crediti": "Identità visiva su commissione"
+    },
+    {
+      "titolo": "Illustrazioni",
+      "anno": "2019–2023",
+      "categoria": "graphics",
+      "copertina": "/immagini/illustrazioni/copertina.jpg",
+      "video": [],
+      "testo": "Disegni e illustrazioni, a mano e in digitale: personaggi, ritratti, fumetto e pop art.",
+      "immagini": [
+        "/immagini/illustrazioni/1.jpg",
+        "/immagini/illustrazioni/2.jpg",
+        "/immagini/illustrazioni/3.jpg",
+        "/immagini/illustrazioni/4.jpg",
+        "/immagini/illustrazioni/5.jpg",
+        "/immagini/illustrazioni/6.jpg"
+      ],
+      "tecnica": "Disegno a mano, Procreate",
+      "luogo": "",
+      "crediti": ""
+    }
+  ]
+}

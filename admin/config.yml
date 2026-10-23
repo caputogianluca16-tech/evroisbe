@@ -1,0 +1,214 @@
+# Pannello di controllo di evroisbe.com (Sveltia CMS)
+# Documentazione: https://sveltiacms.app/it/docs
+
+backend:
+  name: github
+  # account GitHub e nome del repository del sito: «nome-utente/nome-repository»
+  repo: caputogianluca16-tech/evroisbe
+  branch: main
+
+app_title: EVROISBE · pannello
+site_url: https://evroisbe.com
+show_preview_links: false
+
+# Le immagini caricate dal pannello vanno nella cartella «immagini».
+media_folder: immagini
+public_folder: /immagini
+
+# Al caricamento le foto vengono ridotte (lato lungo massimo 2000 pixel)
+# e convertite in WebP: pesano poco e perdono i dati nascosti, come la posizione GPS.
+media_libraries:
+  default:
+    config:
+      slugify_filename: true
+      transformations:
+        raster_image:
+          format: webp
+          quality: 85
+          width: 2000
+          height: 2000
+
+editor:
+  preview: false
+
+singletons:
+
+  - name: lavori
+    label: Lavori
+    icon: grid_view
+    file: contenuti/lavori.json
+    fields:
+      - name: progetti
+        label: Lavori
+        label_singular: lavoro
+        widget: list
+        collapsed: true
+        add_to_top: true
+        summary: "{{fields.titolo}} · {{fields.anno}} · {{fields.categoria}}"
+        hint: L'ordine qui è l'ordine sul sito. Un lavoro nuovo compare in cima; trascinalo dove vuoi.
+        fields:
+          - name: titolo
+            label: Titolo
+            widget: string
+          - name: anno
+            label: Anno
+            widget: string
+            hint: Per esempio 2026, oppure 2019–2023.
+          - name: categoria
+            label: Categoria
+            widget: select
+            options: [creative coding, motion, graphics, stills]
+          - name: copertina
+            label: Copertina
+            widget: image
+            choose_url: false
+            hint: È l'immagine della griglia del portfolio, dove viene tagliata in formato 4:3.
+          - name: video
+            label: Video
+            label_singular: video
+            widget: list
+            required: false
+            collapsed: true
+            summary: "{{fields.titolo}} {{fields.file}} {{fields.link}}"
+            hint: Facoltativi. I video compaiono in cima alla pagina del lavoro.
+            fields:
+              - name: file
+                label: File video (MP4)
+                widget: file
+                required: false
+                choose_url: false
+                accept: video/mp4,.mp4,.m4v
+                media_folder: /video
+                public_folder: /video
+                hint: Fino a 25 MB. Se il video è più pesante lascia vuoto questo campo, caricalo su Google Drive e incolla il link qui sotto.
+                media_libraries:
+                  default:
+                    config:
+                      max_file_size: 26214400
+              - name: link
+                label: Oppure link
+                widget: string
+                required: false
+                hint: Link di condivisione di Google Drive (condiviso come «Chiunque abbia il link»), di YouTube o di Vimeo.
+              - name: titolo
+                label: Titolo del video
+                widget: string
+                required: false
+                hint: Facoltativo, compare sotto il video.
+              - name: anteprima
+                label: Immagine prima del play
+                widget: image
+                required: false
+                choose_url: false
+                hint: Facoltativa. Se manca si vede la copertina.
+              - name: formato
+                label: Formato
+                widget: string
+                required: false
+                hint: Lascia vuoto se il video è orizzontale 16:9. Altrimenti scrivi la proporzione, per esempio 1:1, 3:4, 4:3, 1920:816.
+          - name: testo
+            label: Testo
+            widget: text
+            required: false
+            hint: Lascia una riga vuota fra un paragrafo e l'altro.
+          - name: immagini
+            label: Immagini
+            widget: image
+            multiple: true
+            required: false
+            choose_url: false
+            hint: Compaiono nell'ordine in cui sono qui. Se la prima è orizzontale, occupa tutta la larghezza.
+          - name: tecnica
+            label: Tecnica
+            widget: string
+            required: false
+          - name: luogo
+            label: Luogo
+            widget: string
+            required: false
+          - name: crediti
+            label: Crediti
+            widget: string
+            required: false
+
+  - name: curriculum
+    label: Curriculum
+    icon: description
+    file: contenuti/curriculum.json
+    fields:
+      - name: curriculum
+        label: Sezioni
+        label_singular: sezione
+        widget: list
+        collapsed: true
+        summary: "{{fields.sezione}}"
+        hint: Sul sito ogni sezione si apre con un clic.
+        fields:
+          - name: sezione
+            label: Titolo della sezione
+            widget: string
+          - name: voci
+            label: Voci
+            label_singular: voce
+            widget: list
+            collapsed: true
+            summary: "{{fields.anni}} {{fields.testo}}"
+            fields:
+              - name: anni
+                label: Anni
+                widget: string
+                required: false
+              - name: testo
+                label: Testo
+                widget: text
+                hint: La prima riga esce in evidenza. Per le righe successive vai a capo.
+
+  - name: profilo
+    label: Profilo e contatti
+    icon: person
+    file: contenuti/profilo.json
+    fields:
+      - name: firma
+        label: Firma
+        widget: string
+        hint: Il nome grande in cima al sito.
+      - name: nome
+        label: Nome
+        widget: string
+      - name: ruolo
+        label: Ruolo
+        widget: string
+      - name: citazione
+        label: Citazione
+        widget: string
+        required: false
+      - name: about
+        label: About
+        widget: text
+        required: false
+        hint: Lascia una riga vuota fra un paragrafo e l'altro.
+      - name: email
+        label: Email
+        widget: string
+      - name: instagram
+        label: Link Instagram
+        widget: string
+        required: false
+        hint: Se lo lasci vuoto, il link non compare.
+      - name: linkedin
+        label: Link LinkedIn
+        widget: string
+        required: false
+        hint: Se lo lasci vuoto, il link non compare.
+      - name: cv
+        label: Curriculum in PDF
+        widget: file
+        required: false
+        choose_url: false
+        accept: application/pdf,.pdf
+        media_folder: /cv
+        public_folder: /cv
+        hint: È il PDF del pulsante «scarica il cv».
+      - name: categorie
+        label: Ordine dei filtri
+        widget: hidden
