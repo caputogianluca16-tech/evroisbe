@@ -120,31 +120,68 @@
       return f ? { file: f, testo: testo(s.testo) } : null;
     }
 
-    /* Una pubblicazione da sfogliare:
-       { titolo, nota, copertina, pagine: [...], prima_pagina: 93 } */
+    function tre(n) { return ("00" + n).slice(-3); }
+
+    /* Un libro da sfogliare:
+       { titolo, nota, copertina, pagine: [...], prima_pagina: 93 }
+       oppure, per i libri lunghi, una cartella di pagine numerate:
+       { ..., cartella: "/libri/genealogie/", prima_pagina: 2, quante: 327 } -> 002.jpg ... 328.jpg
+       Il lato della prima pagina lo decide il numero (dispari a destra, pari a sinistra),
+       a meno che «lato_prima_pagina» dica «destra» o «sinistra». */
     function libroDati(b) {
       if (!b || typeof b !== "object") return null;
-      var pagine = lista(b.pagine).map(relativo);
-      if (!pagine.length) return null;
       var prima = parseInt(b.prima_pagina, 10);
+      if (isNaN(prima) || prima < 1) prima = 0;
+      var pagine = lista(b.pagine).map(relativo);
+      var cartella = relativo(b.cartella), quante = parseInt(b.quante, 10);
+      if (!pagine.length && cartella && quante > 0) {
+        if (!prima) prima = 1;
+        cartella = cartella.replace(/\/?$/, "/");
+        for (var k = 0; k < quante; k++) pagine.push(cartella + tre(prima + k) + ".jpg");
+      }
+      if (!pagine.length) return null;
       return {
         titolo: testo(b.titolo),
         nota: testo(b.nota),
         copertina: relativo(b.copertina),
         pagine: pagine,
-        prima: isNaN(prima) || prima < 1 ? 0 : prima
+        prima: prima,
+        lato: /^(destra|sinistra)$/.test(b.lato_prima_pagina) ? b.lato_prima_pagina : "",
+        lungo: pagine.length > 8
       };
     }
+    function libriDati(p) {
+      var arr = Array.isArray(p.libri) ? p.libri.slice() : [];
+      if (p.libro) arr.push(p.libro);
+      return arr.map(libroDati).filter(Boolean);
+    }
 
-    var progetti = (Array.isArray(D.progetti) ? D.progetti : []).filter(Boolean).map(function (p) {
+    /* Il punto da tenere quando la copertina viene tagliata */
+    var FUOCHI = {
+      "centro": "50% 50%", "in alto": "50% 8%", "un po' in alto": "50% 30%",
+      "un po' in basso": "50% 70%", "in basso": "50% 92%", "a sinistra": "12% 50%", "a destra": "88% 50%"
+    };
+    function fuocoCss(v) {
+      var t = testo(v).toLowerCase().replace(/’/g, "'");
+      if (FUOCHI[t]) return FUOCHI[t];
+      return /^\d{1,3}% \d{1,3}%$/.test(t) ? t : "";
+    }
+
+    var progetti = (Array.isArray(D.progetti) ? D.progetti : []).filter(Boolean).filter(function (p) {
+      return p.nascosto !== true && p.nascosto !== "true";
+    }).map(function (p) {
       var categoria = testo(p.categoria);
       var immagini = lista(p.immagini).map(relativo);
+      var libri = libriDati(p);
       return {
         titolo: testo(p.titolo) || "Senza titolo",
         anno: testo(p.anno),
         categoria: categoria,
         chiave: categoria.toLowerCase(),
-        copertina: relativo(p.copertina) || immagini[0] || "",
+        copertina: relativo(p.copertina) || immagini[0] || (libri[0] && (libri[0].copertina || libri[0].pagine[0])) || "",
+        fuoco: fuocoCss(p.fuoco),
+        anteprimaVideo: relativo(p.anteprima_video),
+        anteprime: lista(p.anteprime).map(relativo),
         video: videoLista(p.video),
         immagini: immagini,
         testo: lista(p.testo),
@@ -152,7 +189,7 @@
         luogo: testo(p.luogo),
         crediti: testo(p.crediti),
         scarica: scaricaDati(p.scarica),
-        libro: libroDati(p.libro)
+        libri: libri
       };
     });
 
@@ -211,6 +248,19 @@
       if (w > 0 && cw > 0) h.style.fontSize = (100 * cw / w) * 0.997 + "px";
     }
 
+    /* L'indirizzo email grande dei contatti sta sempre su una riga:
+       se è lungo, si rimpicciolisce quanto basta. */
+    function adattaEmail() {
+      var a = $("#email");
+      if (!a || !a.offsetParent || !a.firstChild) return;
+      a.style.fontSize = "";
+      var r = document.createRange();
+      r.selectNodeContents(a);
+      var w = r.getBoundingClientRect().width;
+      var cw = a.parentNode.clientWidth;
+      if (w > 0 && cw > 0 && w > cw) a.style.fontSize = (parseFloat(getComputedStyle(a).fontSize) * cw / w * 0.98) + "px";
+    }
+
     /* Il titolo di un lavoro va a capo solo fra una parola e l'altra:
        se una parola da sola non ci sta, il titolo si rimpicciolisce. */
     function adattaTitolo() {
@@ -256,17 +306,253 @@
         });
     }
 
-    /* Se i lavori visibili sono dispari, il primo occupa tutta la riga. */
     function applicaFiltro() {
       $$(".filtro").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-chiave") === filtro)); });
-      var visibili = [];
       $$(".opera").forEach(function (a) {
-        var mostra = filtro === "tutti" || a.getAttribute("data-chiave") === filtro;
-        a.hidden = !mostra;
-        a.classList.remove("opera--grande");
-        if (mostra) visibili.push(a);
+        a.hidden = !(filtro === "tutti" || a.getAttribute("data-chiave") === filtro);
+        if (a.hidden) ferma(a);
       });
-      if (visibili.length > 1 && visibili.length % 2 === 1) visibili[0].classList.add("opera--grande");
+      impagina();
+    }
+
+    function due(n) { return (n < 10 ? "0" : "") + n; }
+
+    /* ---------- impaginazione della griglia ----------
+       Sul computer: tre colonne; un lavoro largo (due colonne) con uno accanto,
+       alternato a sinistra e a destra, poi una riga di tre lavori piccoli.
+       Sul tablet: due colonne, un lavoro largo ogni tre. Sul telefono: una colonna. */
+    var colonne = 0;
+    function quanteColonne() {
+      var w = $("#griglia").clientWidth || window.innerWidth;
+      return w >= 980 ? 3 : w >= 600 ? 2 : 1;
+    }
+    function impagina() {
+      var g = $("#griglia");
+      var carte = $$(".opera", g).filter(function (a) { return !a.hidden; });
+      var c = colonne = quanteColonne();
+      g.classList.remove("griglia--1", "griglia--2", "griglia--3");
+      g.classList.add("griglia--" + c);
+      carte.forEach(function (a) {
+        a.style.gridColumn = ""; a.style.gridRow = "";
+        a.classList.remove("opera--f", "opera--f2", "opera--accanto", "opera--banda");
+      });
+      if (c === 1) return;
+      function metti(a, col, span, riga, righe, classe) {
+        a.style.gridColumn = col + " / span " + span;
+        a.style.gridRow = riga + " / span " + righe;
+        if (classe) a.classList.add(classe);
+      }
+      var i = 0, riga = 1, resto;
+      if (c === 2) {
+        while (i < carte.length) {
+          resto = carte.length - i;
+          if (i % 3 === 0 || resto === 1) { metti(carte[i], 1, 2, riga, 1, "opera--banda"); i += 1; }
+          else { metti(carte[i], 1, 1, riga, 1); metti(carte[i + 1], 2, 1, riga, 1); i += 2; }
+          riga++;
+        }
+        return;
+      }
+      /* righe alternate: un lavoro largo (16:9) con uno accanto, poi tre lavori piccoli */
+      var grandi = 0, turnoGrande = true;
+      while (i < carte.length) {
+        resto = carte.length - i;
+        var specchio = grandi % 2 === 1;
+        if (resto === 1) { metti(carte[i], 1, 3, riga, 1, "opera--banda"); break; }
+        if (turnoGrande || resto === 2) {
+          metti(carte[i], specchio ? 2 : 1, 2, riga, 1, "opera--f2");
+          metti(carte[i + 1], specchio ? 1 : 3, 1, riga, 1, "opera--accanto");
+          i += 2; grandi++;
+        } else {
+          metti(carte[i], 1, 1, riga, 1); metti(carte[i + 1], 2, 1, riga, 1); metti(carte[i + 2], 3, 1, riga, 1);
+          i += 3;
+        }
+        riga++;
+        turnoGrande = !turnoGrande;
+      }
+    }
+
+    /* ---------- anteprime che si muovono ----------
+       Al passaggio del mouse (o, sul telefono, quando l'anteprima è in vista):
+       i lavori con un'anteprima video la fanno partire, gli altri fanno
+       scorrere le loro immagini come un pieghevole. */
+    var conMouse = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    var calma = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var risparmio = !!(navigator.connection && navigator.connection.saveData);
+
+    function fotogrammi(p) {
+      var f = [p.copertina];
+      var fonte = (p.anteprime.length ? p.anteprime : p.immagini).slice();
+      if (!fonte.length && p.libri.length) {
+        var L = p.libri[0], n = L.pagine.length;
+        [0.04, 0.2, 0.42, 0.66, 0.9].forEach(function (x) { fonte.push(L.pagine[Math.min(n - 1, Math.floor(n * x))]); });
+      }
+      fonte.forEach(function (s) { if (s && f.indexOf(s) < 0) f.push(s); });
+      return f.slice(0, 7);
+    }
+    function muovi(a) {
+      var p = a._p;
+      if (!p || a.hidden || a._attiva) return;
+      a._attiva = true;
+      var box = $(".opera__img", a);
+      if (p.anteprimaVideo) {
+        var v = a._clip;
+        if (!v) {
+          v = document.createElement("video");
+          v.className = "opera__clip";
+          v.muted = true; v.defaultMuted = true; v.loop = true; v.playsInline = true;
+          v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("aria-hidden", "true");
+          v.preload = "auto";
+          if (p.fuoco) v.style.objectPosition = p.fuoco;
+          v.addEventListener("playing", function () { if (a._attiva) a.classList.add("opera--in-moto"); });
+          v.src = p.anteprimaVideo;
+          box.appendChild(v);
+          a._clip = v;
+        }
+        var pr = v.play();
+        if (pr && pr.catch) pr.catch(function () {});
+        return;
+      }
+      pieghevole(a, box, p);
+    }
+    function ferma(a) {
+      if (!a._attiva) return;
+      a._attiva = false;
+      a.classList.remove("opera--in-moto");
+      if (a._clip) a._clip.pause();
+      clearTimeout(a._timer);
+    }
+    function pieghevole(a, box, p) {
+      var s = a._scorre;
+      if (!s) {
+        var strato = el("div", { class: "opera__scorre", "aria-hidden": "true" });
+        var lastre = [el("img", { alt: "", decoding: "async" }), el("img", { alt: "", decoding: "async" })];
+        lastre.forEach(function (im) { if (p.fuoco) im.style.objectPosition = p.fuoco; strato.appendChild(im); });
+        var conta = el("span", { class: "opera__conta" });
+        strato.appendChild(conta);
+        box.appendChild(strato);
+        s = a._scorre = { f: fotogrammi(p), i: 0, sopra: 0, lastre: lastre, conta: conta };
+      }
+      if (s.f.length < 2) return;
+      /* si riparte sempre dalla copertina */
+      s.i = 0;
+      s.lastre[0].className = "fermo"; s.lastre[1].className = "";
+      s.lastre[0].src = s.f[0]; s.sopra = 0;
+      s.conta.textContent = due(1) + " / " + due(s.f.length);
+      function prossimo() {
+        if (!a._attiva) return;
+        var j = (s.i + 1) % s.f.length;
+        var nuova = s.lastre[1 - s.sopra], vecchia = s.lastre[s.sopra];
+        var pronta = new Image();
+        pronta.src = s.f[j];
+        (pronta.decode ? pronta.decode() : Promise.resolve()).catch(function () {}).then(function () {
+          if (!a._attiva) return;
+          nuova.className = "";
+          nuova.src = s.f[j];
+          void nuova.offsetWidth;
+          nuova.className = "entra";
+          vecchia.className = "esce";
+          a.classList.add("opera--in-moto");
+          s.i = j; s.sopra = 1 - s.sopra;
+          s.conta.textContent = due(j + 1) + " / " + due(s.f.length);
+          a._timer = setTimeout(prossimo, 1350);
+        });
+      }
+      clearTimeout(a._timer);
+      a._timer = setTimeout(prossimo, 380);
+    }
+    /* Senza nessuno sopra le anteprime non restano ferme:
+       - sul computer si anima da sola un'anteprima alla volta, a turno fra quelle in vista;
+         appena il mouse va su un lavoro, si muove solo quello;
+       - sul telefono si anima l'anteprima più vicina al centro dello schermo. */
+    function preparaAnimazioni() {
+      if (calma) return;
+      var carte = $$(".opera").filter(function (a) {
+        var p = a._p;
+        return p && (p.anteprimaVideo || fotogrammi(p).length > 1);
+      });
+      if (!carte.length) return;
+      var sotto = null;                       /* il lavoro sotto il mouse */
+      var giro = { timer: 0, attuale: null, ultimo: -1 };
+      var inVista = [];
+
+      function fermaGiro() {
+        clearTimeout(giro.timer);
+        giro.timer = 0;
+        if (giro.attuale && giro.attuale !== sotto) ferma(giro.attuale);
+        giro.attuale = null;
+      }
+      function riprendiGiro(attesa) {
+        clearTimeout(giro.timer);
+        giro.timer = setTimeout(passoGiro, attesa);
+      }
+      function passoGiro() {
+        fermaGiro();
+        if (sotto || document.hidden) return;
+        var lista = carte.filter(function (a) { return !a.hidden && inVista.indexOf(a) >= 0; });
+        if (!lista.length) return;            /* riparte quando un lavoro torna in vista */
+        var dopo = lista.filter(function (a) { return carte.indexOf(a) > giro.ultimo; });
+        var a = dopo.length ? dopo[0] : lista[0];
+        giro.ultimo = carte.indexOf(a);
+        giro.attuale = a;
+        muovi(a);
+        giro.timer = setTimeout(function () {
+          if (giro.attuale && giro.attuale !== sotto) ferma(giro.attuale);
+          giro.attuale = null;
+          giro.timer = setTimeout(passoGiro, 700);
+        }, a._p.anteprimaVideo ? 5200 : 3700);
+      }
+      function alCentro() {
+        var meta = window.innerHeight / 2, scelta = null, d = Infinity;
+        inVista.forEach(function (a) {
+          if (a.hidden) return;
+          var r = a.getBoundingClientRect();
+          var x = Math.abs(r.top + r.height / 2 - meta);
+          if (x < d) { d = x; scelta = a; }
+        });
+        inVista.forEach(function (a) { if (a !== scelta) ferma(a); });
+        if (scelta) muovi(scelta);
+      }
+
+      carte.forEach(function (a) {
+        a.addEventListener("mouseenter", function () { sotto = a; fermaGiro(); muovi(a); });
+        a.addEventListener("mouseleave", function () {
+          if (sotto === a) sotto = null;
+          ferma(a);
+          if (conMouse) riprendiGiro(1600);
+        });
+        a.addEventListener("focus", function () { muovi(a); });
+        a.addEventListener("blur", function () { ferma(a); });
+      });
+
+      if (risparmio || !("IntersectionObserver" in window)) return;
+      var soglia = conMouse ? 0.6 : 0.7;
+      var oss = new IntersectionObserver(function (voci) {
+        voci.forEach(function (v) {
+          var i = inVista.indexOf(v.target);
+          var dentro = v.isIntersecting && v.intersectionRatio >= soglia;
+          if (dentro && i < 0) inVista.push(v.target);
+          if (!dentro && i >= 0) {
+            inVista.splice(i, 1);
+            if (v.target !== sotto) ferma(v.target);
+          }
+        });
+        if (!conMouse) alCentro();
+        else if (!giro.timer && !giro.attuale && !sotto) riprendiGiro(1200);
+      }, { threshold: [0, 0.6, 0.7, 1] });
+      carte.forEach(function (a) { oss.observe(a); });
+
+      if (conMouse) {
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) fermaGiro(); else riprendiGiro(1200);
+        });
+      } else {
+        var attesa = false;
+        window.addEventListener("scroll", function () {
+          if (attesa) return;
+          attesa = true;
+          requestAnimationFrame(function () { attesa = false; alCentro(); });
+        }, { passive: true });
+      }
     }
 
     function disegnaGriglia() {
@@ -277,16 +563,21 @@
         return;
       }
       progetti.forEach(function (p, i) {
-        var img = p.copertina ? seManca(el("img", { src: p.copertina, alt: "", loading: i < 2 ? "eager" : "lazy", decoding: "async" })) : null;
-        g.appendChild(el("a", { class: "opera", href: "#" + p.slug, "data-chiave": p.chiave }, [
+        var img = p.copertina ? seManca(el("img", { src: p.copertina, alt: "", loading: i < 3 ? "eager" : "lazy", decoding: "async" })) : null;
+        if (img && p.fuoco) img.style.objectPosition = p.fuoco;
+        var a = el("a", { class: "opera", href: "#" + p.slug, "data-chiave": p.chiave }, [
           el("div", { class: "opera__img" }, [img]),
           el("div", { class: "opera__testo" }, [
+            el("span", { class: "opera__num", text: due(i + 1) }),
             el("h3", { class: "opera__titolo", text: p.titolo }),
             el("span", { class: "opera__anno", text: p.anno }),
             p.categoria ? el("p", { class: "opera__cat", text: p.categoria }) : null
           ])
-        ]));
+        ]);
+        a._p = p;
+        g.appendChild(a);
       });
+      preparaAnimazioni();
       applicaFiltro();
     }
 
@@ -536,14 +827,14 @@
       ]);
     }
 
-    /* ---------- pubblicazione: un libro che si sfoglia ----------
+    /* ---------- libri da sfogliare ----------
        Ogni foglio gira attorno al dorso: davanti ha la pagina di destra,
-       dietro quella di sinistra. Le pagine sono sfondi, non immagini
-       da aprire o scaricare. */
-    function libro(p) {
-      var L = p.libro;
+       dietro quella di sinistra. Le pagine sono sfondi, non immagini da aprire
+       o scaricare, e si caricano solo quando ci si avvicina. */
+    function libro(L) {
       var conCopertina = !!L.copertina;
-      var aSinistra = L.prima > 0 && L.prima % 2 === 0;   /* numero pari = pagina di sinistra */
+      /* numero pari = pagina di sinistra, se non è indicato il lato */
+      var aSinistra = L.lato ? L.lato === "sinistra" : L.prima > 0 && L.prima % 2 === 0;
 
       /* le facce dei fogli in fila: fronte, retro, fronte, retro... (null = carta bianca) */
       var facce = [];
@@ -554,8 +845,10 @@
         facce.push(null);
       }
       L.pagine.forEach(function (src, j) {
-        facce.push({ src: src, nome: L.prima ? "pagina " + (L.prima + j) : "pagina " + (j + 1), numero: L.prima ? L.prima + j : 0 });
+        var num = L.prima ? L.prima + j : j + 1;
+        facce.push({ src: src, nome: "pagina " + num, numero: num });
       });
+      var ultima = L.prima ? L.prima + L.pagine.length - 1 : L.pagine.length;
 
       var nFogli = Math.ceil(facce.length / 2);
       var min = !conCopertina && aSinistra ? 1 : 0;
@@ -570,12 +863,18 @@
       function faccia(f, lato) {
         var d = el("div", { class: "libro__faccia libro__faccia--" + lato + (f && f.copertina ? " libro__faccia--copertina" : "") });
         if (f) {
-          var assoluto = new URL(f.src, document.baseURI).href;
-          d.style.backgroundImage = "url(\"" + assoluto.replace(/"/g, "%22") + "\")";
+          d._src = new URL(f.src, document.baseURI).href;
           d.setAttribute("role", "img");
           d.setAttribute("aria-label", (L.titolo ? L.titolo + ", " : "") + f.nome);
         }
         return d;
+      }
+      function caricaFoglio(foglio) {
+        if (!foglio || foglio._caricato) return;
+        foglio._caricato = true;
+        $$(".libro__faccia", foglio).forEach(function (d) {
+          if (d._src) d.style.backgroundImage = "url(\"" + d._src.replace(/"/g, "%22") + "\")";
+        });
       }
       var fogli = [];
       for (var i = 0; i < nFogli; i++) {
@@ -584,18 +883,24 @@
         volume.appendChild(foglio);
       }
 
-      var box = el("figure", { class: "libro" });
+      var box = el("figure", { class: "libro" + (L.lungo ? " libro--lungo" : "") });
       var stato = el("span", { class: "libro__stato", "aria-live": "polite" });
       var prec = el("button", { class: "libro__freccia", type: "button", "aria-label": "Pagina precedente", text: "‹" });
       var succ = el("button", { class: "libro__freccia", type: "button", "aria-label": "Pagina successiva", text: "›" });
+      var cursore = L.lungo && max > min ? el("input", { class: "libro__cursore", type: "range", min: String(min), max: String(max), step: "1", value: String(pos), "aria-label": "Vai alla pagina" }) : null;
       var scena = el("div", { class: "libro__scena", tabindex: "0", "aria-label": "Libro da sfogliare" + (L.titolo ? ": " + L.titolo : "") }, [volume]);
 
+      /* si tengono nella pagina solo i fogli vicini a quelli aperti */
+      var VICINI = 3;
       function atterra(f, i) {
         f.classList.remove("libro__foglio--in-volo");
         f.style.zIndex = String(i < pos ? i + 1 : nFogli - i);
       }
       function disponi(animato) {
         fogli.forEach(function (f, i) {
+          var vicino = i >= pos - VICINI && i < pos + VICINI;
+          f.hidden = !vicino;
+          if (vicino) caricaFoglio(f);
           var girato = i < pos;
           f.classList.toggle("libro__foglio--girato", girato);
           f.style.zIndex = String(girato ? i + 1 : nFogli - i);
@@ -611,11 +916,13 @@
         /* sul telefono, se a sinistra non c'è niente, si vede solo la pagina di destra, più grande */
         box.classList.toggle("libro--sinistra-vuota", !sx);
         var numeri = [sx, dx].filter(function (f) { return f && f.numero; }).map(function (f) { return f.numero; });
+        var su = L.lungo ? " di " + ultima : "";
         stato.textContent = conCopertina && pos === 0 ? "apri il libro"
-          : numeri.length === 2 ? "pp. " + numeri[0] + "–" + numeri[1]
-          : numeri.length === 1 ? "p. " + numeri[0] : "";
+          : numeri.length === 2 ? "pp. " + numeri[0] + "–" + numeri[1] + su
+          : numeri.length === 1 ? "p. " + numeri[0] + su : "";
         prec.disabled = pos <= min;
         succ.disabled = pos >= max;
+        if (cursore) cursore.value = String(pos);
       }
       function gira(d) {
         var nuovo = pos + d;
@@ -623,6 +930,17 @@
         var mosso = d > 0 ? pos : pos - 1;
         pos = nuovo;
         disponi(mosso);
+      }
+      /* salto di molte pagine (cursore): senza animazione */
+      function salta(nuovo) {
+        nuovo = Math.max(min, Math.min(max, nuovo));
+        if (nuovo === pos) return;
+        if (Math.abs(nuovo - pos) === 1) { gira(nuovo - pos); return; }
+        box.classList.add("libro--salto");
+        pos = nuovo;
+        disponi();
+        void volume.offsetWidth;
+        requestAnimationFrame(function () { box.classList.remove("libro--salto"); });
       }
       fogli.forEach(function (f, i) {
         f.addEventListener("transitionend", function (e) {
@@ -633,6 +951,7 @@
       });
       prec.addEventListener("click", function () { gira(-1); });
       succ.addEventListener("click", function () { gira(1); });
+      if (cursore) cursore.addEventListener("input", function () { salta(parseInt(cursore.value, 10)); });
       volume.addEventListener("click", function (e) {
         var r = volume.getBoundingClientRect();
         var aDestra = e.clientX > r.left + r.width / 2;
@@ -641,6 +960,8 @@
       scena.addEventListener("keydown", function (e) {
         if (e.key === "ArrowRight") { e.preventDefault(); gira(1); }
         else if (e.key === "ArrowLeft") { e.preventDefault(); gira(-1); }
+        else if (e.key === "Home") { e.preventDefault(); salta(min); }
+        else if (e.key === "End") { e.preventDefault(); salta(max); }
       });
 
       /* le proporzioni della pagina le prendo dalla prima pagina */
@@ -658,9 +979,10 @@
       box.appendChild(scena);
       box.appendChild(el("figcaption", { class: "libro__nota" }, [
         el("span", { class: "libro__titolo", text: nota.join(" · ") }),
-        max > min ? el("span", { class: "libro__comandi" }, [prec, stato, succ]) : stato
+        max > min ? el("span", { class: "libro__comandi" }, [prec, stato, succ]) : stato,
+        cursore
       ]));
-      return el("section", { class: "lavoro__libro", "aria-label": "Pubblicazione" }, [box]);
+      return el("section", { class: "lavoro__libro", "aria-label": "Libro da sfogliare" + (L.titolo ? ": " + L.titolo : "") }, [box]);
     }
 
     /* ---------- pagina del singolo lavoro ---------- */
@@ -672,6 +994,14 @@
       location.hash = "portfolio";
     }
 
+    /* La colonna del testo resta ferma mentre scorrono le immagini,
+       ma solo se ci sta tutta nello schermo. */
+    function controllaColonna() {
+      var c = $(".lavoro__colonna");
+      if (!c) return;
+      c.classList.toggle("lavoro__colonna--lunga", c.offsetHeight > window.innerHeight - 56);
+    }
+
     function disegnaLavoro(p) {
       var box = $("#lavoro");
       box.textContent = "";
@@ -680,25 +1010,38 @@
       var dati = [["anno", p.anno], ["categoria", p.categoria], ["tecnica", p.tecnica], ["luogo", p.luogo], ["crediti", p.crediti]]
         .filter(function (d) { return d[1]; });
 
+      var colonna = [
+        dati.length ? el("dl", { class: "lavoro__dati" }, dati.map(function (d) {
+          return el("div", null, [el("dt", { text: d[0] }), el("dd", { text: d[1] })]);
+        })) : null,
+        p.testo.length ? el("div", { class: "lavoro__testo" }, p.testo.map(function (t) { return el("p", { text: t }); })) : null,
+        pulsanteScarica(p)
+      ].filter(Boolean);
+      var materiali = [p.video.length ? el("div", { class: "lavoro__video" }, p.video.map(function (v) { return lettore(v, p); })) : null]
+        .concat(p.libri.map(libro))
+        .concat([p.immagini.length ? galleria(p) : null])
+        .filter(Boolean);
+
       box.appendChild(el("article", { class: "lavoro pagina" }, [
         el("a", { class: "lavoro__indietro", href: "#portfolio", onclick: tornaAlPortfolio, text: "torna al portfolio" }),
         el("header", { class: "lavoro__testa" }, [
-          el("h1", { class: "lavoro__titolo", text: p.titolo }),
-          dati.length ? el("dl", { class: "lavoro__dati" }, dati.map(function (d) {
-            return el("div", null, [el("dt", { text: d[0] }), el("dd", { text: d[1] })]);
-          })) : null
+          el("p", { class: "lavoro__indice" }, [
+            el("span", { text: "lavoro " + due(i + 1) + " di " + due(n) }),
+            p.categoria ? el("span", { text: p.categoria }) : null
+          ]),
+          el("h1", { class: "lavoro__titolo", text: p.titolo })
         ]),
-        p.video.length ? el("div", { class: "lavoro__video" }, p.video.map(function (v) { return lettore(v, p); })) : null,
-        p.testo.length ? el("div", { class: "lavoro__testo" }, [el("div", null, p.testo.map(function (t) { return el("p", { text: t }); }))]) : null,
-        pulsanteScarica(p),
-        p.libro ? libro(p) : null,
-        p.immagini.length ? galleria(p) : null,
+        el("div", { class: "lavoro__corpo" + (materiali.length ? "" : " lavoro__corpo--testo") }, [
+          colonna.length ? el("div", { class: "lavoro__colonna" }, colonna) : null,
+          materiali.length ? el("div", { class: "lavoro__materiali" }, materiali) : null
+        ]),
         n > 1 ? el("nav", { class: "lavoro__altri", "aria-label": "Altri lavori" }, [
           el("a", { href: "#" + prec.slug, rel: "prev" }, [el("small", { text: "precedente" }), el("strong", { text: prec.titolo })]),
           el("a", { href: "#" + succ.slug, rel: "next" }, [el("small", { text: "successivo" }), el("strong", { text: succ.titolo })])
         ]) : null
       ]));
       document.title = p.titolo + " | " + FIRMA;
+      requestAnimationFrame(controllaColonna);
     }
 
     /* ---------- navigazione tra home e lavori ---------- */
@@ -718,6 +1061,7 @@
       if (p) {
         if (vista === "home") posizioneHome = window.scrollY;
         chiudiLightbox();
+        $$(".opera").forEach(ferma);
         disegnaLavoro(p);
         $("#home").hidden = true;
         $("#curriculum").hidden = true;
@@ -736,6 +1080,7 @@
       document.title = TITOLO_BASE;
       vista = "home";
       adattaFirma();
+      if (quanteColonne() !== colonne) impagina();
 
       if (!daLavoro) return;
       var bersaglio = h && document.getElementById(h);
@@ -755,16 +1100,22 @@
       disegnaContatti();
       preparaLightbox();
       adattaFirma();
+      adattaEmail();
       window.addEventListener("hashchange", percorso);
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       percorso();
       var h = location.hash.replace(/^#/, "");
       if (vista === "home" && h && document.getElementById(h)) document.getElementById(h).scrollIntoView();
 
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaFirma(); adattaTitolo(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaFirma(); adattaTitolo(); adattaEmail(); controllaColonna(); });
       if ("ResizeObserver" in window) new ResizeObserver(adattaFirma).observe($(".apertura"));
       else window.addEventListener("resize", adattaFirma);
-      window.addEventListener("resize", adattaTitolo);
+      window.addEventListener("resize", function () {
+        adattaTitolo();
+        adattaEmail();
+        controllaColonna();
+        if (quanteColonne() !== colonne) impagina();
+      });
 
       $(".testata__firma").addEventListener("click", function () { posizioneHome = 0; });
     } catch (err) {

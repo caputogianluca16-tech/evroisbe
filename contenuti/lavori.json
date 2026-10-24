@@ -5,7 +5,27 @@
       "anno": "2026",
       "categoria": "creative coding",
       "copertina": "/immagini/storungsbild/copertina.jpg",
-      "testo": "Un'installazione che distrugge un volto ogni volta che ti muovi. Il volto non è mai esistito, e per farlo tornare c'è un solo modo: stare fermi.\n\nAl buio è proiettato uno di nove ritratti generati con Gemini e animati con Runway. Un Kinect V2 legge all'infrarosso 21 giunture del corpo di chi guarda. TouchDesigner trasforma posa, movimento e vicinanza in un numero da 0 a 1, e il numero decide come si rompe il volto: degradazione, datamoshing, pixel sorting. In Max 9 suona un pezzo di 192 secondi: chi guarda non suona note, lo disturba come disturba il volto.\n\nDavanti a un'opera interattiva viene spontaneo agitare le braccia per vedere cosa succede. Qui è proprio quel gesto a cancellare il ritratto: chi guarda scopre di essere la causa di quello che cercava di vedere.",
+      "anteprima_video": "/video/anteprime/storungsbild.mp4",
+      "video": [
+        {
+          "file": "/video/storungsbild-sala.mp4",
+          "titolo": "La sala (simulazione): immagine e suono sono l'output reale",
+          "anteprima": "/immagini/storungsbild/video-sala.jpg",
+          "formato": "4:5"
+        },
+        {
+          "file": "/video/storungsbild-vedute.mp4",
+          "titolo": "Sei vedute della sala (simulazione)",
+          "anteprima": "/immagini/storungsbild/video-vedute.jpg",
+          "formato": "4:5"
+        },
+        {
+          "file": "/video/storungsbild-output.mp4",
+          "titolo": "L'output di TouchDesigner, con il suono generato in Max",
+          "anteprima": "/immagini/storungsbild/video-output.jpg"
+        }
+      ],
+      "testo": "Un'installazione che distrugge un volto ogni volta che ti muovi. Il volto non è mai esistito, e per farlo tornare c'è un solo modo: stare fermi.\n\nAl buio è proiettato uno di nove ritratti generati con Gemini e animati con Runway. Un Kinect V2 legge all'infrarosso 21 giunture del corpo di chi guarda. TouchDesigner trasforma posa, movimento e vicinanza in un numero da 0 a 1, e il numero decide come si rompe il volto: degradazione, datamoshing, pixel sorting. In Max 9 suona un pezzo di 192 secondi: chi guarda non suona note, lo disturba come disturba il volto.\n\nDavanti a un'opera interattiva viene spontaneo agitare le braccia per vedere cosa succede. Qui è proprio quel gesto a cancellare il ritratto: chi guarda scopre di essere la causa di quello che cercava di vedere.\n\nLe vedute della sala sono una simulazione: sullo schermo c'è l'output reale di TouchDesigner e il suono è quello registrato dal motore in Max.",
       "immagini": [
         "/immagini/storungsbild/4.jpg",
         "/immagini/storungsbild/1.jpg",
@@ -25,9 +45,8 @@
       "titolo": "Genealogie dell'instabilità",
       "anno": "2026",
       "categoria": "graphics",
-      "copertina": "/immagini/genealogie-dellinstabilita/copertina.jpg",
-      "testo": "Il volume teorico della mia tesi magistrale, «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale»: 328 pagine in A5 che ricostruiscono un secolo di immagini instabili, dal cinema di Weimar al glitch. L'ho scritto e impaginato io.\n\nOgni parte parla la lingua visiva dell'epoca che studia: il Bauhaus e la grafica svizzera nella premessa, Weimar e il Dada nella prima parte, il noir nella seconda, il glitch nella quarta e nella quinta. Le conclusioni rimettono insieme gli stili.\n\nGli stili stanno solo nelle aperture, nei titoli, nelle cornici e nei colori: il testo corrente è lo stesso dalla prima all'ultima pagina. Il libro si guarda come una genealogia e si legge come un testo solo.",
-      "immagini": [
+      "copertina": "/immagini/genealogie-dellinstabilita/due-volumi.jpg",
+      "anteprime": [
         "/immagini/genealogie-dellinstabilita/1.jpg",
         "/immagini/genealogie-dellinstabilita/2.jpg",
         "/immagini/genealogie-dellinstabilita/3.jpg",
@@ -36,7 +55,28 @@
         "/immagini/genealogie-dellinstabilita/6.jpg",
         "/immagini/genealogie-dellinstabilita/7.jpg"
       ],
-      "tecnica": "InDesign, 328 pagine in A5",
+      "testo": "Il volume teorico della mia tesi magistrale, «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale»: 328 pagine in A5 che ricostruiscono un secolo di immagini instabili, dal cinema di Weimar al glitch. L'ho scritto e impaginato io.\n\nOgni parte parla la lingua visiva dell'epoca che studia: il Bauhaus e la grafica svizzera nella premessa, Weimar e il Dada nella prima parte, il noir nella seconda, il glitch nella quarta e nella quinta. Le conclusioni rimettono insieme gli stili.\n\nGli stili stanno solo nelle aperture, nei titoli, nelle cornici e nei colori: il testo corrente è lo stesso dalla prima all'ultima pagina. Il libro si guarda come una genealogia e si legge come un testo solo.\n\nQui si sfogliano tutti e due i volumi della tesi: quello teorico e il volume annesso, «Störungsbild. Il fotogramma perturbante», che racconta l'elaborato pratico.",
+      "libri": [
+        {
+          "titolo": "Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale",
+          "nota": "volume teorico, 328 pagine",
+          "copertina": "/libri/genealogie/copertina.jpg",
+          "prima_pagina": 2,
+          "lato_prima_pagina": "destra",
+          "cartella": "/libri/genealogie/",
+          "quante": 327
+        },
+        {
+          "titolo": "Störungsbild. Il fotogramma perturbante",
+          "nota": "volume annesso sull'elaborato, 96 pagine",
+          "copertina": "/libri/storungsbild/copertina.jpg",
+          "prima_pagina": 2,
+          "lato_prima_pagina": "destra",
+          "cartella": "/libri/storungsbild/",
+          "quante": 95
+        }
+      ],
+      "tecnica": "InDesign, due volumi in A5 (328 e 96 pagine)",
       "crediti": "Tesi di laurea magistrale in Nuove Tecnologie dell'Arte, relatore prof. Andrea Balzola"
     },
     {
@@ -44,6 +84,7 @@
       "anno": "2026",
       "categoria": "creative coding",
       "copertina": "/immagini/laltare-cibernetico/copertina.jpg",
+      "anteprima_video": "/video/anteprime/laltare-cibernetico.mp4",
       "video": [
         {
           "link": "https://drive.google.com/file/d/1beBAQnb-gTulioz12KXI_afwiuhQf2ve/view"
@@ -66,7 +107,8 @@
       "titolo": "latency",
       "anno": "2026",
       "categoria": "creative coding",
-      "copertina": "/immagini/latency/copertina.jpg",
+      "copertina": "/immagini/latency/2.jpg",
+      "anteprima_video": "/video/anteprime/latency.mp4",
       "video": [
         {
           "link": "https://drive.google.com/file/d/1068a4RB1EHK6mubd9k7EMHvUFXyC9jtu/view",
@@ -91,6 +133,7 @@
       "anno": "2026",
       "categoria": "motion",
       "copertina": "/immagini/noia-paura-pelle/copertina.jpg",
+      "anteprima_video": "/video/anteprime/noia-paura-pelle.mp4",
       "video": [
         {
           "file": "/video/noia.mp4",
@@ -116,11 +159,17 @@
       "titolo": "Manifesti per l'Accademia Albertina",
       "anno": "2025–2026",
       "categoria": "graphics",
-      "copertina": "/immagini/manifesti-albertina/copertina.jpg",
-      "testo": "Da novembre 2025 curo la grafica degli eventi della Scuola di Nuove Tecnologie dell'Arte dell'Accademia Albertina: manifesti, programmi, cataloghi e versioni per i social. Sei eventi in otto mesi, fra cui il convegno internazionale WP3-INAR, il documentario in VR «I Remember. Digitali immortali» al Museo Nazionale del Cinema e l'incontro con Nick Brandt con Gallerie d'Italia.\n\nQui due manifesti: «Who Are We Speaking To?», la mostra a Hydra con la Scuola di Belle Arti di Atene (giugno 2026), e la proiezione del documentario «Il codice del bosco» (12 novembre 2025).\n\nIn quasi tutti c'era una fila di loghi istituzionali da far stare insieme a un titolo che si legga da lontano. È la parte del lavoro che non si nota, quando è fatta bene.",
+      "copertina": "/immagini/manifesti-albertina/copertina-serie.jpg",
+      "fuoco": "in alto",
+      "testo": "Da novembre 2025 curo la grafica degli eventi della Scuola di Nuove Tecnologie dell'Arte dell'Accademia Albertina: manifesti, programmi, cataloghi e versioni per i social.\n\nQui una scelta: «Who Are We Speaking To?», la mostra a Hydra con la Scuola di Belle Arti di Atene (giugno 2026); l'artist talk con Song Dong (21 ottobre 2026) e la lecture di Danilo Eccher (2 novembre 2026); Nick Brandt in dialogo con Arianna Rinaldo (19 marzo 2026); il programma della giornata di studi «Attraversamenti. Pratiche curatoriali tra arte e media» (2 febbraio 2026); la proiezione del documentario «Il codice del bosco» (12 novembre 2025); «I Remember. Digitali immortali» al Museo Nazionale del Cinema (10–15 dicembre 2025).\n\nIn quasi tutti c'era una fila di loghi istituzionali da far stare insieme a un titolo che si legga da lontano. È la parte del lavoro che non si nota, quando è fatta bene.",
       "immagini": [
         "/immagini/manifesti-albertina/1.jpg",
-        "/immagini/manifesti-albertina/2.jpg"
+        "/immagini/manifesti-albertina/song-dong.jpg",
+        "/immagini/manifesti-albertina/danilo-eccher.jpg",
+        "/immagini/manifesti-albertina/nick-brandt.jpg",
+        "/immagini/manifesti-albertina/attraversamenti-programma.jpg",
+        "/immagini/manifesti-albertina/2.jpg",
+        "/immagini/manifesti-albertina/i-remember.jpg"
       ],
       "tecnica": "Photoshop, InDesign",
       "luogo": "Scuola di Nuove Tecnologie dell'Arte, Accademia Albertina di Belle Arti, Torino"
@@ -158,15 +207,17 @@
         "file": "/scarica/infrangere-il-cemento-graphic-novel.pdf",
         "testo": "scarica la graphic novel (pdf, 10 MB)"
       },
-      "libro": {
-        "titolo": "«R-esistenze» · Save the World – Connecting Cultures · Antologia 2025/2026",
-        "nota": "Albertina Press / Gli Ori",
-        "copertina": "/immagini/infrangere-il-cemento/libro-copertina.jpg",
-        "pagine": [
-          "/immagini/infrangere-il-cemento/libro-93.jpg"
-        ],
-        "prima_pagina": 93
-      },
+      "libri": [
+        {
+          "titolo": "«R-esistenze» · Save the World – Connecting Cultures · Antologia 2025/2026",
+          "nota": "Albertina Press / Gli Ori",
+          "copertina": "/immagini/infrangere-il-cemento/libro-copertina.jpg",
+          "pagine": [
+            "/immagini/infrangere-il-cemento/libro-93.jpg"
+          ],
+          "prima_pagina": 93
+        }
+      ],
       "tecnica": "Soggetto, sceneggiatura, storyboard e tavole",
       "luogo": "«R-esistenze», Antologia 2025/2026, p. 93",
       "crediti": "Nata per l'esame di Drammaturgia multimediale, prof. Andrea Balzola"
@@ -176,6 +227,7 @@
       "anno": "2025",
       "categoria": "motion",
       "copertina": "/immagini/slut-commandments/copertina.jpg",
+      "anteprima_video": "/video/anteprime/slut-commandments.mp4",
       "video": [
         {
           "file": "/video/slut-commandments.mp4",
@@ -200,6 +252,7 @@
       "anno": "2025",
       "categoria": "creative coding",
       "copertina": "/immagini/ascii/copertina.jpg",
+      "anteprima_video": "/video/anteprime/ascii.mp4",
       "video": [
         {
           "file": "/video/ascii.mp4",
@@ -217,6 +270,7 @@
       "anno": "2024",
       "categoria": "motion",
       "copertina": "/immagini/olympia/copertina.jpg",
+      "anteprima_video": "/video/anteprime/olympia.mp4",
       "video": [
         {
           "link": "https://drive.google.com/file/d/1dFwfHInBb67G90jzktuIytK3TJpjB9dz/view",
@@ -253,7 +307,8 @@
       "titolo": "Legàmi",
       "anno": "2023–2026",
       "categoria": "stills",
-      "copertina": "/immagini/legami/copertina.jpg",
+      "copertina": "/immagini/legami/3.jpg",
+      "fuoco": "un po' in basso",
       "testo": "Legàmi nasce nel 2023 come una serie di scatti in bianco e nero: due figure maschili e una relazione che si intuisce soltanto. Il tema è l'oppressione dentro un legame, l'amore tossico.\n\nNel 2026 sono tornato su quelle fotografie e le ho trasformate in sei collage digitali a colori, in cui i volti dei due si sovrappongono, si sdoppiano e si confondono.\n\nI riferimenti restano le copertine del post-punk fra anni '70 e '80 (Joy Division, The Smiths, The Cure) e il trucco degli anni '20: ombretti scuri, incarnato pallido, guance arrossate, per esaltare la luce e l'ombra sui volti.",
       "immagini": [
         "/immagini/legami/panorama.jpg",
@@ -289,6 +344,7 @@
       "anno": "2023",
       "categoria": "motion",
       "copertina": "/immagini/student-reel/copertina.jpg",
+      "anteprima_video": "/video/anteprime/student-reel.mp4",
       "video": [
         {
           "file": "/video/student-reel.mp4",

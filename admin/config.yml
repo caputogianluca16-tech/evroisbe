@@ -9,7 +9,8 @@ backend:
 
 app_title: EVROISBE · pannello
 site_url: https://evroisbe.com
-show_preview_links: false
+# In ogni sezione c'è il pulsante per aprire la stessa parte del sito.
+show_preview_links: true
 
 # I campi facoltativi lasciati vuoti non vengono scritti nei file.
 output:
@@ -39,8 +40,9 @@ singletons:
 
   - name: lavori
     label: Lavori
-    icon: grid_view
+    icon: auto_awesome_mosaic
     file: contenuti/lavori.json
+    preview_path: /#portfolio
     fields:
       - name: progetti
         label: Lavori
@@ -48,33 +50,60 @@ singletons:
         widget: list
         collapsed: true
         add_to_top: true
-        summary: "{{fields.titolo}} · {{fields.anno}} · {{fields.categoria}}"
-        hint: L'ordine qui è l'ordine sul sito. Un lavoro nuovo compare in cima; trascinalo dove vuoi.
+        thumbnail: copertina
+        summary: "{{fields.titolo}} · {{fields.anno}} · {{fields.categoria}}{{fields.nascosto | ternary('  ·  🙈 nascosto', '')}}"
+        hint: "L'ordine qui è l'ordine sul sito: trascina un lavoro per spostarlo. Sul computer il 1°, il 6° e l'11° lavoro escono più grandi."
         fields:
           - name: titolo
-            label: Titolo
+            label: 🏷️ Titolo
             widget: string
           - name: anno
-            label: Anno
+            label: 📅 Anno
             widget: string
             hint: Per esempio 2026, oppure 2019–2023.
           - name: categoria
-            label: Categoria
+            label: 🗂️ Categoria
             widget: select
             options: [creative coding, motion, graphics, stills]
           - name: copertina
-            label: Copertina
+            label: 🖼️ Copertina
             widget: image
             choose_url: false
-            hint: È l'immagine della griglia del portfolio, dove viene tagliata in formato 4:3.
+            hint: È l'immagine del lavoro nel portfolio. Viene tagliata in base allo spazio, quindi scegli un'immagine forte, senza troppo testo.
+          - name: fuoco
+            label: 🎯 Cosa tenere quando la copertina viene tagliata
+            widget: select
+            required: false
+            options: [centro, in alto, un po' in alto, un po' in basso, in basso, a sinistra, a destra]
+            hint: Se lo lasci vuoto si tiene il centro. Per esempio «un po' in basso» se il volto è nella parte bassa dell'immagine.
+          - name: anteprima_video
+            label: 🎬 Anteprima animata (video breve)
+            widget: file
+            required: false
+            choose_url: false
+            accept: video/mp4,.mp4
+            media_folder: /video/anteprime
+            public_folder: /video/anteprime
+            hint: "Facoltativa. Pochi secondi senza audio, al massimo 3 MB: parte quando passi sopra la copertina nel portfolio. Se manca, al passaggio scorrono le immagini del lavoro."
+            media_libraries:
+              default:
+                config:
+                  max_file_size: 3145728
+          - name: anteprime
+            label: 🎞️ Immagini che scorrono nell'anteprima
+            widget: image
+            multiple: true
+            required: false
+            choose_url: false
+            hint: Facoltative. Se le lasci vuote, scorrono le prime immagini del lavoro.
           - name: video
-            label: Video
+            label: 📺 Video
             label_singular: video
             widget: list
             required: false
             collapsed: true
             summary: "{{fields.titolo}} {{fields.file}} {{fields.link}}"
-            hint: Facoltativi. I video compaiono in cima alla pagina del lavoro.
+            hint: Facoltativi. Sul computer stanno a destra del testo, sopra le immagini.
             fields:
               - name: file
                 label: File video (MP4)
@@ -111,19 +140,19 @@ singletons:
                 required: false
                 hint: Lascia vuoto se il video è orizzontale 16:9. Altrimenti scrivi la proporzione, per esempio 1:1, 3:4, 4:3, 1920:816.
           - name: testo
-            label: Testo
+            label: 📝 Testo
             widget: text
             required: false
-            hint: Lascia una riga vuota fra un paragrafo e l'altro.
+            hint: Lascia una riga vuota fra un paragrafo e l'altro. Il primo paragrafo esce un po' più grande.
           - name: immagini
-            label: Immagini
+            label: 📷 Immagini
             widget: image
             multiple: true
             required: false
             choose_url: false
-            hint: Compaiono nell'ordine in cui sono qui. Se la prima è orizzontale, occupa tutta la larghezza.
+            hint: Compaiono nell'ordine in cui sono qui; si aprono a schermo intero con un clic. Se la prima è orizzontale, occupa tutta la larghezza.
           - name: scarica
-            label: File da scaricare
+            label: 📄 File da scaricare
             widget: object
             required: false
             collapsed: true
@@ -146,19 +175,21 @@ singletons:
                 widget: string
                 required: false
                 hint: Per esempio «scarica la graphic novel (pdf, 10 MB)».
-          - name: libro
-            label: Pubblicazione (libro da sfogliare)
-            widget: object
+          - name: libri
+            label: 📖 Libri da sfogliare
+            label_singular: libro
+            widget: list
             required: false
             collapsed: true
-            hint: Facoltativo. Le pagine compaiono dentro un libro che si sfoglia e non si possono scaricare.
+            summary: "{{fields.titolo}}"
+            hint: Facoltativi. Le pagine compaiono dentro un libro che si apre con un clic e si sfoglia; non si possono scaricare.
             fields:
               - name: titolo
                 label: Titolo del libro
                 widget: string
                 required: false
               - name: nota
-                label: Editore e anno
+                label: Nota (editore, anno, numero di pagine…)
                 widget: string
                 required: false
               - name: copertina
@@ -168,101 +199,126 @@ singletons:
                 choose_url: false
                 hint: Facoltativa. Se c'è, il libro compare chiuso e si apre con un clic.
               - name: pagine
-                label: Le tue pagine
+                label: Pagine
                 widget: image
                 multiple: true
+                required: false
                 choose_url: false
-                hint: Nell'ordine del libro.
+                hint: Nell'ordine del libro. Per un libro molto lungo chiedi a Claude di preparare le pagine.
               - name: prima_pagina
                 label: Numero della prima pagina
                 widget: number
                 value_type: int
                 required: false
                 hint: Per esempio 93. Un numero dispari va a destra, uno pari a sinistra.
+              - name: lato_prima_pagina
+                label: Lato della prima pagina
+                widget: select
+                required: false
+                options: [destra, sinistra]
+                hint: "Facoltativo. Se lo lasci vuoto, decide il numero qui sopra. Sceglilo tu se nel libro va diversamente, così le pagine affiancate sono quelle giuste (per esempio un'apertura su due pagine)."
+              - name: cartella
+                label: Cartella delle pagine (libri lunghi)
+                widget: string
+                required: false
+                hint: Per i libri preparati da Claude, per esempio /libri/genealogie/. Le pagine sono 002.jpg, 003.jpg…
+              - name: quante
+                label: Quante pagine ci sono nella cartella
+                widget: number
+                value_type: int
+                required: false
           - name: tecnica
-            label: Tecnica
+            label: 🛠️ Tecnica
             widget: string
             required: false
           - name: luogo
-            label: Luogo
+            label: 📍 Luogo
             widget: string
             required: false
           - name: crediti
-            label: Crediti
+            label: 👥 Crediti
             widget: string
             required: false
+          - name: nascosto
+            label: 🙈 Nascondi dal sito
+            widget: boolean
+            required: false
+            default: false
+            hint: Il lavoro resta qui nel pannello ma non compare sul sito. Utile per una bozza o per un lavoro che vuoi togliere per un po'.
 
   - name: curriculum
     label: Curriculum
-    icon: description
+    icon: history_edu
     file: contenuti/curriculum.json
+    preview_path: /#curriculum
     fields:
       - name: curriculum
-        label: Sezioni
+        label: 🗂️ Sezioni
         label_singular: sezione
         widget: list
         collapsed: true
         summary: "{{fields.sezione}}"
-        hint: Sul sito ogni sezione si apre con un clic.
+        hint: Sul sito ogni sezione si apre con un clic. Trascina le sezioni per cambiarne l'ordine.
         fields:
           - name: sezione
             label: Titolo della sezione
             widget: string
           - name: voci
-            label: Voci
+            label: 📌 Voci
             label_singular: voce
             widget: list
             collapsed: true
             summary: "{{fields.anni}} {{fields.testo}}"
             fields:
               - name: anni
-                label: Anni
+                label: 📅 Anni
                 widget: string
                 required: false
               - name: testo
-                label: Testo
+                label: 📝 Testo
                 widget: text
                 hint: La prima riga esce in evidenza. Per le righe successive vai a capo.
 
   - name: profilo
     label: Profilo e contatti
-    icon: person
+    icon: account_circle
     file: contenuti/profilo.json
+    preview_path: /#about
     fields:
       - name: firma
-        label: Firma
+        label: ✍️ Firma
         widget: string
         hint: Il nome grande in cima al sito.
       - name: nome
-        label: Nome
+        label: 👤 Nome
         widget: string
       - name: ruolo
-        label: Ruolo
+        label: 🎨 Ruolo
         widget: string
       - name: citazione
-        label: Citazione
+        label: 💬 Citazione
         widget: string
         required: false
       - name: about
-        label: About
+        label: 📝 About
         widget: text
         required: false
         hint: Lascia una riga vuota fra un paragrafo e l'altro.
       - name: email
-        label: Email
+        label: ✉️ Email
         widget: string
       - name: instagram
-        label: Link Instagram
+        label: 📷 Link Instagram
         widget: string
         required: false
         hint: Se lo lasci vuoto, il link non compare.
       - name: linkedin
-        label: Link LinkedIn
+        label: 💼 Link LinkedIn
         widget: string
         required: false
         hint: Se lo lasci vuoto, il link non compare.
       - name: cv
-        label: Curriculum in PDF
+        label: 📄 Curriculum in PDF
         widget: file
         required: false
         choose_url: false
