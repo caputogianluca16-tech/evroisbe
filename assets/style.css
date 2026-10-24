@@ -614,7 +614,7 @@ button { font: inherit; color: inherit; }
 .lavoro__corpo { margin-top: clamp(32px, 4vw, 64px); }
 .lavoro__materiali > * + * { margin-top: clamp(40px, 4.5vw, 72px); }
 .lavoro__colonna + .lavoro__materiali { margin-top: var(--s5); }
-@media (min-width: 1100px) {
+@media (min-width: 1280px) {
   .lavoro__corpo {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -1008,6 +1008,141 @@ button { font: inherit; color: inherit; }
 }
 .errore__box strong { display: block; margin-bottom: var(--s1); font-family: var(--f-testo); font-size: 20px; }
 .errore__box p { margin: 0 0 0.6em; }
+
+/* ---------- computer: colonna fissa a sinistra ----------
+   Sugli schermi larghi la firma, l'indice, i filtri e i contatti stanno in una colonna
+   ferma a sinistra; a destra i lavori cominciano subito, in cima alla pagina. */
+
+.lato { display: none; }
+
+@media (min-width: 1000px) {
+  :root {
+    --lato: clamp(260px, 20vw, 340px);
+    --t-sezione: clamp(34px, 3vw, 54px);
+  }
+  body { padding-left: var(--lato); }
+  .testata,
+  .apertura { display: none; }
+
+  .lato {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    width: var(--lato);
+    padding: clamp(28px, 4vh, 44px) clamp(20px, 1.8vw, 32px) clamp(20px, 3vh, 32px);
+    border-right: 1px solid var(--inchiostro);
+    background: var(--carta) url("grana.png");
+    overflow-y: auto;
+  }
+  .lato__firma {
+    display: block;
+    font-family: var(--f-display);
+    font-weight: 820;
+    font-stretch: 125%;
+    font-size: 44px; /* app.js la regola per riempire la larghezza della colonna */
+    line-height: 0.8;
+    letter-spacing: -0.012em;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .lato__firma:hover { color: var(--rosso); }
+  .lato__barra {
+    height: 10px;
+    margin-top: 14px;
+    background: linear-gradient(to right, var(--rosso) 0 calc(100% / 6), var(--inchiostro) calc(100% / 6) 100%);
+  }
+  .lato__nome {
+    margin: 18px 0 0;
+    font-weight: 620;
+    font-size: 17px;
+    line-height: 1.25;
+  }
+  .lato__ruolo {
+    margin: 3px 0 0;
+    font-family: var(--f-mono);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--grigio);
+  }
+  .lato__nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: clamp(28px, 7vh, 72px);
+  }
+  .lato__nav > a {
+    position: relative;
+    padding-left: 22px;
+    font-family: var(--f-display);
+    font-weight: 760;
+    font-stretch: 125%;
+    font-size: clamp(20px, 1.55vw, 26px);
+    line-height: 1.15;
+    text-decoration: none;
+  }
+  .lato__nav > a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.3em;
+    width: 11px;
+    height: 11px;
+    background: var(--rosso);
+    transform: scale(0);
+    transform-origin: 0 50%;
+    transition: transform 0.18s ease-out;
+  }
+  .lato__nav > a:hover::before,
+  .lato__nav > a[aria-current]::before { transform: scale(1); }
+  .filtri--lato {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    margin: 6px 0 14px 22px;
+    font-size: 13px;
+  }
+  .filtri--lato .filtro { padding: 3px 0 2px; border-bottom-width: 2px; }
+  .lato__piede {
+    margin-top: auto;
+    padding-top: var(--s4);
+    font-family: var(--f-mono);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .lato__email { overflow-wrap: anywhere; text-underline-offset: 3px; }
+  .lato__email:hover,
+  .lato__social a:hover { color: var(--rosso); }
+  .lato__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 8px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .lato__social a { text-underline-offset: 3px; }
+
+  /* a destra la griglia comincia subito: titolo e filtri del portfolio stanno nella colonna */
+  #portfolio { padding-top: clamp(28px, 4vh, 44px); }
+  #portfolio > .filtri { display: none; }
+  #portfolio .sezione__testa {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .contatti__indirizzo { font-size: clamp(28px, 4.2vw, 76px); }
+  .lavoro { padding-top: clamp(28px, 4vh, 44px); }
+  .lavoro__testa { margin-top: var(--s3); }
+  .lavoro__titolo { font-size: clamp(36px, 4.4vw, 80px); }
+}
 
 /* ---------- schermi stretti ---------- */
 

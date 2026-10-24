@@ -248,6 +248,37 @@
       if (w > 0 && cw > 0) h.style.fontSize = (100 * cw / w) * 0.997 + "px";
     }
 
+    /* sul computer la firma della colonna a sinistra ne riempie la larghezza */
+    function adattaFirmaLato() {
+      var a = $(".lato__firma");
+      if (!a || !a.offsetParent || !a.firstElementChild) return;
+      a.style.fontSize = "100px";
+      var w = a.firstElementChild.getBoundingClientRect().width, cw = a.clientWidth;
+      if (w > 0 && cw > 0) a.style.fontSize = (100 * cw / w) * 0.995 + "px";
+    }
+
+    /* l'indice a sinistra segna la sezione che si sta guardando */
+    var segnaIndice = function () {};
+    function preparaIndice() {
+      var voci = $$(".lato__nav a[data-sezione]");
+      if (!voci.length) return;
+      segnaIndice = function (nome) {
+        voci.forEach(function (a) {
+          if (a.getAttribute("data-sezione") === nome) a.setAttribute("aria-current", "true");
+          else a.removeAttribute("aria-current");
+        });
+      };
+      if (!("IntersectionObserver" in window)) return;
+      var oss = new IntersectionObserver(function (voce) {
+        if (vista !== "home") return;
+        voce.forEach(function (x) { if (x.isIntersecting) segnaIndice(x.target.id); });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      ["portfolio", "about", "curriculum", "contatti"].forEach(function (id) {
+        var s = document.getElementById(id);
+        if (s) oss.observe(s);
+      });
+    }
+
     /* L'indirizzo email grande dei contatti sta sempre su una riga:
        se è lungo, si rimpicciolisce quanto basta. */
     function adattaEmail() {
@@ -278,8 +309,11 @@
     /* ---------- portfolio ---------- */
     var filtro = "tutti";
 
+    /* i filtri stanno sopra la griglia e, sul computer, anche nella colonna a sinistra */
     function disegnaFiltri() {
-      var box = $("#filtri");
+      ["#filtri", "#filtri-lato"].forEach(function (s) { var b = $(s); if (b) disegnaFiltriIn(b, s === "#filtri-lato"); });
+    }
+    function disegnaFiltriIn(box, lato) {
       box.textContent = "";
       var etichette = {}, ordine = [];
       lista(D.categorie).forEach(function (c) {
@@ -300,7 +334,14 @@
           var b = el("button", {
             class: "filtro", type: "button", "data-chiave": v[0],
             "aria-pressed": String(v[0] === filtro),
-            onclick: function () { filtro = v[0]; applicaFiltro(); }
+            onclick: function () {
+              filtro = v[0];
+              applicaFiltro();
+              if (!lato) return;
+              /* dalla colonna a sinistra si torna sempre alla griglia, dall'inizio */
+              if (vista !== "home") { posizioneHome = 0; location.hash = "portfolio"; }
+              else $("#portfolio").scrollIntoView();
+            }
           }, [v[1], el("span", { class: "filtro__n", text: String(v[2]) })]);
           box.appendChild(b);
         });
@@ -324,7 +365,7 @@
     var colonne = 0;
     function quanteColonne() {
       var w = $("#griglia").clientWidth || window.innerWidth;
-      return w >= 980 ? 3 : w >= 600 ? 2 : 1;
+      return w >= 800 ? 3 : w >= 600 ? 2 : 1;
     }
     function impagina() {
       var g = $("#griglia");
@@ -747,13 +788,22 @@
         $(".contatti__email").hidden = true;
       }
 
-      var social = $("#social");
-      social.textContent = "";
-      [["instagram", "Instagram"], ["linkedin", "LinkedIn"]].forEach(function (s) {
-        var url = testo(D[s[0]]);
-        if (url) social.appendChild(el("li", null, [el("a", { href: url, target: "_blank", rel: "noopener", text: s[1] })]));
+      ["#social", "#lato-social"].forEach(function (sel) {
+        var social = $(sel);
+        if (!social) return;
+        social.textContent = "";
+        [["instagram", "Instagram"], ["linkedin", "LinkedIn"]].forEach(function (s) {
+          var url = testo(D[s[0]]);
+          if (url) social.appendChild(el("li", null, [el("a", { href: url, target: "_blank", rel: "noopener", text: s[1] })]));
+        });
+        social.hidden = !social.children.length;
       });
-      social.hidden = !social.children.length;
+      /* l'email anche nella colonna a sinistra */
+      var latoEmail = $("#lato-email");
+      if (latoEmail) {
+        latoEmail.hidden = !email;
+        if (email) { latoEmail.textContent = email; latoEmail.setAttribute("href", "mailto:" + email); }
+      }
 
       $("#copyright").textContent = "© " + new Date().getFullYear() + " " + (NOME || FIRMA);
     }
@@ -1165,6 +1215,7 @@
         $("#curriculum").hidden = true;
         $("#lavoro").hidden = false;
         vista = "lavoro";
+        segnaIndice("portfolio");
         adattaTitolo();
         vai(0);
         return;
@@ -1197,7 +1248,9 @@
       disegnaCv();
       disegnaContatti();
       preparaLightbox();
+      preparaIndice();
       adattaFirma();
+      adattaFirmaLato();
       adattaEmail();
       window.addEventListener("hashchange", percorso);
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -1205,17 +1258,18 @@
       var h = location.hash.replace(/^#/, "");
       if (vista === "home" && h && document.getElementById(h)) document.getElementById(h).scrollIntoView();
 
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaFirma(); adattaTitolo(); adattaEmail(); controllaColonna(); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaFirma(); adattaFirmaLato(); adattaTitolo(); adattaEmail(); controllaColonna(); });
       if ("ResizeObserver" in window) new ResizeObserver(adattaFirma).observe($(".apertura"));
       else window.addEventListener("resize", adattaFirma);
       window.addEventListener("resize", function () {
+        adattaFirmaLato();
         adattaTitolo();
         adattaEmail();
         controllaColonna();
         if (quanteColonne() !== colonne) impagina();
       });
 
-      $(".testata__firma").addEventListener("click", function () { posizioneHome = 0; });
+      $$(".testata__firma, .lato__firma").forEach(function (a) { a.addEventListener("click", function () { posizioneHome = 0; }); });
     } catch (err) {
       avviso("Qualcosa nei contenuti non torna", [
         String(err && err.message ? err.message : err),
