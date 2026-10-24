@@ -387,7 +387,88 @@
         [0.04, 0.2, 0.42, 0.66, 0.9].forEach(function (x) { fonte.push(L.pagine[Math.min(n - 1, Math.floor(n * x))]); });
       }
       fonte.forEach(function (s) { if (s && f.indexOf(s) < 0) f.push(s); });
-      return f.slice(0, 7);
+      return f.slice(0, 9);
+    }
+
+    /* proporzioni (larghezza / altezza) delle immagini già misurate */
+    var proporzioni = {};
+    function misuraTutte(lista, fatto) {
+      var mancano = lista.filter(function (u) { return !proporzioni[u]; });
+      var n = mancano.length, finito = false;
+      if (!n) { fatto(); return; }
+      var attesa = setTimeout(chiudi, 2500);
+      function chiudi() { if (finito) return; finito = true; clearTimeout(attesa); fatto(); }
+      mancano.forEach(function (u) {
+        var im = new Image();
+        im.onload = function () {
+          if (im.naturalWidth && im.naturalHeight) proporzioni[u] = im.naturalWidth / im.naturalHeight;
+          if (--n === 0) chiudi();
+        };
+        im.onerror = function () { if (--n === 0) chiudi(); };
+        im.src = u;
+      });
+    }
+
+    /* Le immagini che scorrono vanno in «pagine». Nei riquadri larghi ne scorrono
+       due o tre affiancate, così le immagini verticali non vengono tagliate a metà;
+       nei riquadri alti le immagini orizzontali stanno una sopra l'altra.
+       Un'immagine che ha un'altra forma può prendere il posto di due.
+       La prima pagina è la copertina. */
+    function pagineDi(f, rBox) {
+      function r(u) { return proporzioni[u] || 1; }
+      /* un panorama lunghissimo in un riquadro stretto diventerebbe illeggibile: si salta */
+      var resto = f.slice(1).filter(function (u) { return Math.abs(Math.log(r(u) / rBox)) <= Math.log(3); });
+      if (!resto.length) resto = f.slice(1);
+      var ordinate = resto.map(r).sort(function (x, y) { return x - y; });
+      var med = ordinate.length ? ordinate[Math.floor(ordinate.length / 2)] : rBox;
+      var colonna = med > rBox;
+      function forma(k) { return colonna ? rBox * k : rBox / k; }
+      var n = 1, meglio = Math.abs(Math.log(rBox / med));
+      for (var k = 2; k <= 3; k++) {
+        var d = Math.abs(Math.log(forma(k) / med));
+        if (d < meglio - 0.05) { meglio = d; n = k; }
+      }
+      var posto = forma(n);
+      function quanti(u) {
+        var q = colonna ? posto / r(u) : r(u) / posto;
+        return Math.max(1, Math.min(n, Math.round(q)));
+      }
+      var pagine = [[{ src: f[0], posti: n, copertina: true }]], pagina = [], pieni = 0;
+      function chiudi() { if (pagina.length) pagine.push(pagina); pagina = []; pieni = 0; }
+      resto.forEach(function (u) {
+        var q = quanti(u);
+        if (pieni + q > n) chiudi();
+        pagina.push({ src: u, posti: q });
+        pieni += q;
+        if (pieni >= n) chiudi();
+      });
+      /* l'ultima pagina, se resta mezza vuota, si completa con altre immagini del lavoro */
+      if (pagina.length) {
+        resto.forEach(function (u) {
+          var q = quanti(u);
+          if (pieni + q > n || pagina.some(function (x) { return x.src === u; })) return;
+          pagina.push({ src: u, posti: q });
+          pieni += q;
+        });
+        chiudi();
+      }
+      return { pagine: pagine, colonna: colonna && n > 1 };
+    }
+    function riempi(lastra, pagina, fuoco) {
+      lastra.textContent = "";
+      pagina.forEach(function (x) {
+        var im = el("img", { alt: "", decoding: "async", src: x.src });
+        im.style.flexGrow = String(x.posti);
+        if (x.copertina && fuoco) im.style.objectPosition = fuoco;
+        lastra.appendChild(im);
+      });
+    }
+    function pronta(pagina) {
+      return Promise.all(pagina.map(function (x) {
+        var im = new Image();
+        im.src = x.src;
+        return (im.decode ? im.decode() : Promise.resolve()).catch(function () {});
+      }));
     }
     function muovi(a) {
       var p = a._p;
@@ -425,40 +506,49 @@
       var s = a._scorre;
       if (!s) {
         var strato = el("div", { class: "opera__scorre", "aria-hidden": "true" });
-        var lastre = [el("img", { alt: "", decoding: "async" }), el("img", { alt: "", decoding: "async" })];
-        lastre.forEach(function (im) { if (p.fuoco) im.style.objectPosition = p.fuoco; strato.appendChild(im); });
+        var lastre = [el("div", { class: "opera__lastra" }), el("div", { class: "opera__lastra" })];
+        lastre.forEach(function (l) { strato.appendChild(l); });
         var conta = el("span", { class: "opera__conta" });
         strato.appendChild(conta);
         box.appendChild(strato);
-        s = a._scorre = { f: fotogrammi(p), i: 0, sopra: 0, lastre: lastre, conta: conta };
+        s = a._scorre = { f: fotogrammi(p), i: 0, sopra: 0, lastre: lastre, conta: conta, giro: 0 };
       }
       if (s.f.length < 2) return;
-      /* si riparte sempre dalla copertina */
-      s.i = 0;
-      s.lastre[0].className = "fermo"; s.lastre[1].className = "";
-      s.lastre[0].src = s.f[0]; s.sopra = 0;
-      s.conta.textContent = due(1) + " / " + due(s.f.length);
-      function prossimo() {
-        if (!a._attiva) return;
-        var j = (s.i + 1) % s.f.length;
-        var nuova = s.lastre[1 - s.sopra], vecchia = s.lastre[s.sopra];
-        var pronta = new Image();
-        pronta.src = s.f[j];
-        (pronta.decode ? pronta.decode() : Promise.resolve()).catch(function () {}).then(function () {
-          if (!a._attiva) return;
-          nuova.className = "";
-          nuova.src = s.f[j];
-          void nuova.offsetWidth;
-          nuova.className = "entra";
-          vecchia.className = "esce";
-          a.classList.add("opera--in-moto");
-          s.i = j; s.sopra = 1 - s.sopra;
-          s.conta.textContent = due(j + 1) + " / " + due(s.f.length);
-          a._timer = setTimeout(prossimo, 1350);
-        });
-      }
       clearTimeout(a._timer);
-      a._timer = setTimeout(prossimo, 380);
+      var mio = ++s.giro;                     /* un solo scorrimento alla volta */
+      function vivo() { return a._attiva && mio === s.giro; }
+      misuraTutte(s.f, function () {
+        if (!vivo()) return;
+        /* le pagine dipendono dalla forma del riquadro, che cambia con lo schermo */
+        var esito = pagineDi(s.f, box.clientWidth / Math.max(1, box.clientHeight));
+        s.pagine = esito.pagine;
+        if (s.pagine.length < 2) return;
+        var base = "opera__lastra" + (esito.colonna ? " opera__lastra--colonna" : "");
+        /* si riparte sempre dalla copertina */
+        s.i = 0; s.sopra = 0;
+        riempi(s.lastre[0], s.pagine[0], p.fuoco);
+        s.lastre[0].className = base + " fermo";
+        s.lastre[1].className = base;
+        s.conta.textContent = due(1) + " / " + due(s.pagine.length);
+        function prossimo() {
+          if (!vivo()) return;
+          var j = (s.i + 1) % s.pagine.length;
+          var nuova = s.lastre[1 - s.sopra], vecchia = s.lastre[s.sopra];
+          pronta(s.pagine[j]).then(function () {
+            if (!vivo()) return;
+            nuova.className = base;
+            riempi(nuova, s.pagine[j], p.fuoco);
+            void nuova.offsetWidth;
+            nuova.className = base + " entra";
+            vecchia.className = base + " esce";
+            a.classList.add("opera--in-moto");
+            s.i = j; s.sopra = 1 - s.sopra;
+            s.conta.textContent = due(j + 1) + " / " + due(s.pagine.length);
+            a._timer = setTimeout(prossimo, 1500);
+          });
+        }
+        a._timer = setTimeout(prossimo, 380);
+      });
     }
     /* Senza nessuno sopra le anteprime non restano ferme:
        - sul computer si anima da sola un'anteprima alla volta, a turno fra quelle in vista;

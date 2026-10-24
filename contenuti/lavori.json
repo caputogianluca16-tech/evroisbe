@@ -293,7 +293,7 @@
       "anno": "2024",
       "categoria": "stills",
       "copertina": "/immagini/fotomontaggi/copertina.jpg",
-      "testo": "Fotografie in bianco e nero rielaborate in digitale: corpi e volti specchiati fino a diventare altre creature, negativi, fumo, una testa di capra al posto di un volto.",
+      "testo": "I lavori pratici della mia tesi di laurea triennale, «László Moholy-Nagy: dare forma alla luce»: esplorazioni visive sul Bauhaus, che traducono la fotografia degli anni '20 e la filosofia del suo manifesto in composizioni digitali.\n\nFotografie in bianco e nero rielaborate in digitale: corpi e volti specchiati fino a diventare altre creature, negativi, fumo, una testa di capra al posto di un volto.\n\nNessuna intelligenza artificiale: è tutto lavoro fatto a mano.",
       "immagini": [
         "/immagini/fotomontaggi/1.jpg",
         "/immagini/fotomontaggi/2.jpg",
@@ -301,7 +301,8 @@
         "/immagini/fotomontaggi/4.jpg",
         "/immagini/fotomontaggi/5.jpg"
       ],
-      "tecnica": "Fotografia, Photoshop"
+      "tecnica": "Fotografia, Photoshop",
+      "crediti": "Tesi di laurea triennale in Nuove Tecnologie dell'Arte, Accademia di Belle Arti di Bari"
     },
     {
       "titolo": "Legàmi",

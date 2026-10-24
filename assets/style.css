@@ -288,21 +288,32 @@ button { font: inherit; color: inherit; }
 /* anteprima video: compare quando parte */
 .opera__clip { opacity: 0; transition: opacity 0.3s; background: var(--inchiostro); }
 .opera--in-moto .opera__clip { opacity: 1; }
-/* pieghevole: le immagini entrano da destra una dopo l'altra */
+/* pieghevole: le pagine entrano da destra una dopo l'altra;
+   nei riquadri larghi una pagina ha due o tre immagini affiancate */
 .opera__scorre { overflow: hidden; opacity: 0; transition: opacity 0.25s; }
 .opera--in-moto .opera__scorre { opacity: 1; }
-.opera__scorre img {
+.opera__lastra {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: flex;
+  gap: 4px;
+  background: var(--carta);
   transform: translateX(101%);
   z-index: 0;
 }
-.opera__scorre img.fermo { transform: none; z-index: 1; }
-.opera__scorre img.entra { transform: none; z-index: 2; transition: transform 0.75s cubic-bezier(0.7, 0, 0.25, 1); }
-.opera__scorre img.esce {
+.opera__lastra img {
+  display: block;
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  height: 100%;
+  object-fit: cover;
+}
+.opera__lastra--colonna { flex-direction: column; }
+.opera__lastra--colonna img { width: 100%; height: 0; min-height: 0; }
+.opera__lastra.fermo { transform: none; z-index: 1; }
+.opera__lastra.entra { transform: none; z-index: 2; transition: transform 0.75s cubic-bezier(0.7, 0, 0.25, 1); }
+.opera__lastra.esce {
   transform: translateX(-28%);
   filter: brightness(0.5);
   z-index: 1;
