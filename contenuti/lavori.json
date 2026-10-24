@@ -161,13 +161,14 @@
       "categoria": "graphics",
       "copertina": "/immagini/manifesti-albertina/copertina-serie.jpg",
       "fuoco": "in alto",
-      "testo": "Da novembre 2025 curo la grafica degli eventi della Scuola di Nuove Tecnologie dell'Arte dell'Accademia Albertina: manifesti, programmi, cataloghi e versioni per i social.\n\nQui una scelta: «Who Are We Speaking To?», la mostra a Hydra con la Scuola di Belle Arti di Atene (giugno 2026); l'artist talk con Song Dong (21 ottobre 2026) e la lecture di Danilo Eccher (2 novembre 2026); Nick Brandt in dialogo con Arianna Rinaldo (19 marzo 2026); il programma della giornata di studi «Attraversamenti. Pratiche curatoriali tra arte e media» (2 febbraio 2026); la proiezione del documentario «Il codice del bosco» (12 novembre 2025); «I Remember. Digitali immortali» al Museo Nazionale del Cinema (10–15 dicembre 2025).\n\nIn quasi tutti c'era una fila di loghi istituzionali da far stare insieme a un titolo che si legga da lontano. È la parte del lavoro che non si nota, quando è fatta bene.",
+      "testo": "Da novembre 2025 curo la grafica degli eventi della Scuola di Nuove Tecnologie dell'Arte dell'Accademia Albertina: manifesti, programmi, cataloghi e versioni per i social.\n\nQui una scelta: «Who Are We Speaking To?», la mostra a Hydra con la Scuola di Belle Arti di Atene (giugno 2026); l'artist talk con Song Dong (21 ottobre 2026) e la lecture di Danilo Eccher (2 novembre 2026); Nick Brandt in dialogo con Arianna Rinaldo (19 marzo 2026); il programma in due giornate del convegno internazionale WP3-INAR «Fostering Digital and Ecological Transitions through Arts» (17–18 novembre 2025); la proiezione del documentario «Il codice del bosco» (12 novembre 2025); «I Remember. Digitali immortali» al Museo Nazionale del Cinema (10–15 dicembre 2025).\n\nIn quasi tutti c'era una fila di loghi istituzionali da far stare insieme a un titolo che si legga da lontano. È la parte del lavoro che non si nota, quando è fatta bene.",
       "immagini": [
         "/immagini/manifesti-albertina/1.jpg",
         "/immagini/manifesti-albertina/song-dong.jpg",
         "/immagini/manifesti-albertina/danilo-eccher.jpg",
         "/immagini/manifesti-albertina/nick-brandt.jpg",
-        "/immagini/manifesti-albertina/attraversamenti-programma.jpg",
+        "/immagini/manifesti-albertina/wp3-inar-17.jpg",
+        "/immagini/manifesti-albertina/wp3-inar-18.jpg",
         "/immagini/manifesti-albertina/2.jpg",
         "/immagini/manifesti-albertina/i-remember.jpg"
       ],
@@ -289,11 +290,11 @@
       "crediti": "Musica: «На дне», Molchat Doma. Immagini d'archivio da «Olympia» di Leni Riefenstahl (1938)"
     },
     {
-      "titolo": "Fotomontaggi",
+      "titolo": "László Moholy-Nagy: dare forma alla luce",
       "anno": "2024",
       "categoria": "stills",
       "copertina": "/immagini/fotomontaggi/copertina.jpg",
-      "testo": "I lavori pratici della mia tesi di laurea triennale, «László Moholy-Nagy: dare forma alla luce»: esplorazioni visive sul Bauhaus, che traducono la fotografia degli anni '20 e la filosofia del suo manifesto in composizioni digitali.\n\nFotografie in bianco e nero rielaborate in digitale: corpi e volti specchiati fino a diventare altre creature, negativi, fumo, una testa di capra al posto di un volto.\n\nNessuna intelligenza artificiale: è tutto lavoro fatto a mano.",
+      "testo": "I lavori pratici della mia tesi di laurea triennale: esplorazioni visive sul Bauhaus, che traducono la fotografia degli anni '20 e la filosofia del suo manifesto in composizioni digitali.\n\nFotografie in bianco e nero rielaborate in digitale: corpi e volti specchiati fino a diventare altre creature, negativi, fumo, una testa di capra al posto di un volto.\n\nNessuna intelligenza artificiale: è tutto lavoro fatto a mano.",
       "immagini": [
         "/immagini/fotomontaggi/1.jpg",
         "/immagini/fotomontaggi/2.jpg",
