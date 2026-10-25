@@ -296,9 +296,16 @@ singletons:
         label: 🎨 Ruolo
         widget: string
       - name: citazione
-        label: 💬 Citazione
+        label: 💬 Frase in evidenza
         widget: string
         required: false
+        hint: La frase grande accanto al testo dell'about. Se metti una tua foto qui sotto, compare la foto al posto della frase.
+      - name: foto
+        label: 📷 Tua foto (al posto della frase)
+        widget: image
+        required: false
+        choose_url: false
+        hint: Facoltativa. Va nella sezione about, accanto al testo.
       - name: about
         label: 📝 About
         widget: text

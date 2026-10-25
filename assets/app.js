@@ -736,12 +736,18 @@
     function disegnaAbout() {
       var c = testo(D.citazione).replace(/^["“«]+|["”»]+$/g, "");
       var q = $("#citazione");
+      /* una tua foto, se c'è, prende il posto della frase */
+      var foto = relativo(D.foto), fig = $("#about-foto");
+      if (fig) {
+        fig.hidden = !foto;
+        if (foto) { var im = $("img", fig); im.src = foto; im.alt = NOME || FIRMA; c = ""; }
+      }
       q.textContent = c ? "“" + c + "”" : "";
       q.hidden = !c;
       var box = $("#about-testo");
       box.textContent = "";
       lista(D.about).forEach(function (t) { box.appendChild(el("p", { text: t })); });
-      $("#about").hidden = !c && !lista(D.about).length;
+      $("#about").hidden = !c && !foto && !lista(D.about).length;
     }
 
     /* ---------- curriculum ---------- */
