@@ -260,18 +260,36 @@
       "titolo": "We Matter",
       "anno": "2022",
       "categoria": "graphics",
-      "breve": "Identità visiva su commissione per una content creator attivista: un'iniziale in 3D la cui ombra disegna l'altra.",
-      "copertina": "/immagini/we-matter/1.jpg",
-      "testo": "Il marchio di «We Matter» (noi valiamo), per una content creator che in diretta parla di attualità e di inclusione sociale: i diritti della comunità LGBTQ+, delle donne e delle categorie discriminate, contro tabù e luoghi comuni.\n\n## Il marchio\n\nIl marchio nasce da uno studio sulle due parole del nome. Fra le proposte, la cliente ha scelto questa: un'iniziale in 3D la cui ombra forma l'altra iniziale. Per coerenza, insieme a lei, abbiamo deciso di invertirle.\n\nSu sua richiesta il marchio non ha colore: ne ho fatto due versioni in bianco e nero, positiva e negativa, che funzionano su qualsiasi fondo, con la gabbia di costruzione e i codici colore.",
+      "breve": "Identità visiva per una content creator attivista: una W in 3D la cui ombra scrive M, con manuale d'uso e immagine coordinata.",
+      "copertina": "/immagini/we-matter/copertina.jpg",
+      "anteprima_video": "/video/anteprime/we-matter.mp4",
+      "video": [
+        {
+          "file": "/video/we-matter.mp4",
+          "titolo": "La sigla delle dirette: l'ombra si allunga fino a scrivere M",
+          "titolo_en": "The live-stream opener: the shadow stretches until it spells M",
+          "anteprima": "/immagini/we-matter/video.jpg"
+        }
+      ],
+      "testo": "Il marchio di «We Matter» (noi valiamo), per una content creator che in diretta parla di attualità e di inclusione sociale: i diritti della comunità LGBTQ+, delle donne e delle categorie discriminate, contro tabù e luoghi comuni.\n\n## Il marchio\n\nFra cinque idee sulle due iniziali, la cliente ha scelto questa: una W in piedi, in assonometria, la cui ombra lunga, stesa a terra, forma la M. Nella bozza le lettere erano al contrario; insieme abbiamo deciso di scambiarle, perché si legga prima We e poi Matter. Su sua richiesta il marchio è in bianco e nero.\n\n## Il manuale\n\nHo ricostruito il marchio dai vettori originali e ne ho scritto le regole: la gabbia in assonometria (il modulo è la profondità del volume, la W è alta cinque moduli), la costruzione dell'ombra, i codici colore faccia per faccia, le prove di contrasto su grigi e colori, l'area di rispetto e le dimensioni minime. Accanto al marchio pieno c'è una versione al tratto, per la carta.\n\n## L'immagine coordinata\n\nLa griglia della costruzione diventa il pavimento su cui sta la W: nelle scene delle dirette, nei post, nella copertina del canale. In movimento l'ombra si allunga fino a scrivere la M. Sulla carta il foglio fa da pavimento: carta intestata, busta e biglietto da visita.",
       "en": {
-        "breve": "A commissioned visual identity for an activist content creator: a 3D initial whose shadow draws the other one.",
-        "testo": "The logo for \"We Matter\", for a content creator who talks live about current affairs and social inclusion: the rights of the LGBTQ+ community, of women and of discriminated groups, against taboos and clichés.\n\n## The logo\n\nThe logo comes from a study of the two words of the name. Of the proposals, the client chose this one: a 3D initial whose shadow forms the other initial. For consistency, together with her, we decided to swap them.\n\nAt her request the logo has no colour: I made two black-and-white versions, positive and negative, that work on any background, with the construction grid and the colour codes.",
+        "breve": "A visual identity for an activist content creator: a 3D W whose shadow spells M, with a brand manual and a full identity system.",
+        "testo": "The logo for \"We Matter\", for a content creator who talks live about current affairs and social inclusion: the rights of the LGBTQ+ community, of women and of discriminated groups, against taboos and clichés.\n\n## The logo\n\nOf five ideas built on the two initials, the client chose this one: a W standing upright, in axonometric view, whose long shadow on the ground forms the M. In the draft the letters were the other way round; together we decided to swap them, so that it reads We first and Matter second. At her request the logo is black and white.\n\n## The manual\n\nI rebuilt the logo from the original vectors and wrote its rules: the axonometric grid (the module is the depth of the volume, the W is five modules tall), the construction of the shadow, the colour codes face by face, contrast tests on greys and colours, clear space and minimum sizes. Next to the solid logo there is a line version, for print.\n\n## The identity\n\nThe construction grid becomes the floor the W stands on: in the live-stream scenes, in the posts, on the channel banner. In motion the shadow stretches until it spells the M. On paper the sheet itself is the floor: letterhead, envelope and business card.",
         "tecnica": "Illustrator",
         "crediti": "Commissioned visual identity"
       },
       "immagini": [
         "/immagini/we-matter/1.jpg",
-        "/immagini/we-matter/2.jpg"
+        "/immagini/we-matter/2.jpg",
+        "/immagini/we-matter/3.jpg",
+        "/immagini/we-matter/4.jpg",
+        "/immagini/we-matter/5.jpg",
+        "/immagini/we-matter/6.jpg",
+        "/immagini/we-matter/7.jpg",
+        "/immagini/we-matter/8.jpg",
+        "/immagini/we-matter/9.jpg",
+        "/immagini/we-matter/10.jpg",
+        "/immagini/we-matter/11.jpg"
       ],
       "tecnica": "Illustrator",
       "crediti": "Identità visiva su commissione",
