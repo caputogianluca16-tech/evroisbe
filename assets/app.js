@@ -1,6 +1,8 @@
 /* EVROISBE — costruisce le pagine leggendo i file in contenuti/
    (profilo.json, lavori.json, curriculum.json), che si modificano dal pannello in /admin.
-   Non serve modificare questo file per aggiornare il sito. */
+   Non serve modificare questo file per aggiornare il sito.
+   Il sito è in italiano e in inglese. I testi inglesi dei contenuti stanno nei campi «en»
+   (oppure con «_en» in fondo al nome): se mancano, anche in inglese si vede il testo italiano. */
 (function () {
   "use strict";
 
@@ -40,6 +42,172 @@
     return /^\/(?!\/)/.test(p) ? p.slice(1) : p;
   }
 
+  var radice = document.documentElement;
+  var calma = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  /* ---------- italiano e inglese ----------
+     La prima volta vale la lingua del browser (italiano se è italiano, altrimenti inglese);
+     poi resta quella scelta col bottone. Con ?lang=en nell'indirizzo si apre in inglese. */
+  var TESTI = {
+    it: {
+      salta: "vai ai lavori", bozza: "Contenuti di esempio",
+      sezioni: "Sezioni", indice: "Indice del sito",
+      portfolio: "portfolio", about: "about", curriculum: "curriculum", contatti: "contatti",
+      filtra: "Filtra i lavori per categoria", tutti: "tutti",
+      apriPortfolio: "Mostra le categorie", apriCurriculum: "Mostra le sezioni del curriculum",
+      scaricaCv: "scarica il cv (pdf)", scaricaCvBreve: "scarica il cv (pdf)",
+      copia: "copia", copiato: "copiato", tornaSu: "torna su",
+      immaginiLavoro: "Immagini del lavoro", chiudi: "chiudi", immPrec: "Immagine precedente", immSucc: "Immagine successiva",
+      scuro: "scuro", chiaro: "chiaro", aScuro: "Passa alla modalità scura", aChiaro: "Passa alla modalità chiara",
+      linguaAria: "Read in English",
+      senzaTitolo: "Senza titolo", nonTrovata: "immagine non trovata",
+      vuoto: "Ancora nessun lavoro. Aggiungine uno dal pannello, nella sezione Lavori.",
+      anno: "anno", categoria: "categoria", tecnica: "tecnica", luogo: "luogo", crediti: "crediti",
+      tornaPortfolio: "torna al portfolio", lavoroNdiM: "lavoro {n} di {m}", altri: "Altri lavori",
+      precedente: "precedente", successivo: "successivo",
+      riproduci: "Riproduci il video", video: "Video",
+      videoNonTrovato: "Video non trovato: {src}. Controlla il lavoro nel pannello.",
+      nonRiproduce: "Questo browser non riesce a riprodurre il video. ", apriFile: "Apri il file", apriSu: "apri su {fonte}",
+      linkVideo: "Questo link video non è riconosciuto: «{src}». Usa il link di condivisione di Google Drive, un file .mp4, oppure un link YouTube o Vimeo.",
+      immagine: "immagine", apriImmagine: "Apri l'immagine {n} di {m}", scarica: "scarica (pdf)",
+      copertina: "copertina", pagina: "pagina", pagPrec: "Pagina precedente", pagSucc: "Pagina successiva",
+      vaiPagina: "Vai alla pagina", libro: "Libro da sfogliare", apriLibro: "apri il libro", di: "di",
+      descrizione: "Gianluca Caputo (EVROISBE), digital & media artist. Installazioni interattive, creative coding, video, grafica e fotografia."
+    },
+    en: {
+      salta: "skip to works", bozza: "Sample content",
+      sezioni: "Sections", indice: "Site index",
+      portfolio: "portfolio", about: "about", curriculum: "cv", contatti: "contact",
+      filtra: "Filter works by category", tutti: "all",
+      apriPortfolio: "Show categories", apriCurriculum: "Show cv sections",
+      scaricaCv: "download cv (pdf)", scaricaCvBreve: "download cv (pdf)",
+      copia: "copy", copiato: "copied", tornaSu: "back to top",
+      immaginiLavoro: "Work images", chiudi: "close", immPrec: "Previous image", immSucc: "Next image",
+      scuro: "dark", chiaro: "light", aScuro: "Switch to dark mode", aChiaro: "Switch to light mode",
+      linguaAria: "Leggi in italiano",
+      senzaTitolo: "Untitled", nonTrovata: "image not found",
+      vuoto: "No works yet.",
+      anno: "year", categoria: "category", tecnica: "medium", luogo: "location", crediti: "credits",
+      tornaPortfolio: "back to portfolio", lavoroNdiM: "work {n} of {m}", altri: "Other works",
+      precedente: "previous", successivo: "next",
+      riproduci: "Play the video", video: "Video",
+      videoNonTrovato: "Video not found: {src}.",
+      nonRiproduce: "This browser can't play the video. ", apriFile: "Open the file", apriSu: "open on {fonte}",
+      linkVideo: "This video link isn't recognised: “{src}”.",
+      immagine: "image", apriImmagine: "Open image {n} of {m}", scarica: "download (pdf)",
+      copertina: "cover", pagina: "page", pagPrec: "Previous page", pagSucc: "Next page",
+      vaiPagina: "Go to page", libro: "Book to leaf through", apriLibro: "open the book", di: "of",
+      descrizione: "Gianluca Caputo (EVROISBE), digital & media artist. Interactive installations, creative coding, video, graphic design and photography."
+    }
+  };
+  var LINGUA_CHIAVE = "evroisbe-lingua";
+  function linguaIniziale() {
+    var q = (location.search.match(/[?&](?:lang|lingua)=(it|en)\b/i) || [])[1];
+    if (q) {
+      q = q.toLowerCase();
+      try { localStorage.setItem(LINGUA_CHIAVE, q); } catch (e) { /* va bene lo stesso */ }
+      return q;
+    }
+    try { var s = localStorage.getItem(LINGUA_CHIAVE); if (s === "it" || s === "en") return s; } catch (e) { /* niente */ }
+    var l = (navigator.languages && navigator.languages[0]) || navigator.language || "it";
+    return /^it\b/i.test(l) ? "it" : "en";
+  }
+  var LINGUA = linguaIniziale();
+
+  function t(chiave, valori) {
+    var s = TESTI[LINGUA][chiave];
+    if (s === undefined) s = TESTI.it[chiave];
+    if (s === undefined) s = chiave;
+    if (valori) s = s.replace(/\{(\w+)\}/g, function (m, k) { return valori[k] !== undefined ? String(valori[k]) : m; });
+    return s;
+  }
+  /* il testo inglese di un campo, se c'è; altrimenti quello italiano */
+  function pieno(v) {
+    if (Array.isArray(v)) return v.some(function (x) { return !!testo(x); });
+    return !!testo(v);
+  }
+  function trad(o, campo) {
+    if (!o || typeof o !== "object") return undefined;
+    if (LINGUA === "en") {
+      var v = o.en && typeof o.en === "object" ? o.en[campo] : undefined;
+      if (!pieno(v)) v = o[campo + "_en"];
+      if (pieno(v)) return v;
+    }
+    return o[campo];
+  }
+
+  /* i testi fissi della pagina: data-t per il testo, data-t-aria per l'etichetta */
+  function testiStatici() {
+    radice.lang = LINGUA;
+    $$("[data-t]").forEach(function (n) { n.textContent = t(n.getAttribute("data-t")); });
+    $$("[data-t-aria]").forEach(function (n) { n.setAttribute("aria-label", t(n.getAttribute("data-t-aria"))); });
+    var m = $('meta[name="description"]');
+    if (m) m.setAttribute("content", t("descrizione"));
+  }
+  function mostraLingua() {
+    $$("[data-lingua-bottone]").forEach(function (b) {
+      $$("[data-l]", b).forEach(function (s) {
+        s.classList.toggle("lingua__voce--attiva", s.getAttribute("data-l") === LINGUA);
+      });
+      b.setAttribute("aria-label", t("linguaAria"));
+    });
+  }
+  var alCambioLingua = function () {};
+  function cambiaLingua(nuova) {
+    if (nuova === LINGUA || !TESTI[nuova]) return;
+    LINGUA = nuova;
+    try { localStorage.setItem(LINGUA_CHIAVE, nuova); } catch (e) { /* va bene lo stesso */ }
+    testiStatici();
+    mostraLingua();
+    mostraTema();
+    alCambioLingua();
+  }
+
+  /* ---------- modalità chiara e scura ----------
+     Chi guarda può scegliere; la scelta resta in questo browser.
+     Senza una scelta vale quella del telefono o del computer. */
+  var TEMA_CHIAVE = "evroisbe-tema";
+  var sistemaScuro = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+  function temaAttuale() {
+    var v = radice.getAttribute("data-tema");
+    if (v === "scuro" || v === "chiaro") return v;
+    return sistemaScuro && sistemaScuro.matches ? "scuro" : "chiaro";
+  }
+  function mostraTema() {
+    var scuro = temaAttuale() === "scuro";
+    $$("[data-tema-bottone]").forEach(function (b) {
+      var s = $(".tema__testo", b);
+      if (s) s.textContent = t(scuro ? "chiaro" : "scuro");
+      b.setAttribute("aria-label", t(scuro ? "aChiaro" : "aScuro"));
+    });
+    /* il colore della barra del browser sul telefono segue la modalità */
+    $$('meta[name="theme-color"]').forEach(function (m) { m.setAttribute("content", scuro ? "#0B0B0A" : "#EBEBE9"); });
+  }
+  function preparaComandi() {
+    $$("[data-tema-bottone]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var nuovo = temaAttuale() === "scuro" ? "chiaro" : "scuro";
+        radice.setAttribute("data-tema", nuovo);
+        try { localStorage.setItem(TEMA_CHIAVE, nuovo); } catch (e) { /* va bene lo stesso */ }
+        mostraTema();
+      });
+    });
+    if (sistemaScuro) {
+      var cambia = function () { mostraTema(); };
+      if (sistemaScuro.addEventListener) sistemaScuro.addEventListener("change", cambia);
+      else if (sistemaScuro.addListener) sistemaScuro.addListener(cambia);
+    }
+    $$("[data-lingua-bottone]").forEach(function (b) {
+      b.addEventListener("click", function () { cambiaLingua(LINGUA === "it" ? "en" : "it"); });
+    });
+  }
+
+  /* i testi fissi e i bottoni funzionano subito, prima che arrivino i contenuti */
+  testiStatici();
+  mostraLingua();
+  mostraTema();
+  preparaComandi();
+
   /* ---------- avviso se i contenuti non si leggono ---------- */
   function avviso(titolo, righe) {
     var box = el("div", { class: "errore pagina", role: "alert" }, [
@@ -47,6 +215,7 @@
         righe.map(function (r) { return el("p", { text: r }); })
       ))
     ]);
+    radice.classList.remove("inizio");
     document.body.insertBefore(box, document.body.firstChild);
   }
 
@@ -98,26 +267,27 @@
     }
 
     /* Un video si può scrivere come semplice link oppure come
-       { file: "...", titolo: "...", anteprima: "...", formato: "16:9" }. */
+       { file: "...", titolo: "...", titolo_en: "...", anteprima: "...", formato: "16:9" }. */
     function videoLista(v) {
       var arr = Array.isArray(v) ? v : (v ? [v] : []);
       return arr.map(function (x) {
         if (!x) return null;
-        if (typeof x === "string") return testo(x) ? { file: relativo(x), titolo: "", anteprima: "", formato: "" } : null;
+        if (typeof x === "string") return testo(x) ? { file: relativo(x), raw: {}, anteprima: "", formato: "" } : null;
         if (typeof x === "object") {
           var f = relativo(testo(x.file) || testo(x.link) || testo(x.src));
-          return f ? { file: f, titolo: testo(x.titolo), anteprima: relativo(x.anteprima), formato: testo(x.formato) } : null;
+          return f ? { file: f, raw: x, anteprima: relativo(x.anteprima), formato: testo(x.formato) } : null;
         }
         return null;
       }).filter(Boolean);
     }
+    function titoloVideo(v) { return testo(trad(v.raw, "titolo")); }
 
-    /* Un file da scaricare: { file: "/scarica/...pdf", testo: "scarica ..." } */
+    /* Un file da scaricare: { file: "/scarica/...pdf", testo: "scarica ...", testo_en: "download ..." } */
     function scaricaDati(s) {
       if (!s) return null;
-      if (typeof s === "string") return testo(s) ? { file: relativo(s), testo: "" } : null;
+      if (typeof s === "string") return testo(s) ? { file: relativo(s), raw: {} } : null;
       var f = typeof s === "object" ? relativo(s.file) : "";
-      return f ? { file: f, testo: testo(s.testo) } : null;
+      return f ? { file: f, raw: s } : null;
     }
 
     function tre(n) { return ("00" + n).slice(-3); }
@@ -141,8 +311,7 @@
       }
       if (!pagine.length) return null;
       return {
-        titolo: testo(b.titolo),
-        nota: testo(b.nota),
+        raw: b,
         copertina: relativo(b.copertina),
         pagine: pagine,
         prima: prima,
@@ -162,9 +331,9 @@
       "un po' in basso": "50% 70%", "in basso": "50% 92%", "a sinistra": "12% 50%", "a destra": "88% 50%"
     };
     function fuocoCss(v) {
-      var t = testo(v).toLowerCase().replace(/’/g, "'");
-      if (FUOCHI[t]) return FUOCHI[t];
-      return /^\d{1,3}% \d{1,3}%$/.test(t) ? t : "";
+      var x = testo(v).toLowerCase().replace(/’/g, "'");
+      if (FUOCHI[x]) return FUOCHI[x];
+      return /^\d{1,3}% \d{1,3}%$/.test(x) ? x : "";
     }
 
     var progetti = (Array.isArray(D.progetti) ? D.progetti : []).filter(Boolean).filter(function (p) {
@@ -174,7 +343,8 @@
       var immagini = lista(p.immagini).map(relativo);
       var libri = libriDati(p);
       return {
-        titolo: testo(p.titolo) || "Senza titolo",
+        raw: p,
+        nome: testo(p.titolo) || "Senza titolo",   /* il titolo italiano: dà l'indirizzo del lavoro */
         anno: testo(p.anno),
         categoria: categoria,
         chiave: categoria.toLowerCase(),
@@ -184,17 +354,18 @@
         anteprime: lista(p.anteprime).map(relativo),
         video: videoLista(p.video),
         immagini: immagini,
-        testo: lista(p.testo),
-        tecnica: testo(p.tecnica),
-        luogo: testo(p.luogo),
-        crediti: testo(p.crediti),
         scarica: scaricaDati(p.scarica),
         libri: libri
       };
     });
+    /* i testi di un lavoro nella lingua scelta */
+    function titoloDi(p) { return testo(trad(p.raw, "titolo")) || t("senzaTitolo"); }
+    function datoDi(p, campo) { return testo(trad(p.raw, campo)); }
+    function testoDi(p) { return lista(trad(p.raw, "testo")); }
 
+    /* l'indirizzo di un lavoro viene dal titolo italiano e non cambia con la lingua */
     progetti.forEach(function (p) {
-      var s = slug(p.titolo);
+      var s = slug(p.nome);
       if (idUsati[s] || s === "top") s = "lavoro-" + s;
       var base = s, n = 2;
       while (idUsati[s]) s = base + "-" + n++;
@@ -206,7 +377,7 @@
     function seManca(img) {
       img.addEventListener("error", function () {
         var box = el("div", { class: "mancante" }, [
-          el("span", { text: "immagine non trovata" }),
+          el("span", { text: t("nonTrovata") }),
           el("span", { text: img.getAttribute("src") })
         ]);
         if (img.parentNode) img.parentNode.replaceChild(box, img);
@@ -218,7 +389,7 @@
     function testiFissi() {
       $$("[data-firma]").forEach(function (n) { n.textContent = FIRMA; });
       $$("[data-nome]").forEach(function (n) { n.textContent = NOME; });
-      $$("[data-ruolo]").forEach(function (n) { n.textContent = testo(D.ruolo); });
+      $$("[data-ruolo]").forEach(function (n) { n.textContent = testo(trad(D, "ruolo")); });
       document.title = TITOLO_BASE;
       $("#bozza").hidden = !D.bozza;
 
@@ -232,41 +403,26 @@
       }
     }
 
-    /* ---------- modalità chiara e scura ----------
-       Chi guarda può scegliere; la scelta resta in questo browser.
-       Senza una scelta vale quella del telefono o del computer. */
-    var TEMA_CHIAVE = "evroisbe-tema";
-    var sistemaScuro = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
-    function temaAttuale() {
-      var t = document.documentElement.getAttribute("data-tema");
-      if (t === "scuro" || t === "chiaro") return t;
-      return sistemaScuro && sistemaScuro.matches ? "scuro" : "chiaro";
-    }
-    function mostraTema() {
-      var scuro = temaAttuale() === "scuro";
-      $$("[data-tema-bottone]").forEach(function (b) {
-        var t = $(".tema__testo", b);
-        if (t) t.textContent = scuro ? "chiaro" : "scuro";
-        b.setAttribute("aria-label", scuro ? "Passa alla modalità chiara" : "Passa alla modalità scura");
+    /* ---------- la colonna a sinistra ----------
+       Le voci si aprono e si chiudono (una alla volta): portfolio mostra le categorie,
+       curriculum le sue sezioni. Si apre da sola la voce della sezione che si sta guardando. */
+    function apriVoce(nome, apri) {
+      $$(".voce").forEach(function (v) {
+        var b = $(".voce__apri", v);
+        if (!b) return;
+        var questa = v.getAttribute("data-voce") === nome;
+        var aperta = questa ? !!apri && !b.hidden : (apri ? false : v.classList.contains("voce--aperta"));
+        v.classList.toggle("voce--aperta", aperta);
+        b.setAttribute("aria-expanded", String(aperta));
       });
-      /* il colore della barra del browser sul telefono segue la modalità */
-      $$('meta[name="theme-color"]').forEach(function (m) { m.setAttribute("content", scuro ? "#0B0B0A" : "#EBEBE9"); });
     }
-    function preparaTema() {
-      $$("[data-tema-bottone]").forEach(function (b) {
+    function preparaVoci() {
+      $$(".voce__apri").forEach(function (b) {
         b.addEventListener("click", function () {
-          var nuovo = temaAttuale() === "scuro" ? "chiaro" : "scuro";
-          document.documentElement.setAttribute("data-tema", nuovo);
-          try { localStorage.setItem(TEMA_CHIAVE, nuovo); } catch (e) { /* va bene lo stesso */ }
-          mostraTema();
+          var v = b.closest(".voce");
+          apriVoce(v.getAttribute("data-voce"), b.getAttribute("aria-expanded") !== "true");
         });
       });
-      if (sistemaScuro) {
-        var cambia = function () { mostraTema(); };
-        if (sistemaScuro.addEventListener) sistemaScuro.addEventListener("change", cambia);
-        else if (sistemaScuro.addListener) sistemaScuro.addListener(cambia);
-      }
-      mostraTema();
     }
 
     /* l'indice a sinistra segna la sezione che si sta guardando */
@@ -274,15 +430,16 @@
     function preparaIndice() {
       var voci = $$(".lato__nav a[data-sezione]");
       if (!voci.length) return;
-      segnaIndice = function (nome) {
+      segnaIndice = function (nome, senzaAprire) {
         voci.forEach(function (a) {
           if (a.getAttribute("data-sezione") === nome) a.setAttribute("aria-current", "true");
           else a.removeAttribute("aria-current");
         });
+        if (!senzaAprire) apriVoce(nome, true);
       };
       if (!("IntersectionObserver" in window)) return;
       var oss = new IntersectionObserver(function (voce) {
-        if (vista !== "home") return;
+        if (vista !== "home" || radice.classList.contains("inizio")) return;
         voce.forEach(function (x) { if (x.isIntersecting) segnaIndice(x.target.id); });
       }, { rootMargin: "-40% 0px -55% 0px" });
       ["portfolio", "about", "curriculum", "contatti"].forEach(function (id) {
@@ -324,6 +481,8 @@
     /* i filtri stanno sopra la griglia e, sul computer, anche nella colonna a sinistra */
     function disegnaFiltri() {
       ["#filtri", "#filtri-lato"].forEach(function (s) { var b = $(s); if (b) disegnaFiltriIn(b, s === "#filtri-lato"); });
+      var apri = $('.voce[data-voce="portfolio"] .voce__apri'), lato = $("#filtri-lato");
+      if (apri && lato) apri.hidden = lato.hidden;
     }
     function disegnaFiltriIn(box, lato) {
       box.textContent = "";
@@ -341,7 +500,7 @@
       var usate = ordine.filter(function (k) { return conta[k]; });
       if (usate.length < 2) { box.hidden = true; return; }
       box.hidden = false;
-      [["tutti", "tutti", progetti.length]].concat(usate.map(function (k) { return [k, etichette[k], conta[k]]; }))
+      [["tutti", t("tutti"), progetti.length]].concat(usate.map(function (k) { return [k, etichette[k], conta[k]]; }))
         .forEach(function (v) {
           var b = el("button", {
             class: "filtro", type: "button", "data-chiave": v[0],
@@ -429,7 +588,6 @@
        i lavori con un'anteprima video la fanno partire, gli altri fanno
        scorrere le loro immagini come un pieghevole. */
     var conMouse = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    var calma = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     var risparmio = !!(navigator.connection && navigator.connection.saveData);
 
     function fotogrammi(p) {
@@ -710,7 +868,7 @@
       var g = $("#griglia");
       g.textContent = "";
       if (!progetti.length) {
-        g.appendChild(el("p", { class: "vuoto", text: "Ancora nessun lavoro. Aggiungine uno dal pannello, nella sezione Lavori." }));
+        g.appendChild(el("p", { class: "vuoto", text: t("vuoto") }));
         return;
       }
       progetti.forEach(function (p, i) {
@@ -720,7 +878,7 @@
           el("div", { class: "opera__img" }, [img]),
           el("div", { class: "opera__testo" }, [
             el("span", { class: "opera__num", text: due(i + 1) }),
-            el("h3", { class: "opera__titolo", text: p.titolo }),
+            el("h3", { class: "opera__titolo", text: titoloDi(p) }),
             el("span", { class: "opera__anno", text: p.anno }),
             p.categoria ? el("p", { class: "opera__cat", text: p.categoria }) : null
           ])
@@ -734,7 +892,7 @@
 
     /* ---------- about ---------- */
     function disegnaAbout() {
-      var c = testo(D.citazione).replace(/^["“«]+|["”»]+$/g, "");
+      var c = testo(trad(D, "citazione")).replace(/^["“«]+|["”»]+$/g, "");
       var q = $("#citazione");
       /* una tua foto, se c'è, prende il posto della frase */
       var foto = relativo(D.foto), fig = $("#about-foto");
@@ -746,62 +904,88 @@
       q.hidden = !c;
       var box = $("#about-testo");
       box.textContent = "";
-      lista(D.about).forEach(function (t) { box.appendChild(el("p", { text: t })); });
-      $("#about").hidden = !c && !foto && !lista(D.about).length;
+      var righe = lista(trad(D, "about"));
+      righe.forEach(function (x) { box.appendChild(el("p", { text: x })); });
+      $("#about").hidden = !c && !foto && !righe.length;
     }
 
     /* ---------- curriculum ---------- */
+    function anniDi(v) {
+      var a = testo(v.anni);
+      if (LINGUA === "en") {
+        if (testo(v.anni_en)) return testo(v.anni_en);
+        a = a.replace(/\boggi\b/gi, "present").replace(/\bin corso\b/gi, "present");
+      }
+      return a;
+    }
     function disegnaCv() {
       var box = $("#cv");
+      /* cambiando lingua restano aperte le stesse sezioni */
+      var aperte = $$(".cv__sezione", box).map(function (d) { return d.open; });
       box.textContent = "";
+      var k = 0;
       (Array.isArray(D.curriculum) ? D.curriculum : []).forEach(function (s) {
         if (!s) return;
         var voci = (Array.isArray(s.voci) ? s.voci : []).filter(function (v) { return v && testo(v.testo); });
         if (!voci.length) return;
         var conAnni = voci.some(function (v) { return testo(v.anni); });
-        box.appendChild(el("details", { class: "cv__sezione" }, [
-          el("summary", null, [el("span", { text: testo(s.sezione) }), el("span", { class: "cv__segno", "aria-hidden": "true" })]),
+        box.appendChild(el("details", { class: "cv__sezione", open: aperte[k++] ? true : null }, [
+          el("summary", null, [el("span", { text: testo(trad(s, "sezione")) }), el("span", { class: "cv__segno", "aria-hidden": "true" })]),
           el("ul", { class: "cv__voci" + (conAnni ? "" : " cv__voci--semplice") }, voci.map(function (v) {
-            var righe = String(v.testo).split("\n").map(testo).filter(Boolean);
+            var righe = String(trad(v, "testo")).split("\n").map(testo).filter(Boolean);
             return el("li", { class: "cv__voce" }, [
-              el("span", { class: "cv__anni", text: testo(v.anni) }),
-              el("span", { class: "cv__testo" }, righe.map(function (r, k) {
-                return el("span", { class: k === 0 ? "cv__riga cv__riga--prima" : "cv__riga", text: r });
+              el("span", { class: "cv__anni", text: anniDi(v) }),
+              el("span", { class: "cv__testo" }, righe.map(function (r, j) {
+                return el("span", { class: j === 0 ? "cv__riga cv__riga--prima" : "cv__riga", text: r });
               }))
             ]);
           }))
         ]));
       });
-      var link = $("#link-cv");
-      if (testo(D.cv)) link.setAttribute("href", relativo(D.cv));
+      var link = $("#link-cv"), cv = relativo(trad(D, "cv"));
+      if (cv) { link.setAttribute("href", cv); link.hidden = false; }
       else link.hidden = true;
+      disegnaIndiceCv();
+    }
+    /* nella colonna a sinistra, sotto «curriculum»: le sue sezioni e il pdf */
+    function disegnaIndiceCv() {
+      var ul = $("#indice-cv");
+      if (!ul) return;
+      ul.textContent = "";
+      $$(".cv__sezione").forEach(function (d, i) {
+        var nome = $("summary > span", d);
+        ul.appendChild(el("li", null, [el("a", {
+          href: "#curriculum", text: nome ? nome.textContent : "",
+          onclick: function (e) { e.preventDefault(); apriCv(i); }
+        })]));
+      });
+      var link = $("#link-cv");
+      if (link && !link.hidden) {
+        ul.appendChild(el("li", null, [el("a", { class: "sotto__cv", href: link.getAttribute("href"), target: "_blank", rel: "noopener", text: t("scaricaCvBreve") })]));
+      }
+      var apri = $('.voce[data-voce="curriculum"] .voce__apri');
+      if (apri) apri.hidden = !ul.children.length;
+    }
+    /* apre una sezione del curriculum e ci porta */
+    function apriCv(i) {
+      function fai() {
+        var d = $$(".cv__sezione")[i];
+        if (!d) return;
+        d.open = true;
+        d.scrollIntoView({ behavior: calma ? "auto" : "smooth", block: "start" });
+      }
+      if (vista !== "home") { dopoPercorso = fai; location.hash = "curriculum"; return; }
+      if (location.hash !== "#curriculum" && history.replaceState) history.replaceState(null, "", "#curriculum");
+      fai();
     }
 
     /* ---------- contatti ---------- */
     function disegnaContatti() {
       var email = testo(D.email);
-      var a = $("#email"), copia = $("#copia-email");
+      var a = $("#email");
       if (email) {
         a.textContent = email;
         a.setAttribute("href", "mailto:" + email);
-        copia.addEventListener("click", function () {
-          function fatto() {
-            copia.textContent = "copiato";
-            setTimeout(function () { copia.textContent = "copia"; }, 1600);
-          }
-          function seleziona() {
-            var r = document.createRange();
-            r.selectNodeContents(a);
-            var s = window.getSelection();
-            s.removeAllRanges();
-            s.addRange(r);
-          }
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(email).then(fatto, seleziona);
-          } else {
-            seleziona();
-          }
-        });
       } else {
         $(".contatti__email").hidden = true;
       }
@@ -824,6 +1008,33 @@
       }
 
       $("#copyright").textContent = "© " + new Date().getFullYear() + " " + (NOME || FIRMA);
+    }
+    function preparaContatti() {
+      var a = $("#email"), copia = $("#copia-email");
+      copia.addEventListener("click", function () {
+        var email = testo(D.email);
+        function fatto() {
+          copia.textContent = t("copiato");
+          setTimeout(function () { copia.textContent = t("copia"); }, 1600);
+        }
+        function seleziona() {
+          var r = document.createRange();
+          r.selectNodeContents(a);
+          var s = window.getSelection();
+          s.removeAllRanges();
+          s.addRange(r);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(fatto, seleziona);
+        } else {
+          seleziona();
+        }
+      });
+      var su = $("#torna-su");
+      if (su) su.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: calma ? "auto" : "smooth" });
+      });
     }
 
     /* ---------- lettore video ---------- */
@@ -851,6 +1062,7 @@
 
     function lettore(voce, p) {
       var v = riconosciVideo(voce.file);
+      var titolo = titoloVideo(voce);
       var cornice = el("div", { class: "video__cornice" });
       var figura = el("figure", { class: "video" }, [cornice]);
       /* nessun video supera l'85% dell'altezza dello schermo */
@@ -862,13 +1074,13 @@
       var r = rapporto(voce.formato);
       if (r) proporzione(r);
       var didascalia = [];
-      if (voce.titolo) didascalia.push(el("span", { class: "video__titolo", text: voce.titolo }));
+      if (titolo) didascalia.push(el("span", { class: "video__titolo", text: titolo }));
 
       if (v.tipo === "file") {
         var video = el("video", { controls: true, playsinline: true, preload: "metadata", poster: voce.anteprima || p.copertina || null });
         var fonte = el("source", { src: v.src, type: tipoMime(v.src) });
         video.appendChild(fonte);
-        var play = el("button", { class: "video__play", type: "button", "aria-label": "Riproduci il video" + (voce.titolo ? ": " + voce.titolo : "") }, [el("span", { "aria-hidden": "true" })]);
+        var play = el("button", { class: "video__play", type: "button", "aria-label": t("riproduci") + (titolo ? ": " + titolo : "") }, [el("span", { "aria-hidden": "true" })]);
         play.addEventListener("click", function () { var pr = video.play(); if (pr && pr.catch) pr.catch(function () {}); });
         video.addEventListener("play", function () { play.hidden = true; });
         video.addEventListener("loadedmetadata", function () {
@@ -882,24 +1094,24 @@
             cornice.className = "video__cornice video__cornice--vuota";
             cornice.appendChild(el("p", { class: "video__avviso" }, c));
           }
-          var manca = ["Video non trovato: " + v.src + ". Controlla il lavoro nel pannello."];
+          var manca = [t("videoNonTrovato", { src: v.src })];
           if (!window.fetch) { mostra(manca); return; }
           fetch(v.src, { method: "HEAD" }).then(function (risp) {
-            mostra(risp.ok ? ["Questo browser non riesce a riprodurre il video. ", el("a", { href: v.src, target: "_blank", rel: "noopener", text: "Apri il file" })] : manca);
+            mostra(risp.ok ? [t("nonRiproduce"), el("a", { href: v.src, target: "_blank", rel: "noopener", text: t("apriFile") })] : manca);
           }, function () { mostra(manca); });
         });
         cornice.appendChild(video);
         cornice.appendChild(play);
       } else if (v.tipo === "incorporato") {
         cornice.appendChild(el("iframe", {
-          src: v.src, title: "Video: " + (voce.titolo || p.titolo), loading: "lazy",
+          src: v.src, title: t("video") + ": " + (titolo || titoloDi(p)), loading: "lazy",
           allow: "autoplay; fullscreen; picture-in-picture; encrypted-media", allowfullscreen: true,
           referrerpolicy: "strict-origin-when-cross-origin"
         }));
-        didascalia.push(el("a", { class: "video__link", href: voce.file, target: "_blank", rel: "noopener", text: "apri su " + v.fonte }));
+        didascalia.push(el("a", { class: "video__link", href: voce.file, target: "_blank", rel: "noopener", text: t("apriSu", { fonte: v.fonte }) }));
       } else {
         cornice.className = "video__cornice video__cornice--vuota";
-        cornice.appendChild(el("p", { class: "video__avviso", text: "Questo link video non è riconosciuto: «" + v.src + "». Usa il link di condivisione di Google Drive, un file .mp4, oppure un link YouTube o Vimeo." }));
+        cornice.appendChild(el("p", { class: "video__avviso", text: t("linkVideo", { src: v.src }) }));
       }
       if (didascalia.length) figura.appendChild(el("figcaption", { class: "video__nota" }, didascalia));
       return figura;
@@ -910,9 +1122,10 @@
 
     function galleria(p) {
       var box = el("div", { class: "lavoro__galleria" + (p.immagini.length === 1 ? " lavoro__galleria--una" : "") });
+      var titolo = titoloDi(p);
       p.immagini.forEach(function (src, i) {
-        var img = seManca(el("img", { src: src, alt: p.titolo + ", immagine " + (i + 1), loading: i < 3 ? "eager" : "lazy", decoding: "async" }));
-        var b = el("button", { class: "foto", type: "button", "aria-label": "Apri l'immagine " + (i + 1) + " di " + p.immagini.length }, [img]);
+        var img = seManca(el("img", { src: src, alt: titolo + ", " + t("immagine") + " " + (i + 1), loading: i < 3 ? "eager" : "lazy", decoding: "async" }));
+        var b = el("button", { class: "foto", type: "button", "aria-label": t("apriImmagine", { n: i + 1, m: p.immagini.length }) }, [img]);
         b.addEventListener("click", function () { apriLightbox(p, i, b); });
         /* la prima immagine, se è orizzontale, occupa tutta la larghezza;
            se dopo ne resta una sola, le due immagini stanno una sotto l'altra, centrate */
@@ -932,23 +1145,23 @@
     function mostraImmagine() {
       var img = $("#lightbox-img");
       img.src = lb.lista[lb.i];
-      img.alt = lb.titolo + ", immagine " + (lb.i + 1);
+      img.alt = lb.titolo + ", " + t("immagine") + " " + (lb.i + 1);
       $("#lightbox-conta").textContent = (lb.i + 1) + " / " + lb.lista.length;
       var piu = lb.lista.length > 1;
       $("#lightbox-prec").hidden = !piu;
       $("#lightbox-succ").hidden = !piu;
     }
     function apriLightbox(p, i, origine) {
-      lb.lista = p.immagini; lb.i = i; lb.origine = origine; lb.titolo = p.titolo;
+      lb.lista = p.immagini; lb.i = i; lb.origine = origine; lb.titolo = titoloDi(p);
       mostraImmagine();
       $("#lightbox").hidden = false;
-      document.documentElement.classList.add("blocca");
+      radice.classList.add("blocca");
       $("#lightbox-chiudi").focus();
     }
     function chiudiLightbox() {
       if ($("#lightbox").hidden) return;
       $("#lightbox").hidden = true;
-      document.documentElement.classList.remove("blocca");
+      radice.classList.remove("blocca");
       if (lb.origine && document.body.contains(lb.origine)) lb.origine.focus();
     }
     function scorri(d) {
@@ -989,7 +1202,7 @@
     function pulsanteScarica(p) {
       if (!p.scarica) return null;
       return el("div", { class: "lavoro__scarica" }, [
-        el("a", { class: "bottone", href: p.scarica.file, target: "_blank", rel: "noopener", text: p.scarica.testo || "scarica (pdf)" })
+        el("a", { class: "bottone", href: p.scarica.file, target: "_blank", rel: "noopener", text: testo(trad(p.scarica.raw, "testo")) || t("scarica") })
       ]);
     }
 
@@ -999,20 +1212,21 @@
        o scaricare, e si caricano solo quando ci si avvicina. */
     function libro(L) {
       var conCopertina = !!L.copertina;
+      var titoloL = testo(trad(L.raw, "titolo")), notaL = testo(trad(L.raw, "nota"));
       /* numero pari = pagina di sinistra, se non è indicato il lato */
       var aSinistra = L.lato ? L.lato === "sinistra" : L.prima > 0 && L.prima % 2 === 0;
 
       /* le facce dei fogli in fila: fronte, retro, fronte, retro... (null = carta bianca) */
       var facce = [];
       if (conCopertina) {
-        facce.push({ src: L.copertina, nome: "copertina", copertina: true });
+        facce.push({ src: L.copertina, nome: t("copertina"), copertina: true });
         if (!aSinistra) facce.push(null);   /* l'interno della copertina */
       } else if (aSinistra) {
         facce.push(null);
       }
       L.pagine.forEach(function (src, j) {
         var num = L.prima ? L.prima + j : j + 1;
-        facce.push({ src: src, nome: "pagina " + num, numero: num });
+        facce.push({ src: src, nome: t("pagina") + " " + num, numero: num });
       });
       var ultima = L.prima ? L.prima + L.pagine.length - 1 : L.pagine.length;
 
@@ -1031,7 +1245,7 @@
         if (f) {
           d._src = new URL(f.src, document.baseURI).href;
           d.setAttribute("role", "img");
-          d.setAttribute("aria-label", (L.titolo ? L.titolo + ", " : "") + f.nome);
+          d.setAttribute("aria-label", (titoloL ? titoloL + ", " : "") + f.nome);
         }
         return d;
       }
@@ -1051,10 +1265,10 @@
 
       var box = el("figure", { class: "libro" + (L.lungo ? " libro--lungo" : "") });
       var stato = el("span", { class: "libro__stato", "aria-live": "polite" });
-      var prec = el("button", { class: "libro__freccia", type: "button", "aria-label": "Pagina precedente", text: "‹" });
-      var succ = el("button", { class: "libro__freccia", type: "button", "aria-label": "Pagina successiva", text: "›" });
-      var cursore = L.lungo && max > min ? el("input", { class: "libro__cursore", type: "range", min: String(min), max: String(max), step: "1", value: String(pos), "aria-label": "Vai alla pagina" }) : null;
-      var scena = el("div", { class: "libro__scena", tabindex: "0", "aria-label": "Libro da sfogliare" + (L.titolo ? ": " + L.titolo : "") }, [volume]);
+      var prec = el("button", { class: "libro__freccia", type: "button", "aria-label": t("pagPrec"), text: "‹" });
+      var succ = el("button", { class: "libro__freccia", type: "button", "aria-label": t("pagSucc"), text: "›" });
+      var cursore = L.lungo && max > min ? el("input", { class: "libro__cursore", type: "range", min: String(min), max: String(max), step: "1", value: String(pos), "aria-label": t("vaiPagina") }) : null;
+      var scena = el("div", { class: "libro__scena", tabindex: "0", "aria-label": t("libro") + (titoloL ? ": " + titoloL : "") }, [volume]);
 
       /* si tengono nella pagina solo i fogli vicini a quelli aperti */
       var VICINI = 3;
@@ -1082,8 +1296,8 @@
         /* sul telefono, se a sinistra non c'è niente, si vede solo la pagina di destra, più grande */
         box.classList.toggle("libro--sinistra-vuota", !sx);
         var numeri = [sx, dx].filter(function (f) { return f && f.numero; }).map(function (f) { return f.numero; });
-        var su = L.lungo ? " di " + ultima : "";
-        stato.textContent = conCopertina && pos === 0 ? "apri il libro"
+        var su = L.lungo ? " " + t("di") + " " + ultima : "";
+        stato.textContent = conCopertina && pos === 0 ? t("apriLibro")
           : numeri.length === 2 ? "pp. " + numeri[0] + "–" + numeri[1] + su
           : numeri.length === 1 ? "p. " + numeri[0] + su : "";
         prec.disabled = pos <= min;
@@ -1141,14 +1355,14 @@
       misura.src = L.pagine[0];
 
       disponi();
-      var nota = [L.titolo, L.nota].filter(Boolean);
+      var nota = [titoloL, notaL].filter(Boolean);
       box.appendChild(scena);
       box.appendChild(el("figcaption", { class: "libro__nota" }, [
         el("span", { class: "libro__titolo", text: nota.join(" · ") }),
         max > min ? el("span", { class: "libro__comandi" }, [prec, stato, succ]) : stato,
         cursore
       ]));
-      return el("section", { class: "lavoro__libro", "aria-label": "Libro da sfogliare" + (L.titolo ? ": " + L.titolo : "") }, [box]);
+      return el("section", { class: "lavoro__libro", "aria-label": t("libro") + (titoloL ? ": " + titoloL : "") }, [box]);
     }
 
     /* ---------- pagina del singolo lavoro ---------- */
@@ -1173,14 +1387,15 @@
       box.textContent = "";
       var n = progetti.length, i = progetti.indexOf(p);
       var prec = progetti[(i - 1 + n) % n], succ = progetti[(i + 1) % n];
-      var dati = [["anno", p.anno], ["categoria", p.categoria], ["tecnica", p.tecnica], ["luogo", p.luogo], ["crediti", p.crediti]]
+      var testi = testoDi(p);
+      var dati = [["anno", p.anno], ["categoria", p.categoria], ["tecnica", datoDi(p, "tecnica")], ["luogo", datoDi(p, "luogo")], ["crediti", datoDi(p, "crediti")]]
         .filter(function (d) { return d[1]; });
 
       var colonna = [
         dati.length ? el("dl", { class: "lavoro__dati" }, dati.map(function (d) {
-          return el("div", null, [el("dt", { text: d[0] }), el("dd", { text: d[1] })]);
+          return el("div", null, [el("dt", { text: t(d[0]) }), el("dd", { text: d[1] })]);
         })) : null,
-        p.testo.length ? el("div", { class: "lavoro__testo" }, p.testo.map(function (t) { return el("p", { text: t }); })) : null,
+        testi.length ? el("div", { class: "lavoro__testo" }, testi.map(function (x) { return el("p", { text: x }); })) : null,
         pulsanteScarica(p)
       ].filter(Boolean);
       var materiali = [p.video.length ? el("div", { class: "lavoro__video" }, p.video.map(function (v) { return lettore(v, p); })) : null]
@@ -1189,43 +1404,124 @@
         .filter(Boolean);
 
       box.appendChild(el("article", { class: "lavoro pagina" }, [
-        el("a", { class: "lavoro__indietro", href: "#portfolio", onclick: tornaAlPortfolio, text: "torna al portfolio" }),
+        el("a", { class: "lavoro__indietro", href: "#portfolio", onclick: tornaAlPortfolio, text: t("tornaPortfolio") }),
         el("header", { class: "lavoro__testa" }, [
           el("p", { class: "lavoro__indice" }, [
-            el("span", { text: "lavoro " + due(i + 1) + " di " + due(n) }),
+            el("span", { text: t("lavoroNdiM", { n: due(i + 1), m: due(n) }) }),
             p.categoria ? el("span", { text: p.categoria }) : null
           ]),
-          el("h1", { class: "lavoro__titolo", text: p.titolo })
+          el("h1", { class: "lavoro__titolo", text: titoloDi(p) })
         ]),
         el("div", { class: "lavoro__corpo" + (materiali.length ? "" : " lavoro__corpo--testo") }, [
           colonna.length ? el("div", { class: "lavoro__colonna" }, colonna) : null,
           materiali.length ? el("div", { class: "lavoro__materiali" }, materiali) : null
         ]),
-        n > 1 ? el("nav", { class: "lavoro__altri", "aria-label": "Altri lavori" }, [
-          el("a", { href: "#" + prec.slug, rel: "prev" }, [el("small", { text: "precedente" }), el("strong", { text: prec.titolo })]),
-          el("a", { href: "#" + succ.slug, rel: "next" }, [el("small", { text: "successivo" }), el("strong", { text: succ.titolo })])
+        n > 1 ? el("nav", { class: "lavoro__altri", "aria-label": t("altri") }, [
+          el("a", { href: "#" + prec.slug, rel: "prev" }, [el("small", { text: t("precedente") }), el("strong", { text: titoloDi(prec) })]),
+          el("a", { href: "#" + succ.slug, rel: "next" }, [el("small", { text: t("successivo") }), el("strong", { text: titoloDi(succ) })])
         ]) : null
       ]));
-      document.title = p.titolo + " | " + FIRMA;
+      document.title = titoloDi(p) + " | " + FIRMA;
       requestAnimationFrame(controllaColonna);
     }
 
-    /* ---------- navigazione tra home e lavori ---------- */
-    var vista = "home", posizioneHome = 0;
+    /* ---------- navigazione: pagina d'ingresso, sezioni e lavori ----------
+       Senza nulla dopo # nell'indirizzo si vede la pagina d'ingresso: logo, voci, contatti.
+       Scegliendo una voce il blocco si sposta nella colonna a sinistra (sul telefono in alto)
+       e compare la sezione scelta; il logo riporta all'ingresso. */
+    var vista = "home", posizioneHome = 0, dopoPercorso = null;
 
-    function vai(y) {
-      try { window.scrollTo({ top: y, left: 0, behavior: "instant" }); }
-      catch (e) { window.scrollTo(0, y); }
+    /* scorrimento immediato, anche se la pagina di solito scorre morbida */
+    function senzaMorbido(fai) {
+      var prima = radice.style.scrollBehavior;
+      radice.style.scrollBehavior = "auto";
+      fai();
+      radice.style.scrollBehavior = prima;
+    }
+    function vai(y) { senzaMorbido(function () { window.scrollTo(0, y); }); }
+
+    function inIngresso() { return radice.classList.contains("inizio"); }
+
+    /* il passaggio animato fra l'ingresso e il sito, dove il browser lo sa fare */
+    var dopoPassaggio = null;
+    function finePassaggio() {
+      radice.classList.remove("passaggio");
+      if (dopoPassaggio) {
+        var f = dopoPassaggio;
+        dopoPassaggio = null;
+        f();
+      }
+    }
+    function passaggio(fai, entrando) {
+      if (calma) { fai(); finePassaggio(); return; }
+      if (!document.startViewTransition) {
+        fai();
+        finePassaggio();
+        if (entrando) {
+          radice.classList.add("entrata");
+          setTimeout(function () { radice.classList.remove("entrata"); }, 700);
+        }
+        return;
+      }
+      radice.classList.add("passaggio");
+      try {
+        var vt = document.startViewTransition(fai);
+        vt.finished.then(finePassaggio, finePassaggio);
+      } catch (e) {
+        fai();
+        finePassaggio();
+      }
+    }
+
+    function lavoroDa(h) {
+      for (var i = 0; i < progetti.length; i++) if (progetti[i].slug === h) return progetti[i];
+      return null;
+    }
+    function hashAttuale() {
+      var h = location.hash.replace(/^#/, "");
+      try { h = decodeURIComponent(h); } catch (e) { /* lascia com'è */ }
+      return h;
+    }
+
+    function chiudiLavoro() {
+      $("#lavoro").hidden = true;
+      $("#lavoro").textContent = "";
+      $("#home").hidden = false;
+      $("#curriculum").hidden = false;
+      vista = "home";
+    }
+
+    function mostraIngresso() {
+      chiudiLightbox();
+      $$(".opera").forEach(ferma);
+      if (vista === "lavoro") chiudiLavoro();
+      apriVoce("", true);
+      radice.classList.add("inizio");
+      document.title = TITOLO_BASE;
+      posizioneHome = 0;
+      vai(0);
     }
 
     function percorso() {
-      var h = location.hash.replace(/^#/, "");
-      try { h = decodeURIComponent(h); } catch (e) { /* lascia com'è */ }
-      var p = null;
-      for (var i = 0; i < progetti.length; i++) if (progetti[i].slug === h) { p = progetti[i]; break; }
+      var h = hashAttuale();
+      if (!h) {
+        if (!inIngresso()) passaggio(mostraIngresso, false);
+        return;
+      }
+      if (inIngresso()) {
+        passaggio(function () {
+          radice.classList.remove("inizio");
+          instrada(h, true);
+        }, true);
+        return;
+      }
+      instrada(h, false);
+    }
 
+    function instrada(h, daIngresso) {
+      var p = lavoroDa(h);
       if (p) {
-        if (vista === "home") posizioneHome = window.scrollY;
+        if (vista === "home" && !daIngresso) posizioneHome = window.scrollY;
         chiudiLightbox();
         $$(".opera").forEach(ferma);
         disegnaLavoro(p);
@@ -1233,28 +1529,69 @@
         $("#curriculum").hidden = true;
         $("#lavoro").hidden = false;
         vista = "lavoro";
-        segnaIndice("portfolio");
+        if (daIngresso) {
+          apriVoce("", true);
+          segnaIndice("portfolio", true);
+          dopoPassaggio = function () { segnaIndice("portfolio"); };
+        } else {
+          segnaIndice("portfolio");
+        }
         adattaTitolo();
+        adattaEmail();
         vai(0);
         return;
       }
 
       var daLavoro = vista === "lavoro";
-      $("#lavoro").hidden = true;
-      $("#lavoro").textContent = "";
-      $("#home").hidden = false;
-      $("#curriculum").hidden = false;
+      if (daLavoro) chiudiLavoro();
       document.title = TITOLO_BASE;
       vista = "home";
       if (quanteColonne() !== colonne) impagina();
+      adattaEmail();
 
-      if (!daLavoro) return;
-      var bersaglio = h && document.getElementById(h);
-      if (ripristina && posizioneHome > 0) vai(posizioneHome);
-      else if (bersaglio) bersaglio.scrollIntoView();
-      else vai(posizioneHome);
+      var bersaglio = document.getElementById(h);
+      if (daIngresso) {
+        /* dall'ingresso si arriva già alla sezione scelta */
+        if (h === "portfolio" || !bersaglio) vai(0);
+        else senzaMorbido(function () { bersaglio.scrollIntoView(); });
+        var sezione = ["portfolio", "about", "curriculum", "contatti"].indexOf(h) >= 0 ? h : (p ? "portfolio" : "");
+        apriVoce("", true);
+        if (sezione) {
+          segnaIndice(sezione, true);
+          dopoPassaggio = function () { segnaIndice(sezione); };
+        }
+      } else if (daLavoro) {
+        if (ripristina && posizioneHome > 0) vai(posizioneHome);
+        else if (bersaglio) bersaglio.scrollIntoView();
+        else vai(posizioneHome);
+      }
       ripristina = false;
+      if (dopoPercorso) {
+        var f = dopoPercorso;
+        dopoPercorso = null;
+        f();
+      }
     }
+
+    /* ---------- cambio di lingua: si riscrivono i testi, senza ricaricare la pagina ---------- */
+    alCambioLingua = function () {
+      testiFissi();
+      disegnaFiltri();
+      $$(".opera").forEach(function (a) {
+        var h = $(".opera__titolo", a);
+        if (h && a._p) h.textContent = titoloDi(a._p);
+      });
+      disegnaAbout();
+      disegnaCv();
+      disegnaContatti();
+      if (vista === "lavoro") {
+        var p = lavoroDa(hashAttuale());
+        if (p) { disegnaLavoro(p); adattaTitolo(); }
+      } else {
+        document.title = TITOLO_BASE;
+      }
+      adattaEmail();
+    };
 
     /* ---------- avvio ---------- */
     try {
@@ -1264,15 +1601,19 @@
       disegnaAbout();
       disegnaCv();
       disegnaContatti();
+      preparaContatti();
       preparaLightbox();
+      preparaVoci();
       preparaIndice();
-      preparaTema();
       adattaEmail();
       window.addEventListener("hashchange", percorso);
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       percorso();
-      var h = location.hash.replace(/^#/, "");
-      if (vista === "home" && h && document.getElementById(h)) document.getElementById(h).scrollIntoView();
+      var h = hashAttuale();
+      if (vista === "home" && h && document.getElementById(h)) {
+        document.getElementById(h).scrollIntoView();
+        if (["portfolio", "about", "curriculum", "contatti"].indexOf(h) >= 0) segnaIndice(h);
+      }
 
       if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaTitolo(); adattaEmail(); controllaColonna(); });
       window.addEventListener("resize", function () {

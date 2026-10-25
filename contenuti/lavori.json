@@ -10,22 +10,31 @@
         {
           "file": "/video/storungsbild-sala.mp4",
           "titolo": "La sala (simulazione): immagine e suono sono l'output reale",
+          "titolo_en": "The room (simulation): image and sound are the actual output",
           "anteprima": "/immagini/storungsbild/video-sala.jpg",
           "formato": "4:5"
         },
         {
           "file": "/video/storungsbild-vedute.mp4",
           "titolo": "Sei vedute della sala (simulazione)",
+          "titolo_en": "Six views of the room (simulation)",
           "anteprima": "/immagini/storungsbild/video-vedute.jpg",
           "formato": "4:5"
         },
         {
           "file": "/video/storungsbild-output.mp4",
           "titolo": "L'output di TouchDesigner, con il suono generato in Max",
+          "titolo_en": "The TouchDesigner output, with the sound generated in Max",
           "anteprima": "/immagini/storungsbild/video-output.jpg"
         }
       ],
       "testo": "Un'installazione che distrugge un volto ogni volta che ti muovi. Il volto non è mai esistito, e per farlo tornare c'è un solo modo: stare fermi.\n\nAl buio è proiettato uno di nove ritratti generati con Gemini e animati con Runway. Un Kinect V2 legge all'infrarosso 21 giunture del corpo di chi guarda. TouchDesigner trasforma posa, movimento e vicinanza in un numero da 0 a 1, e il numero decide come si rompe il volto: degradazione, datamoshing, pixel sorting. In Max 9 suona un pezzo di 192 secondi: chi guarda non suona note, lo disturba come disturba il volto.\n\nDavanti a un'opera interattiva viene spontaneo agitare le braccia per vedere cosa succede. Qui è proprio quel gesto a cancellare il ritratto: chi guarda scopre di essere la causa di quello che cercava di vedere.\n\nLe vedute della sala sono una simulazione: sullo schermo c'è l'output reale di TouchDesigner e il suono è quello registrato dal motore in Max.",
+      "en": {
+        "testo": "An installation that destroys a face every time you move. The face never existed, and there is only one way to bring it back: stand still.\n\nIn the dark, one of nine portraits generated with Gemini and animated with Runway is projected. A Kinect V2 reads 21 joints of the viewer's body in infrared. TouchDesigner turns posture, movement and proximity into a number from 0 to 1, and the number decides how the face breaks: degradation, datamoshing, pixel sorting. In Max 9 a 192-second piece plays: the viewer doesn't play notes, they disturb it the way they disturb the face.\n\nIn front of an interactive work, the natural thing is to wave your arms to see what happens. Here it is precisely that gesture that erases the portrait: viewers discover that they are the cause of what they were trying to see.\n\nThe views of the room are a simulation: on the screen is the actual TouchDesigner output, and the sound is the one recorded from the engine in Max.",
+        "tecnica": "Kinect V2, TouchDesigner, Max 9. Runs at 60 frames per second on a laptop.",
+        "luogo": "Accademia Albertina di Belle Arti, Turin, 12 October 2026",
+        "crediti": "Master's degree final project, supervisor Prof. Andrea Balzola"
+      },
       "immagini": [
         "/immagini/storungsbild/4.jpg",
         "/immagini/storungsbild/1.jpg",
@@ -56,10 +65,17 @@
         "/immagini/genealogie-dellinstabilita/7.jpg"
       ],
       "testo": "Il volume teorico della mia tesi magistrale, «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale»: 328 pagine in A5 che ricostruiscono un secolo di immagini instabili, dal cinema di Weimar al glitch. L'ho scritto e impaginato io.\n\nOgni parte parla la lingua visiva dell'epoca che studia: il Bauhaus e la grafica svizzera nella premessa, Weimar e il Dada nella prima parte, il noir nella seconda, il glitch nella quarta e nella quinta. Le conclusioni rimettono insieme gli stili.\n\nGli stili stanno solo nelle aperture, nei titoli, nelle cornici e nei colori: il testo corrente è lo stesso dalla prima all'ultima pagina. Il libro si guarda come una genealogia e si legge come un testo solo.\n\nQui si sfogliano tutti e due i volumi della tesi: quello teorico e il volume annesso, «Störungsbild. Il fotogramma perturbante», che racconta l'elaborato pratico.",
+      "en": {
+        "titolo": "Genealogies of Instability",
+        "testo": "The theoretical volume of my master's thesis, “Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale” (Genealogies of Instability. From the Weimar Seismograph to the Post-Media Aesthetics of Error): 328 A5 pages that retrace a century of unstable images, from Weimar cinema to glitch. I wrote it and designed it myself.\n\nEach part speaks the visual language of the era it studies: the Bauhaus and Swiss graphic design in the preface, Weimar and Dada in the first part, noir in the second, glitch in the fourth and fifth. The conclusions bring the styles back together.\n\nThe styles live only in the openings, the titles, the frames and the colours: the body text stays the same from the first page to the last. You look at the book as a genealogy and read it as a single text.\n\nHere you can leaf through both volumes of the thesis: the theoretical one and the companion volume, “Störungsbild. Il fotogramma perturbante” (The Uncanny Frame), which tells the story of the practical project.",
+        "tecnica": "InDesign, two A5 volumes (328 and 96 pages)",
+        "crediti": "Master's thesis in New Technologies of Art, supervisor Prof. Andrea Balzola"
+      },
       "libri": [
         {
           "titolo": "Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale",
           "nota": "volume teorico, 328 pagine",
+          "nota_en": "theoretical volume, 328 pages",
           "copertina": "/libri/genealogie/copertina.jpg",
           "prima_pagina": 2,
           "lato_prima_pagina": "destra",
@@ -69,6 +85,7 @@
         {
           "titolo": "Störungsbild. Il fotogramma perturbante",
           "nota": "volume annesso sull'elaborato, 96 pagine",
+          "nota_en": "companion volume on the final project, 96 pages",
           "copertina": "/libri/storungsbild/copertina.jpg",
           "prima_pagina": 2,
           "lato_prima_pagina": "destra",
@@ -91,6 +108,13 @@
         }
       ],
       "testo": "Un'installazione audiovisiva pensata come un altare: tre pannelli, tre finestre su un purgatorio digitale, dove scheletri in wireframe e un mandala centrale ballano una danza macabra guidata dal suono.\n\nAl centro c'è un paradosso: la speranza di conservare i propri dati per sempre, contro il decadimento inevitabile della carne digitale. Teschi e scheletri riducono l'identità alla sua struttura; loop di feedback, distorsioni ed effetti VHS la lasciano corrompere.\n\nNon è un video montato ma un sistema generativo che reagisce al brano in tempo reale. In TouchDesigner l'audio viene scomposto in cassa, bassi e frequenze alte: i colpi di cassa deformano gli scheletri laterali, le frequenze medie e alte il mandala al centro. Le figure in wireframe sono un omaggio all'estetica della label Union Trance Mission.",
+      "en": {
+        "titolo": "The Cybernetic Altar",
+        "testo": "An audiovisual installation conceived as an altar: three panels, three windows onto a digital purgatory, where wireframe skeletons and a central mandala dance a danse macabre driven by sound.\n\nAt its centre lies a paradox: the hope of preserving one's data forever, against the inevitable decay of digital flesh. Skulls and skeletons reduce identity to its structure; feedback loops, distortions and VHS effects let it decay.\n\nIt is not an edited video but a generative system that reacts to the track in real time. In TouchDesigner the audio is split into kick, bass and high frequencies: the kick hits deform the side skeletons, the mid and high frequencies the mandala at the centre. The wireframe figures are a tribute to the aesthetics of the Union Trance Mission label.",
+        "tecnica": "TouchDesigner, mapping on three panels",
+        "luogo": "Integrated New Media Techniques 2 course, Accademia Albertina",
+        "crediti": "Music: “Unstable Mind”, Red Scan"
+      },
       "immagini": [
         "/immagini/laltare-cibernetico/2.jpg",
         "/immagini/laltare-cibernetico/1.jpg",
@@ -116,6 +140,12 @@
         }
       ],
       "testo": "Un corpo che cerca di muoversi in modo fluido e resta intrappolato nella tecnologia: scatti, ripetizioni involontarie, pixel che si sfaldano. Il tema è il disallineamento fra il corpo fisico e la sua immagine digitale, quello che vediamo ogni giorno nelle videochiamate: ritardi, buffer, glitch.\n\nIl montaggio non l'ho fatto a mano. Uno script in Python analizza il brano, trova i colpi e le frequenze e li usa come mappa: ogni taglio dura esattamente lo spazio fra un colpo e l'altro. I bassi scatenano il jitter e la distruzione geometrica, gli alti accendono i wireframe al neon.\n\nMediaPipe traccia volto, mani e posa: dove c'è una figura umana la distorsione si moltiplica. La camera è fissa, come una webcam o una telecamera di sorveglianza, e la probabilità degli effetti sale dal 90 al 99% nel corso del brano, fino alla distruzione. Riferimenti: Alva Noto e Raster-Noton per l'immagine, Merce Cunningham per la coreografia.",
+      "en": {
+        "testo": "A body trying to move fluidly stays trapped in technology: jerks, involuntary repetitions, pixels flaking away. The theme is the misalignment between the physical body and its digital image, the one we see every day in video calls: lags, buffering, glitches.\n\nI didn't edit it by hand. A Python script analyses the track, finds the beats and the frequencies and uses them as a map: each cut lasts exactly the gap between one beat and the next. The bass sets off the jitter and the geometric destruction, the highs light up the neon wireframes.\n\nMediaPipe tracks face, hands and pose: wherever there is a human figure, the distortion multiplies. The camera is fixed, like a webcam or a surveillance camera, and the probability of the effects rises from 90 to 99% over the course of the track, until destruction. References: Alva Noto and Raster-Noton for the image, Merce Cunningham for the choreography.",
+        "tecnica": "Python, MediaPipe",
+        "luogo": "Digital Choreography course, Accademia Albertina",
+        "crediti": "Music: “Afx237 v7”, Aphex Twin"
+      },
       "immagini": [
         "/immagini/latency/1.jpg",
         "/immagini/latency/2.jpg",
@@ -138,22 +168,29 @@
         {
           "file": "/video/noia.mp4",
           "titolo": "Noia · Скука · First experiment",
+          "titolo_en": "Boredom · Скука · First experiment",
           "anteprima": "/immagini/noia-paura-pelle/noia.jpg"
         },
         {
           "file": "/video/paura.mp4",
           "titolo": "Paura · Жуткий · One Hour Landscape",
+          "titolo_en": "Fear · Жуткий · One Hour Landscape",
           "anteprima": "/immagini/noia-paura-pelle/paura.jpg",
           "formato": "3:4"
         },
         {
           "file": "/video/pelle.mp4",
           "titolo": "Pelle · Кожа · SKIN FILM",
+          "titolo_en": "Skin · Кожа · SKIN FILM",
           "anteprima": "/immagini/noia-paura-pelle/pelle.jpg",
           "formato": "3:4"
         }
       ],
-      "testo": "Tre video brevi, ognuno costruito su una parola russa: Скука (noia), Жуткий (inquietante), Кожа (pelle).\n\n«Noia» è un televisore a tubo catodico acceso sul rumore bianco. «Paura» è una sagoma nera ferma davanti a un parco. «Pelle» riprende la pelle così da vicino che si perde la scala."
+      "testo": "Tre video brevi, ognuno costruito su una parola russa: Скука (noia), Жуткий (inquietante), Кожа (pelle).\n\n«Noia» è un televisore a tubo catodico acceso sul rumore bianco. «Paura» è una sagoma nera ferma davanti a un parco. «Pelle» riprende la pelle così da vicino che si perde la scala.",
+      "en": {
+        "titolo": "Boredom, Fear, Skin",
+        "testo": "Three short videos, each built on a Russian word: Скука (boredom), Жуткий (eerie), Кожа (skin).\n\n“Boredom” is a cathode-ray TV switched on to white noise. “Fear” is a black silhouette standing still in front of a park. “Skin” films skin so close up that all sense of scale is lost."
+      }
     },
     {
       "titolo": "Manifesti per l'Accademia Albertina",
@@ -162,6 +199,12 @@
       "copertina": "/immagini/manifesti-albertina/copertina-serie.jpg",
       "fuoco": "in alto",
       "testo": "Da novembre 2025 curo la grafica degli eventi della Scuola di Nuove Tecnologie dell'Arte dell'Accademia Albertina: manifesti, programmi, cataloghi e versioni per i social.\n\nQui una scelta: «Who Are We Speaking To?», la mostra a Hydra con la Scuola di Belle Arti di Atene (giugno 2026); l'artist talk con Song Dong (21 ottobre 2026) e la lecture di Danilo Eccher (2 novembre 2026); Nick Brandt in dialogo con Arianna Rinaldo (19 marzo 2026); il programma in due giornate del convegno internazionale WP3-INAR «Fostering Digital and Ecological Transitions through Arts» (17–18 novembre 2025); la proiezione del documentario «Il codice del bosco» (12 novembre 2025); «I Remember. Digitali immortali» al Museo Nazionale del Cinema (10–15 dicembre 2025).\n\nIn quasi tutti c'era una fila di loghi istituzionali da far stare insieme a un titolo che si legga da lontano. È la parte del lavoro che non si nota, quando è fatta bene.",
+      "en": {
+        "titolo": "Posters for the Accademia Albertina",
+        "testo": "Since November 2025 I have been designing the graphics for the events of the School of New Technologies of Art at the Accademia Albertina: posters, programmes, catalogues and social media versions.\n\nA selection: “Who Are We Speaking To?”, the exhibition in Hydra with the Athens School of Fine Arts (June 2026); the artist talk with Song Dong (21 October 2026) and the lecture by Danilo Eccher (2 November 2026); Nick Brandt in conversation with Arianna Rinaldo (19 March 2026); the two-day programme of the international conference WP3-INAR “Fostering Digital and Ecological Transitions through Arts” (17–18 November 2025); the screening of the documentary “Il codice del bosco” (12 November 2025); “I Remember. Digitali immortali” at the Museo Nazionale del Cinema (10–15 December 2025).\n\nAlmost all of them had a row of institutional logos to fit together with a title that can be read from a distance. It's the part of the job nobody notices, when it's done well.",
+        "tecnica": "Photoshop, InDesign",
+        "luogo": "School of New Technologies of Art, Accademia Albertina di Belle Arti, Turin"
+      },
       "immagini": [
         "/immagini/manifesti-albertina/1.jpg",
         "/immagini/manifesti-albertina/song-dong.jpg",
@@ -181,6 +224,13 @@
       "categoria": "graphics",
       "copertina": "/immagini/infrangere-il-cemento/3.webp",
       "testo": "Una graphic novel nata da un haiku: «Gaia scienza / cemento avanza / resilienza». Il tema è lo scontro fra l'artificio tecnologico e la forza vitale della natura.\n\nIn una città di cemento dove gli esseri umani sembrano scomparsi, il robot X-7 fa le pulizie: stermina ogni pianta e ogni insetto che rompe l'ordine. Ma le piante entrano nelle crepe, poi nei suoi circuiti. Il guasto gli cambia lo sguardo: da sterminatore diventa guardiano, e alla fine pianta un seme.\n\nUna tavola è pubblicata a pagina 93 di «R-esistenze. Culture etiche ed artistiche differenti», Antologia 2025/2026 (Albertina Press / Gli Ori), insieme a contributi, fra gli altri, di Marina Abramović e Tony Cragg.",
+      "en": {
+        "titolo": "Breaking the Concrete",
+        "testo": "A graphic novel born from a haiku: “Gaia scienza / cemento avanza / resilienza” (Gaia science / concrete advances / resilience). The theme is the clash between technological artifice and the vital force of nature.\n\nIn a concrete city where human beings seem to have vanished, the robot X-7 does the cleaning: it exterminates every plant and every insect that disturbs the order. But the plants get into the cracks, then into its circuits. The fault changes the way it sees: from exterminator it becomes guardian, and in the end it plants a seed.\n\nOne plate is published on page 93 of “R-esistenze. Culture etiche ed artistiche differenti”, Anthology 2025/2026 (Albertina Press / Gli Ori), alongside contributions by, among others, Marina Abramović and Tony Cragg.",
+        "tecnica": "Story, script, storyboard and plates",
+        "luogo": "“R-esistenze”, Anthology 2025/2026, p. 93",
+        "crediti": "Created for the Multimedia Dramaturgy exam, Prof. Andrea Balzola"
+      },
       "immagini": [
         "/immagini/infrangere-il-cemento/1.jpg",
         "/immagini/infrangere-il-cemento/2.jpg",
@@ -206,11 +256,13 @@
       ],
       "scarica": {
         "file": "/scarica/infrangere-il-cemento-graphic-novel.pdf",
-        "testo": "scarica la graphic novel (pdf, 10 MB)"
+        "testo": "scarica la graphic novel (pdf, 10 MB)",
+        "testo_en": "download the graphic novel (pdf, 10 MB)"
       },
       "libri": [
         {
           "titolo": "«R-esistenze» · Save the World – Connecting Cultures · Antologia 2025/2026",
+          "titolo_en": "“R-esistenze” · Save the World – Connecting Cultures · Anthology 2025/2026",
           "nota": "Albertina Press / Gli Ori",
           "copertina": "/immagini/infrangere-il-cemento/libro-copertina.jpg",
           "pagine": [
@@ -236,6 +288,12 @@
         }
       ],
       "testo": "Un video mapping su sei pannelli verticali disposti a semicerchio. Su ogni schermo, primi piani di corpi filtrati con colori saturi e contrasti estremi, in un vedo-non-vedo che viene dai poster. Labbra rosse sincronizzate con il brano scandiscono le parole della canzone.\n\nÈ una celebrazione sensuale e provocatoria, e insieme una presa di posizione contro i limiti che la società mette alla libertà sessuale: il corpo come spazio di espressione e di piacere, non come terreno per moralismi e giudizi.\n\nL'estetica viene dalla glitch art e dalle registrazioni su nastro VHS: distorsioni e artefatti che sottolineano discontinuità e frammentazione.",
+      "en": {
+        "testo": "A video mapping on six vertical panels arranged in a semicircle. On each screen, close-ups of bodies filtered through saturated colours and extreme contrasts, in a now-you-see-it, now-you-don't play borrowed from posters. Red lips synchronised with the track beat out the words of the song.\n\nIt is a sensual and provocative celebration, and at the same time a stand against the limits society places on sexual freedom: the body as a space of expression and pleasure, not as a ground for moralism and judgement.\n\nThe aesthetics come from glitch art and VHS tape recordings: distortions and artefacts that underline discontinuity and fragmentation.",
+        "tecnica": "Video mapping on six vertical panels",
+        "luogo": "Integrated New Media Techniques course, Accademia Albertina",
+        "crediti": "Music: “Slut Commandments”, Miss Bashful"
+      },
       "immagini": [
         "/immagini/slut-commandments/1.jpg",
         "/immagini/slut-commandments/2.jpg",
@@ -262,6 +320,9 @@
         }
       ],
       "testo": "Una bocca ricomposta con centinaia di altre bocche. Come in un'immagine ASCII, dove i caratteri compongono un disegno, qui ogni tessera è una fotografia, e solo da lontano le tessere tornano a essere una bocca.",
+      "en": {
+        "testo": "A mouth recomposed from hundreds of other mouths. As in an ASCII image, where characters make up a drawing, here every tile is a photograph, and only from a distance do the tiles become a mouth again."
+      },
       "immagini": [
         "/immagini/ascii/1.jpg"
       ]
@@ -279,6 +340,11 @@
         }
       ],
       "testo": "Una ricontestualizzazione: le immagini di «Olympia», il film di Leni Riefenstahl sui Giochi di Berlino del 1936, rimontate sul brano «На дне» dei Molchat Doma.\n\nInsieme al video, un manifesto costruito con i caratteri del Bauhaus.",
+      "en": {
+        "testo": "A recontextualisation: the images of “Olympia”, Leni Riefenstahl's film on the 1936 Berlin Games, re-edited to the track “На дне” by Molchat Doma.\n\nAlongside the video, a poster built with Bauhaus typefaces.",
+        "tecnica": "Video editing, poster",
+        "crediti": "Music: “На дне”, Molchat Doma. Archive footage from Leni Riefenstahl's “Olympia” (1938)"
+      },
       "immagini": [
         "/immagini/olympia/1.jpg",
         "/immagini/olympia/2.jpg",
@@ -295,6 +361,12 @@
       "categoria": "stills",
       "copertina": "/immagini/fotomontaggi/copertina.jpg",
       "testo": "I lavori pratici della mia tesi di laurea triennale: esplorazioni visive sul Bauhaus, che traducono la fotografia degli anni '20 e la filosofia del suo manifesto in composizioni digitali.\n\nFotografie in bianco e nero rielaborate in digitale: corpi e volti specchiati fino a diventare altre creature, negativi, fumo, una testa di capra al posto di un volto.\n\nNessuna intelligenza artificiale: è tutto lavoro fatto a mano.",
+      "en": {
+        "titolo": "László Moholy-Nagy: Giving Form to Light",
+        "testo": "The practical works of my bachelor's thesis: visual explorations of the Bauhaus that translate the photography of the 1920s and the philosophy of its manifesto into digital compositions.\n\nBlack-and-white photographs reworked digitally: bodies and faces mirrored until they become other creatures, negatives, smoke, a goat's head in place of a face.\n\nNo artificial intelligence: it's all handmade.",
+        "tecnica": "Photography, Photoshop",
+        "crediti": "Bachelor's thesis in New Technologies of Art, Accademia di Belle Arti di Bari"
+      },
       "immagini": [
         "/immagini/fotomontaggi/1.jpg",
         "/immagini/fotomontaggi/2.jpg",
@@ -312,6 +384,12 @@
       "copertina": "/immagini/legami/3.jpg",
       "fuoco": "un po' in basso",
       "testo": "Legàmi nasce nel 2023 come una serie di scatti in bianco e nero: due figure maschili e una relazione che si intuisce soltanto. Il tema è l'oppressione dentro un legame, l'amore tossico.\n\nNel 2026 sono tornato su quelle fotografie e le ho trasformate in sei collage digitali a colori, in cui i volti dei due si sovrappongono, si sdoppiano e si confondono.\n\nI riferimenti restano le copertine del post-punk fra anni '70 e '80 (Joy Division, The Smiths, The Cure) e il trucco degli anni '20: ombretti scuri, incarnato pallido, guance arrossate, per esaltare la luce e l'ombra sui volti.",
+      "en": {
+        "testo": "Legàmi (Bonds) began in 2023 as a series of black-and-white shots: two male figures and a relationship that can only be guessed at. The theme is oppression within a bond, toxic love.\n\nIn 2026 I went back to those photographs and turned them into six digital colour collages, in which the faces of the two overlap, split and merge into each other.\n\nThe references are still the post-punk record covers of the late '70s and the '80s (Joy Division, The Smiths, The Cure) and 1920s make-up: dark eyeshadow, pale complexions, flushed cheeks, to bring out the light and shadow on the faces.",
+        "tecnica": "Black-and-white photography, digital collage",
+        "luogo": "Photography 3 exam, Accademia di Belle Arti di Bari",
+        "crediti": "Tutor: Prof. Umberto Agnello"
+      },
       "immagini": [
         "/immagini/legami/panorama.jpg",
         "/immagini/legami/1.jpg",
@@ -331,6 +409,11 @@
       "categoria": "stills",
       "copertina": "/immagini/ritratti/copertina.jpg",
       "testo": "Una serie di ritratti in bianco e nero, fra la luce dello studio e quella naturale.",
+      "en": {
+        "titolo": "Portraits",
+        "testo": "A series of black-and-white portraits, between studio light and natural light.",
+        "tecnica": "Black-and-white photography"
+      },
       "immagini": [
         "/immagini/ritratti/1.jpg",
         "/immagini/ritratti/2.jpg",
@@ -354,6 +437,11 @@
         }
       ],
       "testo": "Un ambiente costruito e animato in Unreal Engine per lo student reel dell'Accademia di Belle Arti di Bari: una grotta in luce rossa, piante, un altare con un teschio di montone.",
+      "en": {
+        "testo": "An environment built and animated in Unreal Engine for the student reel of the Accademia di Belle Arti di Bari: a cave in red light, plants, an altar with a ram's skull.",
+        "tecnica": "Unreal Engine",
+        "luogo": "Accademia di Belle Arti di Bari"
+      },
       "immagini": [
         "/immagini/student-reel/1.jpg",
         "/immagini/student-reel/2.jpg",
@@ -371,6 +459,11 @@
       "categoria": "graphics",
       "copertina": "/immagini/we-matter/copertina.jpg",
       "testo": "Il marchio di «We Matter» (noi valiamo), per una content creator che in diretta parla di attualità e di inclusione sociale: diritti della comunità LGBTQ+, delle donne e delle categorie discriminate.\n\nFra le proposte, la cliente ha scelto questa: un'iniziale in 3D la cui ombra forma l'altra iniziale. Su sua richiesta il marchio non ha colore: ne ho fatto due versioni in bianco e nero, positiva e negativa, che funzionano su qualsiasi fondo.",
+      "en": {
+        "testo": "The logo for “We Matter”, for a content creator who talks live about current affairs and social inclusion: the rights of the LGBTQ+ community, of women and of discriminated groups.\n\nOf the proposals, the client chose this one: a 3D initial whose shadow forms the other initial. At her request the logo has no colour: I made two black-and-white versions, positive and negative, that work on any background.",
+        "tecnica": "Illustrator",
+        "crediti": "Commissioned visual identity"
+      },
       "immagini": [
         "/immagini/we-matter/1.jpg",
         "/immagini/we-matter/2.jpg"

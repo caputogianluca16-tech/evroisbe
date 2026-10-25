@@ -128,6 +128,10 @@ singletons:
                 widget: string
                 required: false
                 hint: Facoltativo, compare sotto il video.
+              - name: titolo_en
+                label: 🇬🇧 Titolo del video in inglese
+                widget: string
+                required: false
               - name: anteprima
                 label: Immagine prima del play
                 widget: image
@@ -144,6 +148,34 @@ singletons:
             widget: text
             required: false
             hint: Lascia una riga vuota fra un paragrafo e l'altro. Il primo paragrafo esce un po' più grande.
+          - name: en
+            label: 🇬🇧 In inglese
+            widget: object
+            required: false
+            collapsed: true
+            hint: "I testi della versione inglese del sito. Quello che lasci vuoto, in inglese compare come in italiano."
+            fields:
+              - name: titolo
+                label: Titolo in inglese
+                widget: string
+                required: false
+                hint: Lascialo vuoto se il titolo resta uguale anche in inglese.
+              - name: testo
+                label: Testo in inglese
+                widget: text
+                required: false
+              - name: tecnica
+                label: Tecnica in inglese
+                widget: string
+                required: false
+              - name: luogo
+                label: Luogo in inglese
+                widget: string
+                required: false
+              - name: crediti
+                label: Crediti in inglese
+                widget: string
+                required: false
           - name: immagini
             label: 📷 Immagini
             widget: image
@@ -175,6 +207,11 @@ singletons:
                 widget: string
                 required: false
                 hint: Per esempio «scarica la graphic novel (pdf, 10 MB)».
+              - name: testo_en
+                label: 🇬🇧 Testo del pulsante in inglese
+                widget: string
+                required: false
+                hint: Per esempio «download the graphic novel (pdf, 10 MB)».
           - name: libri
             label: 📖 Libri da sfogliare
             label_singular: libro
@@ -188,8 +225,17 @@ singletons:
                 label: Titolo del libro
                 widget: string
                 required: false
+              - name: titolo_en
+                label: 🇬🇧 Titolo del libro in inglese
+                widget: string
+                required: false
+                hint: Lascialo vuoto se resta uguale.
               - name: nota
                 label: Nota (editore, anno, numero di pagine…)
+                widget: string
+                required: false
+              - name: nota_en
+                label: 🇬🇧 Nota in inglese
                 widget: string
                 required: false
               - name: copertina
@@ -263,6 +309,10 @@ singletons:
           - name: sezione
             label: Titolo della sezione
             widget: string
+          - name: sezione_en
+            label: 🇬🇧 Titolo della sezione in inglese
+            widget: string
+            required: false
           - name: voci
             label: 📌 Voci
             label_singular: voce
@@ -278,6 +328,11 @@ singletons:
                 label: 📝 Testo
                 widget: text
                 hint: La prima riga esce in evidenza. Per le righe successive vai a capo.
+              - name: testo_en
+                label: 🇬🇧 Testo in inglese
+                widget: text
+                required: false
+                hint: "Stesse righe, in inglese. Negli anni, «oggi» in inglese diventa da solo «present»."
 
   - name: profilo
     label: Profilo e contatti
@@ -311,6 +366,34 @@ singletons:
         widget: text
         required: false
         hint: Lascia una riga vuota fra un paragrafo e l'altro.
+      - name: en
+        label: 🇬🇧 In inglese
+        widget: object
+        required: false
+        collapsed: true
+        hint: "I testi della versione inglese del sito. Quello che lasci vuoto, in inglese compare come in italiano."
+        fields:
+          - name: ruolo
+            label: Ruolo in inglese
+            widget: string
+            required: false
+          - name: citazione
+            label: Frase in evidenza in inglese
+            widget: string
+            required: false
+          - name: about
+            label: About in inglese
+            widget: text
+            required: false
+          - name: cv
+            label: Curriculum in PDF in inglese
+            widget: file
+            required: false
+            choose_url: false
+            accept: application/pdf,.pdf
+            media_folder: /cv
+            public_folder: /cv
+            hint: È il PDF del pulsante «download cv» nella versione inglese.
       - name: email
         label: ✉️ Email
         widget: string

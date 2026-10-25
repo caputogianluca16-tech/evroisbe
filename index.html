@@ -15,8 +15,13 @@
 <meta name="theme-color" content="#0B0B0A" media="(prefers-color-scheme: dark)">
 <meta name="color-scheme" content="light dark">
 <script>
-  /* modalità chiara o scura scelta da chi guarda: si applica prima di disegnare la pagina */
-  try { var t = localStorage.getItem("evroisbe-tema"); if (t === "scuro" || t === "chiaro") document.documentElement.setAttribute("data-tema", t); } catch (e) {}
+  /* prima di disegnare la pagina: la modalità chiara o scura scelta da chi guarda e,
+     se il sito si apre senza l'indirizzo di una sezione, la pagina d'ingresso */
+  (function () {
+    var d = document.documentElement;
+    try { var t = localStorage.getItem("evroisbe-tema"); if (t === "scuro" || t === "chiaro") d.setAttribute("data-tema", t); } catch (e) {}
+    if (!location.hash || location.hash === "#") d.classList.add("inizio");
+  })();
 </script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fonts.css">
@@ -46,41 +51,66 @@
   </defs>
 </svg>
 
-<a class="salta" href="#portfolio">vai ai lavori</a>
+<a class="salta" href="#portfolio" data-t="salta">vai ai lavori</a>
 
-<p class="bozza" id="bozza" hidden>Contenuti di esempio</p>
+<p class="bozza" id="bozza" hidden data-t="bozza">Contenuti di esempio</p>
 
+<!-- sul telefono e sul tablet: in alto il logo, nome e ruolo, lingua e modalità, le sezioni -->
 <header class="testata pagina">
   <div class="testata__marchio">
     <h1 class="testata__titolo"><a class="testata__firma" href="#"><svg class="logo logo--testata" viewBox="0 0 1200 200.36" role="img" aria-label="EVROISBE"><g class="logo__ombre" mask="url(#evro-taglio-piccolo)"><use href="#evro-l1" class="logo__ombra"/><use href="#evro-l2" class="logo__ombra"/><use href="#evro-l3" class="logo__ombra"/><use href="#evro-l4" class="logo__ombra"/><use href="#evro-l5" class="logo__ombra"/><use href="#evro-l6" class="logo__ombra"/><use href="#evro-l7" class="logo__ombra"/><use href="#evro-l8" class="logo__ombra"/></g><g class="logo__lettere"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g></svg></a></h1>
     <p class="testata__sotto"><span class="testata__nome" data-nome>Gianluca Caputo</span> <span class="testata__ruolo" data-ruolo>Digital &amp; Media Artist</span></p>
   </div>
-  <button class="tema" type="button" data-tema-bottone aria-label="Passa alla modalità scura"><span class="tema__icona" aria-hidden="true"></span><span class="tema__testo">scuro</span></button>
-  <nav class="testata__nav" aria-label="Sezioni">
-    <a href="#portfolio">portfolio</a>
-    <a href="#about">about</a>
-    <a href="#curriculum">curriculum</a>
-    <a href="#contatti">contatti</a>
+  <div class="comandi"><button class="lingua" type="button" data-lingua-bottone aria-label="Read in English"><span class="lingua__voce" data-l="it" lang="it">it</span><span class="lingua__sep" aria-hidden="true">/</span><span class="lingua__voce" data-l="en" lang="en">en</span></button><button class="tema" type="button" data-tema-bottone aria-label="Passa alla modalità scura"><span class="tema__icona" aria-hidden="true"></span><span class="tema__testo">scuro</span></button></div>
+  <nav class="testata__nav" aria-label="Sezioni" data-t-aria="sezioni">
+    <a href="#portfolio" data-t="portfolio">portfolio</a>
+    <a href="#about" data-t="about">about</a>
+    <a href="#curriculum" data-t="curriculum">curriculum</a>
+    <a href="#contatti" data-t="contatti">contatti</a>
   </nav>
 </header>
 
-<!-- sul computer: colonna fissa a sinistra con firma, indice e contatti -->
-<aside class="lato" aria-label="Indice del sito">
-  <h1 class="lato__titolo"><a class="lato__firma" href="#"><svg class="logo logo--piccolo" viewBox="0 0 1200 200.36" role="img" aria-label="EVROISBE"><g class="logo__ombre" mask="url(#evro-taglio-piccolo)"><use href="#evro-l1" class="logo__ombra"/><use href="#evro-l2" class="logo__ombra"/><use href="#evro-l3" class="logo__ombra"/><use href="#evro-l4" class="logo__ombra"/><use href="#evro-l5" class="logo__ombra"/><use href="#evro-l6" class="logo__ombra"/><use href="#evro-l7" class="logo__ombra"/><use href="#evro-l8" class="logo__ombra"/></g><g class="logo__lettere"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g></svg></a></h1>
-  <div class="lato__barra" aria-hidden="true"></div>
-  <p class="lato__nome" data-nome>Gianluca Caputo</p>
-  <p class="lato__ruolo" data-ruolo>Digital &amp; Media Artist</p>
-  <nav class="lato__nav" aria-label="Sezioni">
-    <a href="#portfolio" data-sezione="portfolio">portfolio</a>
-    <div class="filtri filtri--lato" id="filtri-lato" role="group" aria-label="Filtra i lavori per categoria"></div>
-    <a href="#about" data-sezione="about">about</a>
-    <a href="#curriculum" data-sezione="curriculum">curriculum</a>
-    <a href="#contatti" data-sezione="contatti">contatti</a>
-  </nav>
-  <div class="lato__piede">
-    <a class="lato__email" id="lato-email" href="mailto:biz.caputo@gmail.com">biz.caputo@gmail.com</a>
-    <ul class="lato__social" id="lato-social"></ul>
-    <button class="tema" type="button" data-tema-bottone aria-label="Passa alla modalità scura"><span class="tema__icona" aria-hidden="true"></span><span class="tema__testo">scuro</span></button>
+<!-- la pagina d'ingresso e, sul computer, la colonna fissa a sinistra: sono la stessa cosa.
+     All'ingresso sta al centro dello schermo; quando si sceglie una voce si sposta a sinistra. -->
+<aside class="lato" aria-label="Indice del sito" data-t-aria="indice">
+  <div class="lato__dentro">
+    <h1 class="lato__titolo"><a class="lato__firma" href="#"><svg class="logo logo--piccolo" viewBox="0 0 1200 200.36" role="img" aria-label="EVROISBE"><g class="logo__ombre" mask="url(#evro-taglio-piccolo)"><use href="#evro-l1" class="logo__ombra"/><use href="#evro-l2" class="logo__ombra"/><use href="#evro-l3" class="logo__ombra"/><use href="#evro-l4" class="logo__ombra"/><use href="#evro-l5" class="logo__ombra"/><use href="#evro-l6" class="logo__ombra"/><use href="#evro-l7" class="logo__ombra"/><use href="#evro-l8" class="logo__ombra"/></g><g class="logo__lettere"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g></svg></a></h1>
+    <div class="lato__barra" aria-hidden="true"></div>
+    <p class="lato__nome" data-nome>Gianluca Caputo</p>
+    <p class="lato__ruolo" data-ruolo>Digital &amp; Media Artist</p>
+    <nav class="lato__nav" aria-label="Sezioni" data-t-aria="sezioni">
+      <div class="voce" data-voce="portfolio">
+        <div class="voce__riga">
+          <a href="#portfolio" data-sezione="portfolio" data-t="portfolio">portfolio</a>
+          <button class="voce__apri" type="button" aria-expanded="false" aria-controls="sotto-portfolio" aria-label="Mostra le categorie" data-t-aria="apriPortfolio"><span aria-hidden="true"></span></button>
+        </div>
+        <div class="voce__sotto" id="sotto-portfolio">
+          <div class="voce__elenco">
+            <div class="filtri filtri--lato" id="filtri-lato" role="group" aria-label="Filtra i lavori per categoria" data-t-aria="filtra"></div>
+          </div>
+        </div>
+      </div>
+      <div class="voce" data-voce="about">
+        <div class="voce__riga"><a href="#about" data-sezione="about" data-t="about">about</a></div>
+      </div>
+      <div class="voce" data-voce="curriculum">
+        <div class="voce__riga">
+          <a href="#curriculum" data-sezione="curriculum" data-t="curriculum">curriculum</a>
+          <button class="voce__apri" type="button" aria-expanded="false" aria-controls="sotto-curriculum" aria-label="Mostra le sezioni del curriculum" data-t-aria="apriCurriculum"><span aria-hidden="true"></span></button>
+        </div>
+        <div class="voce__sotto" id="sotto-curriculum">
+          <div class="voce__elenco"><ul class="sotto" id="indice-cv"></ul></div>
+        </div>
+      </div>
+      <div class="voce" data-voce="contatti">
+        <div class="voce__riga"><a href="#contatti" data-sezione="contatti" data-t="contatti">contatti</a></div>
+      </div>
+    </nav>
+    <div class="lato__piede">
+      <a class="lato__email" id="lato-email" href="mailto:biz.caputo@gmail.com">biz.caputo@gmail.com</a>
+      <ul class="lato__social" id="lato-social"></ul>
+      <div class="comandi"><button class="lingua" type="button" data-lingua-bottone aria-label="Read in English"><span class="lingua__voce" data-l="it" lang="it">it</span><span class="lingua__sep" aria-hidden="true">/</span><span class="lingua__voce" data-l="en" lang="en">en</span></button><button class="tema" type="button" data-tema-bottone aria-label="Passa alla modalità scura"><span class="tema__icona" aria-hidden="true"></span><span class="tema__testo">scuro</span></button></div>
+    </div>
   </div>
 </aside>
 
@@ -88,16 +118,16 @@
 
   <section class="sezione pagina" id="portfolio" aria-labelledby="t-portfolio">
     <div class="sezione__testa">
-      <h2 class="sezione__titolo" id="t-portfolio">portfolio</h2>
+      <h2 class="sezione__titolo" id="t-portfolio" data-t="portfolio">portfolio</h2>
       <p class="sezione__nota" id="anni-lavori"></p>
     </div>
-    <div class="filtri" id="filtri" role="group" aria-label="Filtra i lavori per categoria"></div>
+    <div class="filtri" id="filtri" role="group" aria-label="Filtra i lavori per categoria" data-t-aria="filtra"></div>
     <div class="griglia" id="griglia"></div>
   </section>
 
   <section class="sezione pagina" id="about" aria-labelledby="t-about">
     <div class="sezione__testa">
-      <h2 class="sezione__titolo" id="t-about">about</h2>
+      <h2 class="sezione__titolo" id="t-about" data-t="about">about</h2>
     </div>
     <div class="about">
       <p class="about__citazione" id="citazione"></p>
@@ -113,32 +143,32 @@
 <div class="fondo">
   <section class="sezione pagina" id="curriculum" aria-labelledby="t-curriculum">
     <div class="sezione__testa">
-      <h2 class="sezione__titolo" id="t-curriculum">curriculum</h2>
-      <a class="bottone" id="link-cv" href="cv/gianluca-caputo-cv.pdf" target="_blank" rel="noopener">scarica il cv (pdf)</a>
+      <h2 class="sezione__titolo" id="t-curriculum" data-t="curriculum">curriculum</h2>
+      <a class="bottone" id="link-cv" href="cv/gianluca-caputo-cv.pdf" target="_blank" rel="noopener" data-t="scaricaCv">scarica il cv (pdf)</a>
     </div>
     <div class="cv" id="cv"></div>
   </section>
 
   <footer class="contatti pagina" id="contatti" aria-labelledby="t-contatti">
-    <h2 class="contatti__titolo" id="t-contatti">contatti</h2>
+    <h2 class="contatti__titolo" id="t-contatti" data-t="contatti">contatti</h2>
     <div class="contatti__email">
       <a class="contatti__indirizzo" id="email" href="mailto:biz.caputo@gmail.com">biz.caputo@gmail.com</a>
-      <button class="contatti__copia" id="copia-email" type="button">copia</button>
+      <button class="contatti__copia" id="copia-email" type="button" data-t="copia">copia</button>
     </div>
     <ul class="contatti__social" id="social"></ul>
-    <p class="contatti__piede"><span id="copyright"></span> <a href="#">torna su</a></p>
+    <p class="contatti__piede"><span id="copyright"></span> <a href="#portfolio" id="torna-su" data-t="tornaSu">torna su</a></p>
   </footer>
 </div>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Immagini del lavoro" hidden>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Immagini del lavoro" data-t-aria="immaginiLavoro" hidden>
   <img class="lightbox__img" id="lightbox-img" alt="">
   <p class="lightbox__conta" id="lightbox-conta"></p>
-  <button class="lightbox__chiudi" id="lightbox-chiudi" type="button">chiudi</button>
-  <button class="lightbox__freccia lightbox__freccia--prec" id="lightbox-prec" type="button" aria-label="Immagine precedente"><span aria-hidden="true">&#8249;</span></button>
-  <button class="lightbox__freccia lightbox__freccia--succ" id="lightbox-succ" type="button" aria-label="Immagine successiva"><span aria-hidden="true">&#8250;</span></button>
+  <button class="lightbox__chiudi" id="lightbox-chiudi" type="button" data-t="chiudi">chiudi</button>
+  <button class="lightbox__freccia lightbox__freccia--prec" id="lightbox-prec" type="button" aria-label="Immagine precedente" data-t-aria="immPrec"><span aria-hidden="true">&#8249;</span></button>
+  <button class="lightbox__freccia lightbox__freccia--succ" id="lightbox-succ" type="button" aria-label="Immagine successiva" data-t-aria="immSucc"><span aria-hidden="true">&#8250;</span></button>
 </div>
 
-<noscript><p class="errore pagina">Per vedere il sito attiva JavaScript nel browser.</p></noscript>
+<noscript><p class="errore pagina">Per vedere il sito attiva JavaScript nel browser. · To view this site, please enable JavaScript.</p></noscript>
 
 <script src="assets/app.js"></script>
 </body>

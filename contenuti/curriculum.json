@@ -2,103 +2,127 @@
   "curriculum": [
     {
       "sezione": "Esperienze lavorative",
+      "sezione_en": "Work experience",
       "voci": [
         {
           "anni": "2026 – oggi",
-          "testo": "Collaboratore della cattedra di Drammaturgia multimediale (prof. Andrea Balzola)\nAccademia Albertina di Belle Arti, Torino\nCoordinamento redazionale della rivista «R-esistenze» (Albertina Press / Gli Ori): redazione, impaginazione e revisione dei testi, coordinamento degli studenti collaboratori. Digitalizzazione e sottotitolazione in italiano di circa 30 film per il corso. Cultore della materia in Drammaturgia multimediale."
+          "testo": "Collaboratore della cattedra di Drammaturgia multimediale (prof. Andrea Balzola)\nAccademia Albertina di Belle Arti, Torino\nCoordinamento redazionale della rivista «R-esistenze» (Albertina Press / Gli Ori): redazione, impaginazione e revisione dei testi, coordinamento degli studenti collaboratori. Digitalizzazione e sottotitolazione in italiano di circa 30 film per il corso. Cultore della materia in Drammaturgia multimediale.",
+          "testo_en": "Collaborator, Chair of Multimedia Dramaturgy (Prof. Andrea Balzola)\nAccademia Albertina di Belle Arti, Turin\nEditorial coordination of the anthology “R-esistenze” (Albertina Press / Gli Ori): editing, layout and proofreading of the texts, coordination of student contributors. Digitisation and Italian subtitling of about 30 films for the course. Cultore della materia (honorary teaching role) in Multimedia Dramaturgy."
         },
         {
           "anni": "2025 – oggi",
-          "testo": "Graphic designer\nAccademia Albertina di Belle Arti, Scuola di Nuove Tecnologie dell'Arte, Torino\nProgettazione grafica dei materiali di comunicazione di convegni, rassegne e mostre: manifesti, locandine, dépliant, programmi, cataloghi e versioni per i social. Fra i lavori: il convegno internazionale WP3-INAR, il documentario in VR «I Remember. Digitali immortali» al Museo Nazionale del Cinema, l'incontro con Nick Brandt con Gallerie d'Italia, catalogo e manifesto della mostra «Who Are We Speaking To?» a Hydra con la Scuola di Belle Arti di Atene."
+          "testo": "Graphic designer\nAccademia Albertina di Belle Arti, Scuola di Nuove Tecnologie dell'Arte, Torino\nProgettazione grafica dei materiali di comunicazione di convegni, rassegne e mostre: manifesti, locandine, dépliant, programmi, cataloghi e versioni per i social. Fra i lavori: il convegno internazionale WP3-INAR, il documentario in VR «I Remember. Digitali immortali» al Museo Nazionale del Cinema, l'incontro con Nick Brandt con Gallerie d'Italia, catalogo e manifesto della mostra «Who Are We Speaking To?» a Hydra con la Scuola di Belle Arti di Atene.",
+          "testo_en": "Graphic designer\nAccademia Albertina di Belle Arti, School of New Technologies of Art, Turin\nGraphic design of communication materials for conferences, series and exhibitions: posters, flyers, leaflets, programmes, catalogues and social media versions. Projects include the international conference WP3-INAR, the VR documentary “I Remember. Digitali immortali” at the Museo Nazionale del Cinema, the talk with Nick Brandt with Gallerie d'Italia, and the catalogue and poster of the exhibition “Who Are We Speaking To?” in Hydra with the Athens School of Fine Arts."
         },
         {
           "anni": "2020 – 2023",
-          "testo": "Graphic designer e illustratore, libera professione\nCommittenti privati e aziende, da remoto\nGrafica e illustrazione dal brief agli esecutivi per stampa e web; fra i lavori, Planetary Go (2021) e l'identità visiva «We Matter» (2022)."
+          "testo": "Graphic designer e illustratore, libera professione\nCommittenti privati e aziende, da remoto\nGrafica e illustrazione dal brief agli esecutivi per stampa e web; fra i lavori, Planetary Go (2021) e l'identità visiva «We Matter» (2022).",
+          "testo_en": "Graphic designer and illustrator, freelance\nPrivate clients and companies, remote\nGraphic design and illustration from brief to final artwork for print and web; projects include Planetary Go (2021) and the “We Matter” visual identity (2022)."
         },
         {
           "anni": "2019 – 2020",
-          "testo": "Graphic designer, tirocinio Erasmus+\nCommuniqué Ltd, La Valletta (Malta)\nConcept visivi per la comunicazione B2B e B2C, identità visive dei clienti su canali digitali e a stampa, esecutivi di stampa e formati social. Lavoro in inglese."
+          "testo": "Graphic designer, tirocinio Erasmus+\nCommuniqué Ltd, La Valletta (Malta)\nConcept visivi per la comunicazione B2B e B2C, identità visive dei clienti su canali digitali e a stampa, esecutivi di stampa e formati social. Lavoro in inglese.",
+          "testo_en": "Graphic designer, Erasmus+ traineeship\nCommuniqué Ltd, Valletta (Malta)\nVisual concepts for B2B and B2C communication, clients' visual identities across digital and print channels, print-ready artwork and social media formats. Working language: English."
         },
         {
           "anni": "2018 – 2019",
-          "testo": "Graphic designer\nAll in One Consulting\nBrochure, manifesti e locandine, rebranding di marchi, contenuti per i social."
+          "testo": "Graphic designer\nAll in One Consulting\nBrochure, manifesti e locandine, rebranding di marchi, contenuti per i social.",
+          "testo_en": "Graphic designer\nAll in One Consulting\nBrochures, posters and flyers, brand redesigns, social media content."
         },
         {
           "anni": "2016 – 2018",
-          "testo": "Visual merchandiser, alternanza scuola-lavoro\nPrisma (BT)\nAllestimento di vetrine e spazi espositivi."
+          "testo": "Visual merchandiser, alternanza scuola-lavoro\nPrisma (BT)\nAllestimento di vetrine e spazi espositivi.",
+          "testo_en": "Visual merchandiser, school–work placement\nPrisma (BT, Italy)\nWindow displays and exhibition spaces."
         }
       ]
     },
     {
       "sezione": "Esperienze formative",
+      "sezione_en": "Training",
       "voci": [
         {
           "anni": "2026",
-          "testo": "Tirocinio in catalogazione e archivio digitale\nPinacoteca dell'Accademia Albertina (CoopCulture), Torino\nArchivio delle opere per il sito web di ARWE, Art Research World Expo: raccolta e catalogazione per artista delle immagini di circa 300 artisti, con il prof. Riccardo Gagliarducci."
+          "testo": "Tirocinio in catalogazione e archivio digitale\nPinacoteca dell'Accademia Albertina (CoopCulture), Torino\nArchivio delle opere per il sito web di ARWE, Art Research World Expo: raccolta e catalogazione per artista delle immagini di circa 300 artisti, con il prof. Riccardo Gagliarducci.",
+          "testo_en": "Internship in cataloguing and digital archiving\nPinacoteca of the Accademia Albertina (CoopCulture), Turin\nArchive of works for the website of ARWE, Art Research World Expo: collecting and cataloguing, by artist, the images of about 300 artists, with Prof. Riccardo Gagliarducci."
         }
       ]
     },
     {
       "sezione": "Formazione",
+      "sezione_en": "Education",
       "voci": [
         {
           "anni": "2024 – 2026",
-          "testo": "Laurea magistrale in Nuove Tecnologie dell'Arte, 110/110 e lode\nAccademia Albertina di Belle Arti, Torino\nIndirizzo Multimedia Exhibit & Digital Performance. Tesi «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale», relatore prof. Andrea Balzola; elaborato finale l'installazione «Störungsbild» (12 ottobre 2026)."
+          "testo": "Laurea magistrale in Nuove Tecnologie dell'Arte, 110/110 e lode\nAccademia Albertina di Belle Arti, Torino\nIndirizzo Multimedia Exhibit & Digital Performance. Tesi «Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale», relatore prof. Andrea Balzola; elaborato finale l'installazione «Störungsbild» (12 ottobre 2026).",
+          "testo_en": "Master's degree in New Technologies of Art, 110/110 cum laude\nAccademia Albertina di Belle Arti, Turin\nMultimedia Exhibit & Digital Performance track. Thesis “Genealogie dell'instabilità. Dal sismografo di Weimar all'estetica dell'errore postmediale” (Genealogies of Instability. From the Weimar Seismograph to the Post-Media Aesthetics of Error), supervisor Prof. Andrea Balzola; final project: the installation “Störungsbild” (12 October 2026)."
         },
         {
           "anni": "2020 – 2023",
-          "testo": "Laurea triennale in Nuove Tecnologie dell'Arte, 110/110\nAccademia di Belle Arti di Bari\nTesi «L. Moholy-Nagy: dare forma alla luce»."
+          "testo": "Laurea triennale in Nuove Tecnologie dell'Arte, 110/110\nAccademia di Belle Arti di Bari\nTesi «L. Moholy-Nagy: dare forma alla luce».",
+          "testo_en": "Bachelor's degree in New Technologies of Art, 110/110\nAccademia di Belle Arti di Bari\nThesis “L. Moholy-Nagy: dare forma alla luce” (L. Moholy-Nagy: Giving Form to Light)."
         },
         {
           "anni": "2014 – 2019",
-          "testo": "Diploma di liceo artistico, indirizzo Grafica\nIISS «Leontine e Giuseppe De Nittis», Barletta"
+          "testo": "Diploma di liceo artistico, indirizzo Grafica\nIISS «Leontine e Giuseppe De Nittis», Barletta",
+          "testo_en": "Art high school diploma, Graphic Design track\nIISS “Leontine e Giuseppe De Nittis”, Barletta"
         }
       ]
     },
     {
       "sezione": "Pubblicazioni",
+      "sezione_en": "Publications",
       "voci": [
         {
           "anni": "2025/26",
-          "testo": "«Infrangere il cemento», graphic novel\nIn «R-esistenze», Antologia 2025/2026, Albertina Press / Gli Ori, p. 93\nSoggetto, sceneggiatura, storyboard e tavole. Il volume raccoglie, fra gli altri, contributi di Marina Abramović e Tony Cragg."
+          "testo": "«Infrangere il cemento», graphic novel\nIn «R-esistenze», Antologia 2025/2026, Albertina Press / Gli Ori, p. 93\nSoggetto, sceneggiatura, storyboard e tavole. Il volume raccoglie, fra gli altri, contributi di Marina Abramović e Tony Cragg.",
+          "testo_en": "“Infrangere il cemento” (Breaking the Concrete), graphic novel\nIn “R-esistenze”, Anthology 2025/2026, Albertina Press / Gli Ori, p. 93\nStory, script, storyboard and plates. The volume includes contributions by, among others, Marina Abramović and Tony Cragg."
         }
       ]
     },
     {
       "sezione": "Lingue",
+      "sezione_en": "Languages",
       "voci": [
         {
           "anni": "",
-          "testo": "Italiano\nLingua madre"
+          "testo": "Italiano\nLingua madre",
+          "testo_en": "Italian\nNative speaker"
         },
         {
           "anni": "",
-          "testo": "Inglese\nLivello C1. Certificato Trinity GESE Grade 6 (B1), corso di livello B2, un anno di lavoro in inglese a Malta."
+          "testo": "Inglese\nLivello C1. Certificato Trinity GESE Grade 6 (B1), corso di livello B2, un anno di lavoro in inglese a Malta.",
+          "testo_en": "English\nC1 level. Trinity GESE Grade 6 certificate (B1), B2-level course, one year working in English in Malta."
         }
       ]
     },
     {
       "sezione": "Competenze",
+      "sezione_en": "Skills",
       "voci": [
         {
           "anni": "",
-          "testo": "Tempo reale\nTouchDesigner, Max/MSP (Max 9), Kinect V2, MediaPipe, OSC"
+          "testo": "Tempo reale\nTouchDesigner, Max/MSP (Max 9), Kinect V2, MediaPipe, OSC",
+          "testo_en": "Real time\nTouchDesigner, Max/MSP (Max 9), Kinect V2, MediaPipe, OSC"
         },
         {
           "anni": "",
-          "testo": "Allestimento\nVideo mapping su più superfici, impianti audio e video per installazioni"
+          "testo": "Allestimento\nVideo mapping su più superfici, impianti audio e video per installazioni",
+          "testo_en": "Installation\nVideo mapping on multiple surfaces, audio and video systems for installations"
         },
         {
           "anni": "",
-          "testo": "Grafica ed editoria\nAdobe Photoshop, InDesign, Illustrator; Procreate"
+          "testo": "Grafica ed editoria\nAdobe Photoshop, InDesign, Illustrator; Procreate",
+          "testo_en": "Graphic design and publishing\nAdobe Photoshop, InDesign, Illustrator; Procreate"
         },
         {
           "anni": "",
-          "testo": "Video\nAdobe Premiere Pro, After Effects; datamoshing, pixel sorting"
+          "testo": "Video\nAdobe Premiere Pro, After Effects; datamoshing, pixel sorting",
+          "testo_en": "Video\nAdobe Premiere Pro, After Effects; datamoshing, pixel sorting"
         },
         {
           "anni": "",
-          "testo": "IA generativa\nUso quotidiano, con flussi che combinano più modelli (fra cui Claude, ChatGPT, Gemini, Runway)"
+          "testo": "IA generativa\nUso quotidiano, con flussi che combinano più modelli (fra cui Claude, ChatGPT, Gemini, Runway)",
+          "testo_en": "Generative AI\nDaily use, with workflows that combine several models (including Claude, ChatGPT, Gemini, Runway)"
         }
       ]
     }
