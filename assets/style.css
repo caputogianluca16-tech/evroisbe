@@ -104,55 +104,55 @@
 /* l'ombra salta fuori da dietro le lettere e poi balla, ogni lettera col suo passo */
 @media (prefers-reduced-motion: no-preference) {
   .logo__ombra { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-  .logo__ombra:nth-child(1) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-1 3.1s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(2) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-2 3.7s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(3) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-3 2.9s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(4) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-4 4.1s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(5) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-5 3.3s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(6) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-6 3.9s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(7) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-7 3.5s ease-in-out 0.9s infinite; }
-  .logo__ombra:nth-child(8) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-8 3s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(1) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-1 2.6s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(2) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-2 3.1s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(3) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-3 2.4s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(4) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-4 3.4s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(5) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-5 2.8s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(6) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-6 3.2s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(7) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-7 2.9s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(8) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-8 2.5s ease-in-out 0.9s infinite; }
 }
 @keyframes ombra-entra { from { transform: none; } }
 @keyframes ombra-1 {
   0%, 100% { transform: translate(-20px, 14px) rotate(-6deg); }
-  33% { transform: translate(-27px, 8px) rotate(-9deg); }
-  66% { transform: translate(-13px, 20px) rotate(-3deg); }
+  33% { transform: translate(-34px, 4px) rotate(-11deg); }
+  66% { transform: translate(-8px, 24px) rotate(-1deg); }
 }
 @keyframes ombra-2 {
   0%, 100% { transform: translate(-9px, 9px) rotate(-4deg); }
-  33% { transform: translate(-15px, 4px) rotate(-7deg); }
-  66% { transform: translate(-3px, 14px) rotate(-1deg); }
+  33% { transform: translate(-21px, 1px) rotate(-9deg); }
+  66% { transform: translate(3px, 17px) rotate(1deg); }
 }
 @keyframes ombra-3 {
   0%, 100% { transform: translate(-20px, 24px) rotate(-4deg); }
-  33% { transform: translate(-12px, 30px) rotate(-7deg); }
-  66% { transform: translate(-27px, 17px) rotate(-1deg); }
+  33% { transform: translate(-6px, 34px) rotate(-9deg); }
+  66% { transform: translate(-32px, 12px) rotate(1deg); }
 }
 @keyframes ombra-4 {
   0%, 100% { transform: translate(-6px, -2px) rotate(-2deg) scale(1.05); }
-  33% { transform: translate(-13px, -7px) rotate(-5deg) scale(1.06); }
-  66% { transform: translate(3px, 5px) rotate(1deg) scale(1.04); }
+  33% { transform: translate(-18px, -10px) rotate(-6deg) scale(1.07); }
+  66% { transform: translate(8px, 8px) rotate(3deg) scale(1.03); }
 }
 @keyframes ombra-5 {
   0%, 100% { transform: translate(9px, 17px) rotate(-5deg); }
-  33% { transform: translate(15px, 10px) rotate(-8deg); }
-  66% { transform: translate(3px, 23px) rotate(-2deg); }
+  33% { transform: translate(20px, 5px) rotate(-10deg); }
+  66% { transform: translate(-2px, 27px) rotate(0deg); }
 }
 @keyframes ombra-6 {
   0%, 100% { transform: translate(12px, 9px) rotate(3deg); }
-  33% { transform: translate(5px, 16px) rotate(6deg); }
-  66% { transform: translate(19px, 3px) rotate(0deg); }
+  33% { transform: translate(-2px, 21px) rotate(8deg); }
+  66% { transform: translate(24px, -1px) rotate(-2deg); }
 }
 @keyframes ombra-7 {
   0%, 100% { transform: translate(10px, 22px) rotate(-6deg); }
-  33% { transform: translate(17px, 15px) rotate(-3deg); }
-  66% { transform: translate(3px, 28px) rotate(-8deg); }
+  33% { transform: translate(24px, 12px) rotate(-1deg); }
+  66% { transform: translate(-2px, 32px) rotate(-10deg); }
 }
 @keyframes ombra-8 {
   0%, 100% { transform: translate(15px, 13px) rotate(6deg); }
-  33% { transform: translate(21px, 7px) rotate(9deg); }
-  66% { transform: translate(9px, 19px) rotate(3deg); }
+  33% { transform: translate(27px, 3px) rotate(11deg); }
+  66% { transform: translate(5px, 23px) rotate(1deg); }
 }
 
 /* ---------- cambio fra modalità chiara e scura ---------- */
