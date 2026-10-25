@@ -72,6 +72,7 @@
       immagine: "immagine", apriImmagine: "Apri l'immagine {n} di {m}", scarica: "scarica (pdf)",
       copertina: "copertina", pagina: "pagina", pagPrec: "Pagina precedente", pagSucc: "Pagina successiva",
       vaiPagina: "Vai alla pagina", libro: "Libro da sfogliare", apriLibro: "apri il libro", di: "di",
+      vediProgetto: "vedi il progetto →",
       descrizione: "Gianluca Caputo (EVROISBE), digital & media artist. Installazioni interattive, creative coding, video, grafica e fotografia."
     },
     en: {
@@ -97,6 +98,7 @@
       immagine: "image", apriImmagine: "Open image {n} of {m}", scarica: "download (pdf)",
       copertina: "cover", pagina: "page", pagPrec: "Previous page", pagSucc: "Next page",
       vaiPagina: "Go to page", libro: "Book to leaf through", apriLibro: "open the book", di: "of",
+      vediProgetto: "see the project →",
       descrizione: "Gianluca Caputo (EVROISBE), digital & media artist. Interactive installations, creative coding, video, graphic design and photography."
     }
   };
@@ -448,6 +450,28 @@
       });
     }
 
+    /* La barretta sotto il logo, nella colonna a sinistra, dice quanto della pagina hai già visto:
+       si riempie di rosso mentre scorri. */
+    var aggiornaBarra = function () {};
+    function preparaBarra() {
+      var barre = $$(".lato__barra");
+      if (!barre.length) return;
+      var attesa = false;
+      aggiornaBarra = function () {
+        attesa = false;
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        var v = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+        barre.forEach(function (b) { b.style.setProperty("--avanzamento", v.toFixed(4)); });
+      };
+      window.addEventListener("scroll", function () {
+        if (attesa) return;
+        attesa = true;
+        requestAnimationFrame(aggiornaBarra);
+      }, { passive: true });
+      window.addEventListener("resize", function () { aggiornaBarra(); });
+      aggiornaBarra();
+    }
+
     /* L'indirizzo email grande dei contatti sta sempre su una riga:
        se è lungo, si rimpicciolisce quanto basta. */
     function adattaEmail() {
@@ -475,112 +499,107 @@
       }
     }
 
-    /* ---------- portfolio ---------- */
-    var filtro = "tutti";
-
-    /* i filtri stanno sopra la griglia e, sul computer, anche nella colonna a sinistra */
-    function disegnaFiltri() {
-      ["#filtri", "#filtri-lato"].forEach(function (s) { var b = $(s); if (b) disegnaFiltriIn(b, s === "#filtri-lato"); });
-      var apri = $('.voce[data-voce="portfolio"] .voce__apri'), lato = $("#filtri-lato");
-      if (apri && lato) apri.hidden = lato.hidden;
-    }
-    function disegnaFiltriIn(box, lato) {
-      box.textContent = "";
-      var etichette = {}, ordine = [];
-      lista(D.categorie).forEach(function (c) {
-        var k = c.toLowerCase();
-        if (!etichette[k]) { etichette[k] = c; ordine.push(k); }
-      });
-      var conta = {};
-      progetti.forEach(function (p) {
-        if (!p.chiave) return;
-        conta[p.chiave] = (conta[p.chiave] || 0) + 1;
-        if (!etichette[p.chiave]) { etichette[p.chiave] = p.categoria; ordine.push(p.chiave); }
-      });
-      var usate = ordine.filter(function (k) { return conta[k]; });
-      if (usate.length < 2) { box.hidden = true; return; }
-      box.hidden = false;
-      [["tutti", t("tutti"), progetti.length]].concat(usate.map(function (k) { return [k, etichette[k], conta[k]]; }))
-        .forEach(function (v) {
-          var b = el("button", {
-            class: "filtro", type: "button", "data-chiave": v[0],
-            "aria-pressed": String(v[0] === filtro),
-            onclick: function () {
-              filtro = v[0];
-              applicaFiltro();
-              if (!lato) return;
-              /* dalla colonna a sinistra si torna sempre alla griglia, dall'inizio */
-              if (vista !== "home") { posizioneHome = 0; location.hash = "portfolio"; }
-              else $("#portfolio").scrollIntoView();
-            }
-          }, [v[1], el("span", { class: "filtro__n", text: String(v[2]) })]);
-          box.appendChild(b);
-        });
-    }
-
-    function applicaFiltro() {
-      $$(".filtro").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-chiave") === filtro)); });
-      $$(".opera").forEach(function (a) {
-        a.hidden = !(filtro === "tutti" || a.getAttribute("data-chiave") === filtro);
-        if (a.hidden) ferma(a);
-      });
-      impagina();
-    }
-
+    /* ---------- portfolio: diviso per categorie ----------
+       Le categorie e il loro ordine vengono da «Profilo e contatti» > «Categorie del portfolio»;
+       dentro ogni categoria i lavori seguono l'ordine del pannello. */
     function due(n) { return (n < 10 ? "0" : "") + n; }
 
-    /* ---------- impaginazione della griglia ----------
-       Sul computer: tre colonne; un lavoro largo (due colonne) con uno accanto,
-       alternato a sinistra e a destra, poi una riga di tre lavori piccoli.
-       Sul tablet: due colonne, un lavoro largo ogni tre. Sul telefono: una colonna. */
-    var colonne = 0;
-    function quanteColonne() {
-      var w = $("#griglia").clientWidth || window.innerWidth;
-      return w >= 800 ? 3 : w >= 600 ? 2 : 1;
-    }
-    function impagina() {
-      var g = $("#griglia");
-      var carte = $$(".opera", g).filter(function (a) { return !a.hidden; });
-      var c = colonne = quanteColonne();
-      g.classList.remove("griglia--1", "griglia--2", "griglia--3");
-      g.classList.add("griglia--" + c);
-      carte.forEach(function (a) {
-        a.style.gridColumn = ""; a.style.gridRow = "";
-        a.classList.remove("opera--f", "opera--f2", "opera--accanto", "opera--banda");
+    var CATEGORIE = (function () {
+      var arr = Array.isArray(D.categorie) ? D.categorie : lista(D.categorie);
+      var out = [], visto = {};
+      function aggiungi(nome, raw) {
+        nome = testo(nome);
+        var k = nome.toLowerCase();
+        if (visto[k]) return;
+        visto[k] = true;
+        out.push({ nome: nome, chiave: k, raw: raw || {} });
+      }
+      arr.forEach(function (c) {
+        if (typeof c === "string") aggiungi(c, {});
+        else if (c && typeof c === "object" && testo(c.nome)) aggiungi(c.nome, c);
       });
-      if (c === 1) return;
-      function metti(a, col, span, riga, righe, classe) {
-        a.style.gridColumn = col + " / span " + span;
-        a.style.gridRow = riga + " / span " + righe;
-        if (classe) a.classList.add(classe);
+      progetti.forEach(function (p) { aggiungi(p.categoria, {}); });
+      return out.filter(function (c) {
+        c.lavori = progetti.filter(function (p) { return p.chiave === c.chiave; });
+        return c.lavori.length > 0;
+      });
+    })();
+    /* i lavori in fila categoria dopo categoria (vale anche per «precedente» e «successivo») */
+    progetti = CATEGORIE.reduce(function (tutti, c) { return tutti.concat(c.lavori); }, []);
+    CATEGORIE.forEach(function (c) {
+      var s = "categoria-" + (c.nome ? slug(c.nome) : "altro");
+      while (idUsati[s]) s += "-";
+      idUsati[s] = true;
+      c.id = s;
+    });
+    function nomeCategoria(c) { return testo(trad(c.raw, "nome")) || c.nome; }
+
+    /* l'indice delle categorie: sopra il portfolio sul telefono e, sul computer, nella colonna a sinistra */
+    var categoriaAttiva = "";
+    function segnaCategoria(id) {
+      categoriaAttiva = id;
+      $$(".filtro[data-categoria]").forEach(function (a) {
+        if (a.getAttribute("data-categoria") === id) a.setAttribute("aria-current", "true");
+        else a.removeAttribute("aria-current");
+      });
+    }
+    function disegnaIndiceCategorie() {
+      ["#filtri", "#filtri-lato"].forEach(function (sel) {
+        var box = $(sel);
+        if (!box) return;
+        box.textContent = "";
+        box.hidden = CATEGORIE.length < 2;
+        CATEGORIE.forEach(function (c) {
+          box.appendChild(el("a", {
+            class: "filtro", href: "#" + c.id, "data-categoria": c.id,
+            onclick: function (e) { e.preventDefault(); vaiACategoria(c.id); }
+          }, [nomeCategoria(c), el("span", { class: "filtro__n", text: String(c.lavori.length) })]));
+        });
+      });
+      var apri = $('.voce[data-voce="portfolio"] .voce__apri'), lato = $("#filtri-lato");
+      if (apri && lato) apri.hidden = lato.hidden;
+      segnaCategoria(categoriaAttiva);
+    }
+    function vaiACategoria(id) {
+      function fai() {
+        var sez = document.getElementById(id);
+        if (sez) sez.scrollIntoView({ behavior: calma ? "auto" : "smooth", block: "start" });
+        segnaCategoria(id);
       }
-      var i = 0, riga = 1, resto;
-      if (c === 2) {
-        while (i < carte.length) {
-          resto = carte.length - i;
-          if (i % 3 === 0 || resto === 1) { metti(carte[i], 1, 2, riga, 1, "opera--banda"); i += 1; }
-          else { metti(carte[i], 1, 1, riga, 1); metti(carte[i + 1], 2, 1, riga, 1); i += 2; }
-          riga++;
-        }
-        return;
-      }
-      /* righe alternate: un lavoro largo (16:9) con uno accanto, poi tre lavori piccoli */
-      var grandi = 0, turnoGrande = true;
-      while (i < carte.length) {
-        resto = carte.length - i;
-        var specchio = grandi % 2 === 1;
-        if (resto === 1) { metti(carte[i], 1, 3, riga, 1, "opera--banda"); break; }
-        if (turnoGrande || resto === 2) {
-          metti(carte[i], specchio ? 2 : 1, 2, riga, 1, "opera--f2");
-          metti(carte[i + 1], specchio ? 1 : 3, 1, riga, 1, "opera--accanto");
-          i += 2; grandi++;
-        } else {
-          metti(carte[i], 1, 1, riga, 1); metti(carte[i + 1], 2, 1, riga, 1); metti(carte[i + 2], 3, 1, riga, 1);
-          i += 3;
-        }
-        riga++;
-        turnoGrande = !turnoGrande;
-      }
+      if (vista !== "home") { dopoPercorso = fai; posizioneHome = 0; location.hash = "portfolio"; return; }
+      if (location.hash !== "#portfolio" && history.replaceState) history.replaceState(null, "", "#portfolio");
+      fai();
+    }
+    function preparaCategorie() {
+      if (!("IntersectionObserver" in window)) return;
+      var oss = new IntersectionObserver(function (voci) {
+        if (vista !== "home" || radice.classList.contains("inizio")) return;
+        voci.forEach(function (x) { if (x.isIntersecting) segnaCategoria(x.target.id); });
+      }, { rootMargin: "-35% 0px -60% 0px" });
+      CATEGORIE.forEach(function (c) { var sez = document.getElementById(c.id); if (sez) oss.observe(sez); });
+    }
+
+    /* le copertine si vedono intere, mai tagliate: ogni riquadro prende la proporzione
+       della sua immagine, e i lavori affiancati hanno la stessa altezza */
+    function proporzioneCopertina(a, r) {
+      if (r > 0) a.style.setProperty("--r", Math.max(0.5, Math.min(2.6, r)).toFixed(4));
+      sommaFile();
+    }
+    /* la somma delle proporzioni di una fila: serve a non farla diventare troppo alta */
+    var attesaFile = false;
+    function sommaFile() {
+      if (attesaFile) return;
+      attesaFile = true;
+      requestAnimationFrame(function () {
+        attesaFile = false;
+        $$(".fila").forEach(function (f) {
+          var somma = 0;
+          Array.prototype.forEach.call(f.children, function (x) {
+            somma += parseFloat(x.style.getPropertyValue("--r")) || 4 / 3;
+          });
+          f.style.setProperty("--somma", somma.toFixed(4));
+        });
+      });
     }
 
     /* ---------- anteprime che si muovono ----------
@@ -702,6 +721,10 @@
           v.preload = "auto";
           if (p.fuoco) v.style.objectPosition = p.fuoco;
           v.addEventListener("playing", function () { if (a._attiva) a.classList.add("opera--in-moto"); });
+          v.addEventListener("loadedmetadata", function () {
+            var rb = box.clientWidth / Math.max(1, box.clientHeight), rv = v.videoWidth / Math.max(1, v.videoHeight);
+            v.classList.toggle("opera__clip--intera", Math.abs(Math.log(rv / rb)) > 0.08);
+          });
           v.src = p.anteprimaVideo;
           box.appendChild(v);
           a._clip = v;
@@ -864,30 +887,84 @@
       }
     }
 
-    function disegnaGriglia() {
+    function carta(p, numero, prima) {
+      var img = p.copertina ? seManca(el("img", { src: p.copertina, alt: "", decoding: "async" })) : null;
+      var breve = testo(trad(p.raw, "breve"));
+      var tecnica = prima ? datoDi(p, "tecnica") : "";
+      var a = el("a", { class: "opera" + (prima ? " opera--prima" : ""), href: "#" + p.slug, "data-chiave": p.chiave }, [
+        el("div", { class: "opera__img" }, [img]),
+        el("div", { class: "opera__testo" }, [
+          el("span", { class: "opera__num", text: due(numero) }),
+          el("h4", { class: "opera__titolo", text: titoloDi(p) }),
+          el("span", { class: "opera__anno", text: p.anno }),
+          breve ? el("p", { class: "opera__breve", text: breve }) : null,
+          tecnica ? el("p", { class: "opera__tecnica", text: tecnica }) : null,
+          prima ? el("span", { class: "opera__vai", text: t("vediProgetto") }) : null
+        ])
+      ]);
+      if (img) {
+        var misura = function () {
+          if (img.naturalWidth && img.naturalHeight) proporzioneCopertina(a, img.naturalWidth / img.naturalHeight);
+        };
+        if (img.complete && img.naturalWidth) misura(); else img.addEventListener("load", misura);
+      }
+      a._p = p;
+      return a;
+    }
+
+    function disegnaPortfolio() {
       var g = $("#griglia");
       g.textContent = "";
       if (!progetti.length) {
         g.appendChild(el("p", { class: "vuoto", text: t("vuoto") }));
         return;
       }
-      progetti.forEach(function (p, i) {
-        var img = p.copertina ? seManca(el("img", { src: p.copertina, alt: "", loading: i < 3 ? "eager" : "lazy", decoding: "async" })) : null;
-        if (img && p.fuoco) img.style.objectPosition = p.fuoco;
-        var a = el("a", { class: "opera", href: "#" + p.slug, "data-chiave": p.chiave }, [
-          el("div", { class: "opera__img" }, [img]),
-          el("div", { class: "opera__testo" }, [
-            el("span", { class: "opera__num", text: due(i + 1) }),
-            el("h3", { class: "opera__titolo", text: titoloDi(p) }),
-            el("span", { class: "opera__anno", text: p.anno }),
-            p.categoria ? el("p", { class: "opera__cat", text: p.categoria }) : null
-          ])
-        ]);
-        a._p = p;
-        g.appendChild(a);
+      var n = 0;
+      CATEGORIE.forEach(function (c) {
+        var descr = testo(trad(c.raw, "descrizione"));
+        var box = el("div", { class: "categoria__lavori" });
+        /* con un numero dispari di lavori il primo esce grande, con il testo accanto; gli altri vanno a coppie */
+        var primo = c.lavori.length % 2 === 1;
+        var fila = null;
+        c.lavori.forEach(function (p, i) {
+          var grande = primo && i === 0;
+          var a = carta(p, ++n, grande);
+          if (grande) { box.appendChild(a); return; }
+          if (!fila || fila.children.length >= 2) { fila = el("div", { class: "fila" }); box.appendChild(fila); }
+          fila.appendChild(a);
+        });
+        g.appendChild(el("section", { class: "categoria", id: c.id, "aria-labelledby": c.id + "-t" }, [
+          el("header", { class: "categoria__testa" }, [
+            el("h3", { class: "categoria__nome", id: c.id + "-t", text: nomeCategoria(c) }),
+            el("span", { class: "categoria__conta", text: due(c.lavori.length) }),
+            descr ? el("p", { class: "categoria__testo", text: descr }) : null
+          ]),
+          box
+        ]));
       });
+      sommaFile();
       preparaAnimazioni();
-      applicaFiltro();
+    }
+    /* cambiando lingua si riscrivono i testi delle schede, senza ridisegnarle */
+    function testiPortfolio() {
+      $$(".opera").forEach(function (a) {
+        var p = a._p;
+        if (!p) return;
+        function metti(sel, v) { var x = $(sel, a); if (x) x.textContent = v; }
+        metti(".opera__titolo", titoloDi(p));
+        metti(".opera__breve", testo(trad(p.raw, "breve")));
+        metti(".opera__tecnica", datoDi(p, "tecnica"));
+        metti(".opera__vai", t("vediProgetto"));
+      });
+      CATEGORIE.forEach(function (c) {
+        var sez = document.getElementById(c.id);
+        if (!sez) return;
+        var x = $(".categoria__nome", sez);
+        if (x) x.textContent = nomeCategoria(c);
+        x = $(".categoria__testo", sez);
+        if (x) x.textContent = testo(trad(c.raw, "descrizione"));
+      });
+      disegnaIndiceCategorie();
     }
 
     /* ---------- about ---------- */
@@ -1387,7 +1464,7 @@
       box.textContent = "";
       var n = progetti.length, i = progetti.indexOf(p);
       var prec = progetti[(i - 1 + n) % n], succ = progetti[(i + 1) % n];
-      var testi = testoDi(p);
+      var testi = testoDi(p), breveL = testo(trad(p.raw, "breve"));
       var dati = [["anno", p.anno], ["categoria", p.categoria], ["tecnica", datoDi(p, "tecnica")], ["luogo", datoDi(p, "luogo")], ["crediti", datoDi(p, "crediti")]]
         .filter(function (d) { return d[1]; });
 
@@ -1395,7 +1472,14 @@
         dati.length ? el("dl", { class: "lavoro__dati" }, dati.map(function (d) {
           return el("div", null, [el("dt", { text: t(d[0]) }), el("dd", { text: d[1] })]);
         })) : null,
-        testi.length ? el("div", { class: "lavoro__testo" }, testi.map(function (x) { return el("p", { text: x }); })) : null,
+        testi.length ? el("div", { class: "lavoro__testo" }, testi.reduce(function (out, x) {
+          /* un paragrafo che comincia con ## è un titoletto */
+          var m = x.match(/^##\s+([^\n]+)(?:\n([\s\S]*))?$/);
+          if (!m) { out.push(el("p", { text: x })); return out; }
+          out.push(el("h2", { class: "lavoro__sottotitolo", text: m[1] }));
+          if (testo(m[2])) out.push(el("p", { text: testo(m[2]) }));
+          return out;
+        }, [])) : null,
         pulsanteScarica(p)
       ].filter(Boolean);
       var materiali = [p.video.length ? el("div", { class: "lavoro__video" }, p.video.map(function (v) { return lettore(v, p); })) : null]
@@ -1410,7 +1494,8 @@
             el("span", { text: t("lavoroNdiM", { n: due(i + 1), m: due(n) }) }),
             p.categoria ? el("span", { text: p.categoria }) : null
           ]),
-          el("h1", { class: "lavoro__titolo", text: titoloDi(p) })
+          el("h1", { class: "lavoro__titolo", text: titoloDi(p) }),
+          breveL ? el("p", { class: "lavoro__breve", text: breveL }) : null
         ]),
         el("div", { class: "lavoro__corpo" + (materiali.length ? "" : " lavoro__corpo--testo") }, [
           colonna.length ? el("div", { class: "lavoro__colonna" }, colonna) : null,
@@ -1473,8 +1558,17 @@
       }
     }
 
+    /* indirizzi di lavori che hanno cambiato titolo: i vecchi link portano ancora al lavoro */
+    var VECCHI_INDIRIZZI = {
+      "manifesti-per-l-accademia-albertina": "grafiche-per-l-accademia-albertina",
+      "fotomontaggi": "laszlo-moholy-nagy-dare-forma-alla-luce"
+    };
     function lavoroDa(h) {
-      for (var i = 0; i < progetti.length; i++) if (progetti[i].slug === h) return progetti[i];
+      for (var k = 0; k < 2; k++) {
+        for (var i = 0; i < progetti.length; i++) if (progetti[i].slug === h) return progetti[i];
+        h = VECCHI_INDIRIZZI[h];
+        if (!h) break;
+      }
       return null;
     }
     function hashAttuale() {
@@ -1529,6 +1623,8 @@
         $("#curriculum").hidden = true;
         $("#lavoro").hidden = false;
         vista = "lavoro";
+        /* nella colonna a sinistra si vede la categoria del lavoro aperto */
+        CATEGORIE.forEach(function (c) { if (c.chiave === p.chiave) segnaCategoria(c.id); });
         if (daIngresso) {
           apriVoce("", true);
           segnaIndice("portfolio", true);
@@ -1539,6 +1635,7 @@
         adattaTitolo();
         adattaEmail();
         vai(0);
+        requestAnimationFrame(function () { aggiornaBarra(); });
         return;
       }
 
@@ -1546,7 +1643,6 @@
       if (daLavoro) chiudiLavoro();
       document.title = TITOLO_BASE;
       vista = "home";
-      if (quanteColonne() !== colonne) impagina();
       adattaEmail();
 
       var bersaglio = document.getElementById(h);
@@ -1566,6 +1662,7 @@
         else vai(posizioneHome);
       }
       ripristina = false;
+      requestAnimationFrame(function () { aggiornaBarra(); });
       if (dopoPercorso) {
         var f = dopoPercorso;
         dopoPercorso = null;
@@ -1576,11 +1673,7 @@
     /* ---------- cambio di lingua: si riscrivono i testi, senza ricaricare la pagina ---------- */
     alCambioLingua = function () {
       testiFissi();
-      disegnaFiltri();
-      $$(".opera").forEach(function (a) {
-        var h = $(".opera__titolo", a);
-        if (h && a._p) h.textContent = titoloDi(a._p);
-      });
+      testiPortfolio();
       disegnaAbout();
       disegnaCv();
       disegnaContatti();
@@ -1596,8 +1689,8 @@
     /* ---------- avvio ---------- */
     try {
       testiFissi();
-      disegnaFiltri();
-      disegnaGriglia();
+      disegnaIndiceCategorie();
+      disegnaPortfolio();
       disegnaAbout();
       disegnaCv();
       disegnaContatti();
@@ -1605,6 +1698,8 @@
       preparaLightbox();
       preparaVoci();
       preparaIndice();
+      preparaCategorie();
+      preparaBarra();
       adattaEmail();
       window.addEventListener("hashchange", percorso);
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -1620,7 +1715,6 @@
         adattaTitolo();
         adattaEmail();
         controllaColonna();
-        if (quanteColonne() !== colonne) impagina();
       });
 
       $$(".testata__firma, .lato__firma").forEach(function (a) { a.addEventListener("click", function () { posizioneHome = 0; }); });

@@ -52,7 +52,7 @@ singletons:
         add_to_top: true
         thumbnail: copertina
         summary: "{{fields.titolo}} · {{fields.anno}} · {{fields.categoria}}{{fields.nascosto | ternary('  ·  🙈 nascosto', '')}}"
-        hint: "L'ordine qui è l'ordine sul sito: trascina un lavoro per spostarlo. Sul computer il 1°, il 6° e l'11° lavoro escono più grandi."
+        hint: "Nel portfolio i lavori sono divisi per categoria (l'ordine delle categorie si sceglie in Profilo e contatti). Dentro ogni categoria vale l'ordine di qui: trascina un lavoro per spostarlo. I lavori vanno a coppie; se in una categoria sono dispari, il primo esce grande."
         fields:
           - name: titolo
             label: 🏷️ Titolo
@@ -65,17 +65,16 @@ singletons:
             label: 🗂️ Categoria
             widget: select
             options: [creative coding, motion, graphics, stills]
+          - name: breve
+            label: ✍️ In breve
+            widget: string
+            required: false
+            hint: "Una frase che dice cos'è il lavoro: compare sotto il titolo nel portfolio e all'inizio della pagina del lavoro."
           - name: copertina
             label: 🖼️ Copertina
             widget: image
             choose_url: false
-            hint: È l'immagine del lavoro nel portfolio. Viene tagliata in base allo spazio, quindi scegli un'immagine forte, senza troppo testo.
-          - name: fuoco
-            label: 🎯 Cosa tenere quando la copertina viene tagliata
-            widget: select
-            required: false
-            options: [centro, in alto, un po' in alto, un po' in basso, in basso, a sinistra, a destra]
-            hint: Se lo lasci vuoto si tiene il centro. Per esempio «un po' in basso» se il volto è nella parte bassa dell'immagine.
+            hint: È l'immagine del lavoro nel portfolio e si vede sempre intera, mai tagliata, in qualsiasi formato.
           - name: anteprima_video
             label: 🎬 Anteprima animata (video breve)
             widget: file
@@ -147,7 +146,7 @@ singletons:
             label: 📝 Testo
             widget: text
             required: false
-            hint: Lascia una riga vuota fra un paragrafo e l'altro. Il primo paragrafo esce un po' più grande.
+            hint: "Lascia una riga vuota fra un paragrafo e l'altro. Il primo paragrafo esce un po' più grande. Per un titoletto scrivi ## all'inizio del paragrafo, per esempio «## Come funziona»."
           - name: en
             label: 🇬🇧 In inglese
             widget: object
@@ -160,6 +159,10 @@ singletons:
                 widget: string
                 required: false
                 hint: Lascialo vuoto se il titolo resta uguale anche in inglese.
+              - name: breve
+                label: In breve in inglese
+                widget: string
+                required: false
               - name: testo
                 label: Testo in inglese
                 widget: text
@@ -417,5 +420,28 @@ singletons:
         public_folder: /cv
         hint: È il PDF del pulsante «scarica il cv».
       - name: categorie
-        label: Ordine dei filtri
-        widget: hidden
+        label: 🗂️ Categorie del portfolio
+        label_singular: categoria
+        widget: list
+        collapsed: true
+        summary: "{{fields.nome}}"
+        hint: "L'ordine qui è l'ordine delle sezioni nel portfolio. La frase compare sotto il nome della categoria."
+        fields:
+          - name: nome
+            label: Categoria
+            widget: select
+            options: [creative coding, motion, graphics, stills]
+          - name: descrizione
+            label: Frase sotto il nome
+            widget: string
+            required: false
+          - name: en
+            label: 🇬🇧 In inglese
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - name: descrizione
+                label: Frase in inglese
+                widget: string
+                required: false

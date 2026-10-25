@@ -14,9 +14,33 @@
   "linkedin": "https://www.linkedin.com/in/gianlucacaputo16",
   "cv": "/cv/gianluca-caputo-cv.pdf",
   "categorie": [
-    "creative coding",
-    "motion",
-    "graphics",
-    "stills"
+    {
+      "nome": "creative coding",
+      "descrizione": "Installazioni e sistemi audiovisivi in tempo reale: sensori, corpo e suono che deformano l'immagine.",
+      "en": {
+        "descrizione": "Real-time audiovisual installations and systems: sensors, body and sound that deform the image."
+      }
+    },
+    {
+      "nome": "graphics",
+      "descrizione": "Libri, graphic novel, manifesti e identità visive, per l'editoria e le istituzioni culturali.",
+      "en": {
+        "descrizione": "Books, graphic novels, posters and visual identities, for publishing and cultural institutions."
+      }
+    },
+    {
+      "nome": "motion",
+      "descrizione": "Video e video mapping, fra glitch art ed estetica analogica.",
+      "en": {
+        "descrizione": "Video and video mapping, between glitch art and analogue aesthetics."
+      }
+    },
+    {
+      "nome": "stills",
+      "descrizione": "Fotografia e fotomontaggio, dal bianco e nero al collage digitale.",
+      "en": {
+        "descrizione": "Photography and photomontage, from black and white to digital collage."
+      }
+    }
   ]
 }

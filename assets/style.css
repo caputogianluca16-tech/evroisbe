@@ -352,8 +352,10 @@ button { font: inherit; color: inherit; }
   font-size: var(--t-meta);
 }
 .filtro {
+  display: inline-block;
   appearance: none;
   padding: 4px 0;
+  text-decoration: none;
   border: 0;
   border-bottom: 3px solid transparent;
   background: none;
@@ -361,7 +363,8 @@ button { font: inherit; color: inherit; }
   cursor: pointer;
 }
 .filtro:hover { color: var(--inchiostro); }
-.filtro[aria-pressed="true"] {
+.filtro[aria-pressed="true"],
+.filtro[aria-current="true"] {
   color: var(--inchiostro);
   border-bottom-color: var(--rosso);
 }
@@ -371,18 +374,61 @@ button { font: inherit; color: inherit; }
   vertical-align: super;
 }
 
-/* ---------- griglia dei lavori ----------
-   app.js sceglie le colonne (1, 2 o 3) in base alla larghezza e dispone i lavori:
-   sul computer un lavoro grande (2 colonne per 2 righe) alternato a destra e a sinistra,
-   due piccoli accanto e una riga di tre; sul tablet un lavoro largo ogni tre. */
+/* ---------- portfolio: una sezione per categoria ----------
+   In ogni categoria i lavori vanno a coppie, affiancati e alti uguali; se sono dispari
+   il primo esce grande, con il testo accanto. Le copertine si vedono sempre intere:
+   ogni riquadro ha la proporzione della sua immagine (app.js la scrive in --r). */
 
 .griglia {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(36px, 3.4vw, 56px) clamp(16px, 1.6vw, 28px);
+  gap: clamp(64px, 7vw, 120px);
 }
-.griglia--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.griglia--1 { grid-template-columns: minmax(0, 1fr); }
+.categoria { scroll-margin-top: var(--s3); }
+.categoria__testa {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 8px var(--s3);
+  margin-bottom: clamp(24px, 3vw, 44px);
+  padding-top: 12px;
+  border-top: 2px solid currentColor;
+}
+.categoria__nome {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-stretch: 125%;
+  font-size: clamp(26px, 2.6vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.categoria__conta {
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  color: var(--grigio);
+  font-variant-numeric: tabular-nums;
+}
+.categoria__testo {
+  grid-column: 1 / -1;
+  max-width: 60ch;
+  margin: 0;
+  color: var(--grigio);
+  font-size: var(--t-testo);
+  line-height: 1.5;
+}
+.categoria__lavori {
+  display: grid;
+  gap: clamp(40px, 4.4vw, 72px);
+}
+.fila {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(20px, 2.4vw, 40px);
+  /* due immagini verticali non diventano altissime: la fila si stringe */
+  max-width: calc(var(--somma, 2.6667) * 66vh + 40px);
+}
+.fila > .opera { flex: var(--r, 1.3333) 1 0; }
+
 .opera {
   display: flex;
   flex-direction: column;
@@ -392,16 +438,10 @@ button { font: inherit; color: inherit; }
 }
 .opera__img {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: var(--r, 4 / 3);
   overflow: hidden;
   background: var(--velo);
 }
-/* il lavoro grande e quello accanto a un lavoro largo riempiono l'altezza della riga */
-.opera--f .opera__img,
-.opera--accanto .opera__img { aspect-ratio: auto; flex: 1 1 auto; min-height: 220px; }
-.opera--f2 .opera__img { aspect-ratio: 16 / 9; }
-.opera--banda .opera__img { aspect-ratio: 21 / 9; }
-.griglia--2 .opera--banda .opera__img { aspect-ratio: 16 / 9; }
 .opera__img > img,
 .opera__clip,
 .opera__scorre {
@@ -414,8 +454,9 @@ button { font: inherit; color: inherit; }
 }
 .opera__img > img { transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .opera:hover .opera__img > img { transform: scale(1.025); }
-/* anteprima video: compare quando parte */
+/* anteprima video: compare quando parte; se ha un'altra proporzione si vede intera */
 .opera__clip { opacity: 0; transition: opacity 0.3s; background: var(--schermo); }
+.opera__clip--intera { object-fit: contain; }
 .opera--in-moto .opera__clip { opacity: 1; }
 /* pieghevole: le pagine entrano da destra una dopo l'altra;
    le immagini si vedono intere, affiancate o una sopra l'altra, su un fondo neutro */
@@ -509,6 +550,43 @@ button { font: inherit; color: inherit; }
 }
 .opera:hover .opera__titolo { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .opera__cat { grid-column: 2 / -1; margin: 0; }
+/* in breve: cos'è il lavoro, in una riga */
+.opera__breve {
+  grid-column: 2 / -1;
+  margin: 4px 0 0;
+  max-width: 62ch;
+  color: var(--grigio);
+  font-size: 15px;
+  line-height: 1.45;
+}
+.opera__tecnica {
+  grid-column: 2 / -1;
+  margin: 6px 0 0;
+  font-family: var(--f-mono);
+  font-size: var(--t-mini);
+  line-height: 1.5;
+  color: var(--grigio);
+}
+.opera__vai {
+  grid-column: 2 / -1;
+  margin-top: 14px;
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+}
+.opera:hover .opera__vai { color: var(--rosso); }
+
+/* il lavoro grande: immagine a sinistra, testo a destra in basso */
+@media (min-width: 760px) {
+  .opera--prima {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: end;
+    gap: clamp(20px, 2.4vw, 40px);
+  }
+  .opera--prima .opera__img { max-height: 76vh; }
+  .opera--prima .opera__titolo { font-size: clamp(24px, 2.2vw, 38px); }
+  .opera--prima .opera__breve { color: var(--inchiostro); font-size: var(--t-medio); }
+}
 
 .vuoto {
   grid-column: 1 / -1;
@@ -700,6 +778,26 @@ button { font: inherit; color: inherit; }
 /* ---------- pagina del lavoro ---------- */
 
 .lavoro { padding-top: var(--s3); }
+.lavoro__breve {
+  max-width: 34ch;
+  margin: var(--s3) 0 0;
+  font-family: var(--f-testo);
+  font-weight: 560;
+  font-size: clamp(20px, 1.9vw, 30px);
+  line-height: 1.25;
+  text-wrap: pretty;
+}
+.lavoro__sottotitolo {
+  margin: 2.2em 0 0.7em;
+  padding-top: 10px;
+  border-top: 1px solid var(--filetto);
+  font-family: var(--f-mono);
+  font-weight: 400;
+  font-size: var(--t-meta);
+  line-height: 1.4;
+  text-transform: lowercase;
+  color: var(--grigio);
+}
 .lavoro__indietro {
   font-family: var(--f-mono);
   font-size: var(--t-meta);
@@ -1147,10 +1245,21 @@ html:lang(en) .libro__titolo::before { content: "book to leaf through"; }
 }
 .lato__firma .logo { width: 100%; }
 .lato__firma:hover { color: var(--rosso); }
+/* la barretta sotto il logo dice quanto della pagina hai già visto: si riempie di rosso mentre scorri */
 .lato__barra {
-  height: 10px;
+  position: relative;
+  height: 6px;
   margin-top: 14px;
-  background: linear-gradient(to right, var(--rosso) 0 calc(100% / 6), var(--inchiostro) calc(100% / 6) 100%);
+  background: var(--filetto);
+}
+.lato__barra::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: calc(var(--avanzamento, 0) * 100%);
+  background: var(--rosso);
 }
 .lato__nome {
   margin: 18px 0 0;
@@ -1363,7 +1472,7 @@ html.inizio .lato__dentro {
   min-height: 0;
   margin: auto;
 }
-html.inizio .lato__barra { height: 14px; margin-top: 20px; }
+html.inizio .lato__barra { display: none; }
 html.inizio .lato__nome { margin-top: 22px; font-size: 20px; }
 html.inizio .lato__ruolo { margin-top: 4px; font-size: 14px; }
 html.inizio .lato__nav { gap: 2px; margin-top: clamp(32px, 6vh, 60px); }
@@ -1432,8 +1541,7 @@ html.entrata .testata { animation: compare 0.5s ease both; }
 }
 
 @media (max-width: 700px) {
-  .griglia { grid-template-columns: minmax(0, 1fr); gap: var(--s4); }
-  .opera--grande .opera__img { aspect-ratio: 4 / 3; }
+  .fila { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(40px, 8vw, 56px); max-width: none; }
   .lavoro__galleria { columns: 1; }
   .foto { margin-bottom: var(--s2); }
   .lavoro__video { grid-template-columns: minmax(0, 1fr); }
