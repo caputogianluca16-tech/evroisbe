@@ -89,7 +89,8 @@
   stroke-width: 5.2;
   stroke-linejoin: miter;
 }
-.logo--piccolo .logo__ombre { stroke-width: 7.5; }
+.logo--piccolo .logo__ombre,
+.logo--testata .logo__ombre { stroke-width: 7.5; }
 .logo__ombra { transform-box: fill-box; transform-origin: 50% 50%; }
 /* la posa ferma, come nel marchio */
 .logo__ombra:nth-child(1) { transform: translate(-20px, 14px) rotate(-6deg); }
@@ -245,23 +246,24 @@ button { font: inherit; color: inherit; }
 .testata {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: var(--s1) var(--s4);
-  padding-block: var(--s3);
+  gap: var(--s3) var(--s4);
+  padding-block: var(--s3) var(--s1);
 }
+/* in cima, sul telefono e sul tablet: il logo animato con, piccoli, nome e ruolo */
+.testata__marchio { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.testata__titolo { margin: 0; line-height: 0; }
+.testata__sotto { display: flex; flex-direction: column; gap: 2px; margin: 0; }
+.testata__nome { font-weight: 620; font-size: 15px; line-height: 1.25; }
+.testata__ruolo { font-family: var(--f-mono); font-size: 12px; line-height: 1.4; color: var(--grigio); }
 .testata__firma {
   display: block;
-  align-self: center;
   text-decoration: none;
 }
-.testata__firma .logo { width: auto; height: 14px; }
+.testata__firma .logo { width: clamp(210px, 58vw, 340px); }
 .testata .tema { margin-left: auto; }
 .testata__nav { flex-basis: 100%; }
-@media (min-width: 640px) {
-  .testata__nav { flex-basis: auto; order: 3; margin-left: auto; }
-  .testata .tema { order: 4; margin-left: 0; }
-}
 .testata__nav {
   display: flex;
   flex-wrap: wrap;
@@ -276,42 +278,9 @@ button { font: inherit; color: inherit; }
 }
 .testata__nav a:hover { border-bottom-color: var(--inchiostro); }
 
-/* ---------- apertura ---------- */
+/* ---------- inizio della pagina ---------- */
 
-.apertura { padding-top: clamp(16px, 3vw, 44px); }
 #portfolio { padding-top: clamp(48px, 5vw, 88px); }
-.apertura__firma {
-  margin: 0;
-  line-height: 0;
-}
-/* il logo occupa tutta la riga; l'ombra può uscire un poco dai lati */
-.apertura__firma .logo { width: 100%; }
-.apertura__barra {
-  height: var(--barra);
-  margin-top: clamp(14px, 2.2vw, 34px);
-  background: linear-gradient(to right, var(--rosso) 0 calc(100% / 12), var(--inchiostro) calc(100% / 12) 100%);
-}
-.apertura__info {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--s3);
-  row-gap: var(--s1);
-  margin-top: var(--s3);
-}
-.apertura__nome {
-  grid-column: 2 / span 5;
-  margin: 0;
-  font-weight: 620;
-  font-size: var(--t-medio);
-  line-height: 1.2;
-}
-.apertura__ruolo {
-  grid-column: 7 / span 6;
-  margin: 0;
-  font-family: var(--f-mono);
-  font-size: var(--t-meta);
-  line-height: 1.6;
-}
 
 /* ---------- sezioni ---------- */
 
@@ -1153,8 +1122,7 @@ button { font: inherit; color: inherit; }
     --t-sezione: clamp(34px, 3vw, 54px);
   }
   body { padding-left: var(--lato); }
-  .testata,
-  .apertura { display: none; }
+  .testata { display: none; }
 
   .lato {
     position: fixed;
@@ -1170,6 +1138,7 @@ button { font: inherit; color: inherit; }
     background: var(--carta) url("grana.png");
     overflow-y: auto;
   }
+  .lato__titolo { margin: 0; line-height: 0; }
   .lato__firma {
     display: block;
     line-height: 0;
@@ -1275,8 +1244,6 @@ button { font: inherit; color: inherit; }
 /* ---------- schermi stretti ---------- */
 
 @media (max-width: 900px) {
-  .apertura__nome { grid-column: 1 / span 12; }
-  .apertura__ruolo { grid-column: 1 / span 12; }
   .about__citazione,
   .about__testo { grid-column: 1 / -1; }
 }
