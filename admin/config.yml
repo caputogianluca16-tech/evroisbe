@@ -288,7 +288,7 @@ singletons:
       - name: firma
         label: ✍️ Firma
         widget: string
-        hint: Il nome grande in cima al sito.
+        hint: Il tuo nome d'arte, usato nel titolo della pagina. In cima al sito c'è il logo, che non cambia da qui.
       - name: nome
         label: 👤 Nome
         widget: string

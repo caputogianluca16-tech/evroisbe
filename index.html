@@ -11,19 +11,48 @@
 <meta property="og:url" content="https://evroisbe.com/">
 <meta property="og:image" content="https://evroisbe.com/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#EBEBE9">
+<meta name="theme-color" content="#EBEBE9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0A" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<script>
+  /* modalità chiara o scura scelta da chi guarda: si applica prima di disegnare la pagina */
+  try { var t = localStorage.getItem("evroisbe-tema"); if (t === "scuro" || t === "chiaro") document.documentElement.setAttribute("data-tema", t); } catch (e) {}
+</script>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
+<!-- il logo EVROISBE: le lettere una volta sola, poi richiamate dove serve -->
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <path id="evro-l1" d="M46.62 147.26V30.69H168.74V56.96H82.72V75.63H157.82V100.93H82.72V121H170.1V147.26Z"/>
+    <path id="evro-l2" d="M233.05 147.26 176.69 30.69H216.7L241.34 85.81Q242.84 88.98 244.76 93.81Q246.69 98.64 248.66 103.64Q250.63 108.64 252.04 112.55H253.29Q254.58 109.02 256.41 104.22Q258.25 99.41 260.26 94.52Q262.27 89.64 263.98 85.88L288.9 30.69H327.17L270.81 147.26Z"/>
+    <path id="evro-l3" d="M339.05 147.26V30.69H436.87Q449.67 30.69 458.09 35.96Q466.51 41.23 470.74 49.83Q474.96 58.43 474.96 68.54Q474.96 79.74 469.72 88.81Q464.49 97.88 454.06 103.18L477.73 147.26H437.12L418.13 108.96H375.04V147.26ZM375.04 82.75H424.9Q430.83 82.75 434.45 79.17Q438.07 75.58 438.07 69.58Q438.07 65.53 436.42 62.7Q434.77 59.87 431.85 58.41Q428.93 56.96 424.9 56.96H375.04Z"/>
+    <path id="evro-l4" d="M565.2 149.3Q541.69 149.3 524.44 142.1Q507.18 134.9 497.85 121.43Q488.51 107.95 488.51 89.03Q488.51 69.94 497.85 56.44Q507.18 42.94 524.44 35.8Q541.69 28.66 565.2 28.66Q589.03 28.66 606.19 35.8Q623.35 42.94 632.69 56.44Q642.03 69.94 642.03 89.03Q642.03 107.95 632.69 121.43Q623.35 134.9 606.19 142.1Q589.03 149.3 565.2 149.3ZM565.27 123.03Q574.16 123.03 581.47 120.82Q588.78 118.61 594.07 114.41Q599.36 110.21 602.2 104.21Q605.03 98.21 605.03 90.81V86.8Q605.03 79.43 602.2 73.51Q599.36 67.58 594.07 63.43Q588.78 59.28 581.47 57.1Q574.16 54.92 565.27 54.92Q556.37 54.92 549.06 57.1Q541.75 59.28 536.46 63.43Q531.17 67.58 528.37 73.51Q525.56 79.43 525.56 86.8V90.81Q525.56 98.21 528.37 104.21Q531.17 110.21 536.46 114.41Q541.75 118.61 549.06 120.82Q556.37 123.03 565.27 123.03Z"/>
+    <path id="evro-l5" d="M660.98 147.26V30.69H696.97V147.26Z"/>
+    <path id="evro-l6" d="M783.96 149.3Q769.55 149.3 757.05 147.58Q744.56 145.86 735.16 141.6Q725.76 137.34 720.44 129.72Q715.13 122.1 715.13 110.4Q715.13 110.06 715.13 109.5Q715.13 108.94 715.3 108.38H750.52Q750.35 109.06 750.32 109.78Q750.29 110.49 750.29 111.25Q750.29 116.4 754.11 119.33Q757.94 122.26 764.9 123.41Q771.87 124.55 781.08 124.55Q784.92 124.55 788.95 124.35Q792.99 124.14 796.76 123.56Q800.53 122.98 803.53 121.89Q806.52 120.79 808.32 119.04Q810.12 117.29 810.12 114.78Q810.12 111.23 806.24 109.19Q802.36 107.16 795.74 105.95Q789.13 104.73 780.92 103.76Q772.71 102.79 763.91 101.4Q755.11 100.02 746.9 97.56Q738.7 95.1 732.08 90.99Q725.46 86.87 721.58 80.42Q717.7 73.96 717.7 64.65Q717.7 55.22 722.52 48.41Q727.33 41.6 735.93 37.23Q744.53 32.85 756.11 30.75Q767.7 28.66 781.14 28.66Q794.86 28.66 806.19 30.76Q817.53 32.87 825.78 37.17Q834.03 41.47 838.53 48.08Q843.02 54.7 843.02 63.73V66.01H808.14V64.78Q808.14 61.26 805.26 58.54Q802.37 55.82 796.71 54.18Q791.05 52.54 782.78 52.54Q773.15 52.54 766.92 53.74Q760.69 54.94 757.72 57.03Q754.76 59.12 754.76 61.59Q754.76 64.95 758.63 66.89Q762.51 68.84 769.13 69.96Q775.75 71.07 783.96 72.05Q792.16 73.02 800.96 74.38Q809.76 75.75 817.97 78.06Q826.18 80.38 832.8 84.42Q839.42 88.46 843.29 94.64Q847.17 100.82 847.17 109.85Q847.17 123.95 838.99 132.65Q830.82 141.36 816.54 145.33Q802.26 149.3 783.96 149.3Z"/>
+    <path id="evro-l7" d="M864.23 147.26V30.69H961.03Q970.53 30.69 978.25 34.34Q985.96 37.98 990.47 44.42Q994.98 50.86 994.98 59.4Q994.98 67.2 992.22 72.62Q989.46 78.05 984.82 81.37Q980.18 84.69 974.53 86.34V87.02Q981.09 88.38 986.39 91.87Q991.68 95.36 994.78 101.26Q997.88 107.16 997.88 115.87Q997.88 125.75 993.04 132.76Q988.21 139.77 980 143.52Q971.79 147.26 961.68 147.26ZM900.22 122.18H949.1Q954.37 122.18 957.68 119.27Q960.99 116.37 960.99 110.39Q960.99 107.3 959.55 104.82Q958.1 102.33 955.34 100.95Q952.58 99.58 948.73 99.58H900.22ZM900.22 76.62H946.27Q950.08 76.62 952.69 75.22Q955.3 73.83 956.73 71.28Q958.16 68.73 958.16 65.21Q958.16 60.49 954.88 57.65Q951.59 54.8 946.64 54.8H900.22Z"/>
+    <path id="evro-l8" d="M1015.62 147.26V30.69H1137.74V56.96H1051.72V75.63H1126.82V100.93H1051.72V121H1139.1V147.26Z"/>
+    <mask id="evro-taglio" maskUnits="userSpaceOnUse" x="-120" y="-120" width="1440" height="440">
+      <rect x="-120" y="-120" width="1440" height="440" fill="#fff"/>
+      <g fill="#000" stroke="#000" stroke-width="7" stroke-linejoin="round"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g>
+    </mask>
+    <mask id="evro-taglio-piccolo" maskUnits="userSpaceOnUse" x="-120" y="-120" width="1440" height="440">
+      <rect x="-120" y="-120" width="1440" height="440" fill="#fff"/>
+      <g fill="#000" stroke="#000" stroke-width="12" stroke-linejoin="round"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g>
+    </mask>
+  </defs>
+</svg>
+
 <a class="salta" href="#portfolio">vai ai lavori</a>
 
 <p class="bozza" id="bozza" hidden>Contenuti di esempio</p>
 
 <header class="testata pagina">
-  <a class="testata__firma" href="#" data-firma>EVROISBE</a>
+  <a class="testata__firma" href="#"><svg class="logo logo--firma" viewBox="0 28 1200 124" role="img" aria-label="EVROISBE"><g class="logo__lettere"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g></svg></a>
+  <button class="tema" type="button" data-tema-bottone aria-label="Passa alla modalità scura"><span class="tema__icona" aria-hidden="true"></span><span class="tema__testo">scuro</span></button>
   <nav class="testata__nav" aria-label="Sezioni">
     <a href="#portfolio">portfolio</a>
     <a href="#about">about</a>
@@ -34,7 +63,7 @@
 
 <!-- sul computer: colonna fissa a sinistra con firma, indice e contatti -->
 <aside class="lato" aria-label="Indice del sito">
-  <a class="lato__firma" href="#"><span data-firma>EVROISBE</span></a>
+  <a class="lato__firma" href="#"><svg class="logo logo--piccolo" viewBox="0 0 1200 200.36" role="img" aria-label="EVROISBE"><g class="logo__ombre" mask="url(#evro-taglio-piccolo)"><use href="#evro-l1" class="logo__ombra"/><use href="#evro-l2" class="logo__ombra"/><use href="#evro-l3" class="logo__ombra"/><use href="#evro-l4" class="logo__ombra"/><use href="#evro-l5" class="logo__ombra"/><use href="#evro-l6" class="logo__ombra"/><use href="#evro-l7" class="logo__ombra"/><use href="#evro-l8" class="logo__ombra"/></g><g class="logo__lettere"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g></svg></a>
   <div class="lato__barra" aria-hidden="true"></div>
   <p class="lato__nome" data-nome>Gianluca Caputo</p>
   <p class="lato__ruolo" data-ruolo>Digital &amp; Media Artist</p>
@@ -48,13 +77,14 @@
   <div class="lato__piede">
     <a class="lato__email" id="lato-email" href="mailto:biz.caputo@gmail.com">biz.caputo@gmail.com</a>
     <ul class="lato__social" id="lato-social"></ul>
+    <button class="tema" type="button" data-tema-bottone aria-label="Passa alla modalità scura"><span class="tema__icona" aria-hidden="true"></span><span class="tema__testo">scuro</span></button>
   </div>
 </aside>
 
 <main id="home">
 
   <section class="apertura pagina" aria-label="Presentazione">
-    <h1 class="apertura__firma" id="firma-grande" data-firma>EVROISBE</h1>
+    <h1 class="apertura__firma" id="firma-grande"><svg class="logo logo--grande" viewBox="0 0 1200 200.36" role="img" aria-label="EVROISBE"><g class="logo__ombre" mask="url(#evro-taglio)"><use href="#evro-l1" class="logo__ombra"/><use href="#evro-l2" class="logo__ombra"/><use href="#evro-l3" class="logo__ombra"/><use href="#evro-l4" class="logo__ombra"/><use href="#evro-l5" class="logo__ombra"/><use href="#evro-l6" class="logo__ombra"/><use href="#evro-l7" class="logo__ombra"/><use href="#evro-l8" class="logo__ombra"/></g><g class="logo__lettere"><use href="#evro-l1"/><use href="#evro-l2"/><use href="#evro-l3"/><use href="#evro-l4"/><use href="#evro-l5"/><use href="#evro-l6"/><use href="#evro-l7"/><use href="#evro-l8"/></g></svg></h1>
     <div class="apertura__barra" aria-hidden="true"></div>
     <div class="apertura__info">
       <p class="apertura__nome" data-nome>Gianluca Caputo</p>

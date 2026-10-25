@@ -232,29 +232,41 @@
       }
     }
 
-    /* La firma grande riempie esattamente la larghezza della pagina. */
-    function adattaFirma() {
-      var h = $("#firma-grande");
-      if (!h || !h.offsetParent) return;
-      var span = h.firstElementChild;
-      if (!span) {
-        span = el("span", { text: h.textContent });
-        h.textContent = "";
-        h.appendChild(span);
-      }
-      h.style.fontSize = "100px";
-      var w = span.getBoundingClientRect().width;
-      var cw = h.clientWidth;
-      if (w > 0 && cw > 0) h.style.fontSize = (100 * cw / w) * 0.997 + "px";
+    /* ---------- modalità chiara e scura ----------
+       Chi guarda può scegliere; la scelta resta in questo browser.
+       Senza una scelta vale quella del telefono o del computer. */
+    var TEMA_CHIAVE = "evroisbe-tema";
+    var sistemaScuro = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    function temaAttuale() {
+      var t = document.documentElement.getAttribute("data-tema");
+      if (t === "scuro" || t === "chiaro") return t;
+      return sistemaScuro && sistemaScuro.matches ? "scuro" : "chiaro";
     }
-
-    /* sul computer la firma della colonna a sinistra ne riempie la larghezza */
-    function adattaFirmaLato() {
-      var a = $(".lato__firma");
-      if (!a || !a.offsetParent || !a.firstElementChild) return;
-      a.style.fontSize = "100px";
-      var w = a.firstElementChild.getBoundingClientRect().width, cw = a.clientWidth;
-      if (w > 0 && cw > 0) a.style.fontSize = (100 * cw / w) * 0.995 + "px";
+    function mostraTema() {
+      var scuro = temaAttuale() === "scuro";
+      $$("[data-tema-bottone]").forEach(function (b) {
+        var t = $(".tema__testo", b);
+        if (t) t.textContent = scuro ? "chiaro" : "scuro";
+        b.setAttribute("aria-label", scuro ? "Passa alla modalità chiara" : "Passa alla modalità scura");
+      });
+      /* il colore della barra del browser sul telefono segue la modalità */
+      $$('meta[name="theme-color"]').forEach(function (m) { m.setAttribute("content", scuro ? "#0B0B0A" : "#EBEBE9"); });
+    }
+    function preparaTema() {
+      $$("[data-tema-bottone]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var nuovo = temaAttuale() === "scuro" ? "chiaro" : "scuro";
+          document.documentElement.setAttribute("data-tema", nuovo);
+          try { localStorage.setItem(TEMA_CHIAVE, nuovo); } catch (e) { /* va bene lo stesso */ }
+          mostraTema();
+        });
+      });
+      if (sistemaScuro) {
+        var cambia = function () { mostraTema(); };
+        if (sistemaScuro.addEventListener) sistemaScuro.addEventListener("change", cambia);
+        else if (sistemaScuro.addListener) sistemaScuro.addListener(cambia);
+      }
+      mostraTema();
     }
 
     /* l'indice a sinistra segna la sezione che si sta guardando */
@@ -1228,7 +1240,6 @@
       $("#curriculum").hidden = false;
       document.title = TITOLO_BASE;
       vista = "home";
-      adattaFirma();
       if (quanteColonne() !== colonne) impagina();
 
       if (!daLavoro) return;
@@ -1249,8 +1260,7 @@
       disegnaContatti();
       preparaLightbox();
       preparaIndice();
-      adattaFirma();
-      adattaFirmaLato();
+      preparaTema();
       adattaEmail();
       window.addEventListener("hashchange", percorso);
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
@@ -1258,11 +1268,8 @@
       var h = location.hash.replace(/^#/, "");
       if (vista === "home" && h && document.getElementById(h)) document.getElementById(h).scrollIntoView();
 
-      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaFirma(); adattaFirmaLato(); adattaTitolo(); adattaEmail(); controllaColonna(); });
-      if ("ResizeObserver" in window) new ResizeObserver(adattaFirma).observe($(".apertura"));
-      else window.addEventListener("resize", adattaFirma);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { adattaTitolo(); adattaEmail(); controllaColonna(); });
       window.addEventListener("resize", function () {
-        adattaFirmaLato();
         adattaTitolo();
         adattaEmail();
         controllaColonna();

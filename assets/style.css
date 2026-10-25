@@ -19,6 +19,11 @@
   --velo: #DCDCD8;           /* fondo delle immagini mentre caricano */
   --linea-scura: #34342F;    /* filetti su nero */
   --su-rosso: #FFFFFF;       /* testo sopra il rosso */
+  --filetto: rgba(0, 0, 0, 0.16);  /* filetti sottili su carta */
+  /* video e immagini a tutto schermo: sempre su nero, in tutte e due le modalità */
+  --schermo: #000000;
+  --su-schermo: #F4F4F2;
+  --su-schermo-2: #A8A8A3;
 
   /* caratteri */
   --f-display: "Archivo", "Arial Black", "Helvetica Neue", Arial, sans-serif;
@@ -43,6 +48,133 @@
   --s6: clamp(72px, 8vw, 128px);
   --barra: clamp(10px, 1.1vw, 16px);
 }
+
+/* ---------- modalità scura: tutto al contrario ----------
+   La carta diventa nera e il nero diventa carta: anche la parte bassa
+   (curriculum e contatti) passa da nera a chiara. Il rosso resta rosso.
+   Vale se la sceglie chi guarda, oppure se il telefono o il computer
+   sono già in modalità scura e chi guarda non ha scelto altro. */
+:root[data-tema="scuro"] {
+  color-scheme: dark;
+  --carta: #0B0B0A;
+  --inchiostro: #EBEBE9;
+  --grigio: #A8A8A3;
+  --grigio-chiaro: #5C5C58;
+  --bianco: #0B0B0A;
+  --velo: #1C1C1A;
+  --linea-scura: #CFCFCA;
+  --filetto: rgba(255, 255, 255, 0.18);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="chiaro"]) {
+    color-scheme: dark;
+    --carta: #0B0B0A;
+    --inchiostro: #EBEBE9;
+    --grigio: #A8A8A3;
+    --grigio-chiaro: #5C5C58;
+    --bianco: #0B0B0A;
+    --velo: #1C1C1A;
+    --linea-scura: #CFCFCA;
+    --filetto: rgba(255, 255, 255, 0.18);
+  }
+}
+
+/* ---------- il logo: firma piena davanti, la sua ombra a contorno che balla dietro ---------- */
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.logo { display: block; width: 100%; height: auto; overflow: visible; }
+.logo__lettere { fill: currentColor; }
+.logo__ombre {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 5.2;
+  stroke-linejoin: miter;
+}
+.logo--piccolo .logo__ombre { stroke-width: 7.5; }
+.logo__ombra { transform-box: fill-box; transform-origin: 50% 50%; }
+/* la posa ferma, come nel marchio */
+.logo__ombra:nth-child(1) { transform: translate(-20px, 14px) rotate(-6deg); }
+.logo__ombra:nth-child(2) { transform: translate(-9px, 9px) rotate(-4deg); }
+.logo__ombra:nth-child(3) { transform: translate(-20px, 24px) rotate(-4deg); }
+.logo__ombra:nth-child(4) { transform: translate(-6px, -2px) rotate(-2deg) scale(1.05); }
+.logo__ombra:nth-child(5) { transform: translate(9px, 17px) rotate(-5deg); }
+.logo__ombra:nth-child(6) { transform: translate(12px, 9px) rotate(3deg); }
+.logo__ombra:nth-child(7) { transform: translate(10px, 22px) rotate(-6deg); }
+.logo__ombra:nth-child(8) { transform: translate(15px, 13px) rotate(6deg); }
+/* l'ombra salta fuori da dietro le lettere e poi balla, ogni lettera col suo passo */
+@media (prefers-reduced-motion: no-preference) {
+  .logo__ombra { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+  .logo__ombra:nth-child(1) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-1 3.1s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(2) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-2 3.7s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(3) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-3 2.9s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(4) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-4 4.1s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(5) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-5 3.3s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(6) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-6 3.9s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(7) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-7 3.5s ease-in-out 0.9s infinite; }
+  .logo__ombra:nth-child(8) { animation: ombra-entra 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both, ombra-8 3s ease-in-out 0.9s infinite; }
+}
+@keyframes ombra-entra { from { transform: none; } }
+@keyframes ombra-1 {
+  0%, 100% { transform: translate(-20px, 14px) rotate(-6deg); }
+  33% { transform: translate(-27px, 8px) rotate(-9deg); }
+  66% { transform: translate(-13px, 20px) rotate(-3deg); }
+}
+@keyframes ombra-2 {
+  0%, 100% { transform: translate(-9px, 9px) rotate(-4deg); }
+  33% { transform: translate(-15px, 4px) rotate(-7deg); }
+  66% { transform: translate(-3px, 14px) rotate(-1deg); }
+}
+@keyframes ombra-3 {
+  0%, 100% { transform: translate(-20px, 24px) rotate(-4deg); }
+  33% { transform: translate(-12px, 30px) rotate(-7deg); }
+  66% { transform: translate(-27px, 17px) rotate(-1deg); }
+}
+@keyframes ombra-4 {
+  0%, 100% { transform: translate(-6px, -2px) rotate(-2deg) scale(1.05); }
+  33% { transform: translate(-13px, -7px) rotate(-5deg) scale(1.06); }
+  66% { transform: translate(3px, 5px) rotate(1deg) scale(1.04); }
+}
+@keyframes ombra-5 {
+  0%, 100% { transform: translate(9px, 17px) rotate(-5deg); }
+  33% { transform: translate(15px, 10px) rotate(-8deg); }
+  66% { transform: translate(3px, 23px) rotate(-2deg); }
+}
+@keyframes ombra-6 {
+  0%, 100% { transform: translate(12px, 9px) rotate(3deg); }
+  33% { transform: translate(5px, 16px) rotate(6deg); }
+  66% { transform: translate(19px, 3px) rotate(0deg); }
+}
+@keyframes ombra-7 {
+  0%, 100% { transform: translate(10px, 22px) rotate(-6deg); }
+  33% { transform: translate(17px, 15px) rotate(-3deg); }
+  66% { transform: translate(3px, 28px) rotate(-8deg); }
+}
+@keyframes ombra-8 {
+  0%, 100% { transform: translate(15px, 13px) rotate(6deg); }
+  33% { transform: translate(21px, 7px) rotate(9deg); }
+  66% { transform: translate(9px, 19px) rotate(3deg); }
+}
+
+/* ---------- cambio fra modalità chiara e scura ---------- */
+.tema {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--f-mono);
+  font-size: var(--t-meta);
+  cursor: pointer;
+}
+.tema__icona {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  background: linear-gradient(90deg, currentColor 0 50%, transparent 50% 100%);
+}
+.tema:hover { color: var(--rosso); }
 
 *, *::before, *::after { box-sizing: border-box; }
 [hidden] { display: none !important; }
@@ -113,18 +245,22 @@ button { font: inherit; color: inherit; }
 .testata {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--s1) var(--s4);
   padding-block: var(--s3);
 }
 .testata__firma {
-  font-family: var(--f-display);
-  font-weight: 760;
-  font-stretch: 125%;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  display: block;
+  align-self: center;
   text-decoration: none;
+}
+.testata__firma .logo { width: auto; height: 14px; }
+.testata .tema { margin-left: auto; }
+.testata__nav { flex-basis: 100%; }
+@media (min-width: 640px) {
+  .testata__nav { flex-basis: auto; order: 3; margin-left: auto; }
+  .testata .tema { order: 4; margin-left: 0; }
 }
 .testata__nav {
   display: flex;
@@ -146,14 +282,10 @@ button { font: inherit; color: inherit; }
 #portfolio { padding-top: clamp(48px, 5vw, 88px); }
 .apertura__firma {
   margin: 0;
-  font-family: var(--f-display);
-  font-weight: 820;
-  font-stretch: 125%;
-  font-size: 13.4vw; /* app.js la regola per riempire esattamente la riga */
-  line-height: 0.76;
-  letter-spacing: -0.012em;
-  white-space: nowrap;
+  line-height: 0;
 }
+/* il logo occupa tutta la riga; l'ombra può uscire un poco dai lati */
+.apertura__firma .logo { width: 100%; }
 .apertura__barra {
   height: var(--barra);
   margin-top: clamp(14px, 2.2vw, 34px);
@@ -286,7 +418,7 @@ button { font: inherit; color: inherit; }
 .opera__img > img { transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1); }
 .opera:hover .opera__img > img { transform: scale(1.025); }
 /* anteprima video: compare quando parte */
-.opera__clip { opacity: 0; transition: opacity 0.3s; background: var(--inchiostro); }
+.opera__clip { opacity: 0; transition: opacity 0.3s; background: var(--schermo); }
 .opera--in-moto .opera__clip { opacity: 1; }
 /* pieghevole: le pagine entrano da destra una dopo l'altra;
    le immagini si vedono intere, affiancate o una sopra l'altra, su un fondo neutro */
@@ -638,7 +770,7 @@ button { font: inherit; color: inherit; }
   grid-template-columns: 10ch minmax(0, 1fr);
   gap: var(--s2);
   padding: 9px 0 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+  border-bottom: 1px solid var(--filetto);
 }
 .lavoro__dati dt {
   padding-top: 3px;
@@ -665,7 +797,7 @@ button { font: inherit; color: inherit; }
 .video__cornice {
   position: relative;
   aspect-ratio: 16 / 9;
-  background: var(--inchiostro);
+  background: var(--schermo);
 }
 .video__cornice video,
 .video__cornice iframe {
@@ -674,7 +806,7 @@ button { font: inherit; color: inherit; }
   width: 100%;
   height: 100%;
   border: 0;
-  background: var(--inchiostro);
+  background: var(--schermo);
 }
 .video__play {
   position: absolute;
@@ -943,8 +1075,8 @@ button { font: inherit; color: inherit; }
   padding-bottom: max(32px, env(safe-area-inset-bottom, 0px));
   padding-left: max(64px, calc(env(safe-area-inset-left, 0px) + 56px));
   padding-right: max(64px, calc(env(safe-area-inset-right, 0px) + 56px));
-  background: var(--inchiostro);
-  color: var(--bianco);
+  background: var(--schermo);
+  color: var(--su-schermo);
   touch-action: pan-y;
 }
 .lightbox__img {
@@ -967,13 +1099,13 @@ button { font: inherit; color: inherit; }
   top: calc(env(safe-area-inset-top, 0px) + 10px);
   right: max(16px, calc(env(safe-area-inset-right, 0px) + 16px));
   padding: 6px 12px;
-  border: 1px solid var(--grigio-chiaro);
+  border: 1px solid var(--su-schermo-2);
   background: none;
   font-family: var(--f-mono);
   font-size: var(--t-mini);
   cursor: pointer;
 }
-.lightbox__chiudi:hover { border-color: var(--bianco); }
+.lightbox__chiudi:hover { border-color: var(--su-schermo); }
 .lightbox__freccia {
   position: absolute;
   top: 50%;
@@ -1040,15 +1172,10 @@ button { font: inherit; color: inherit; }
   }
   .lato__firma {
     display: block;
-    font-family: var(--f-display);
-    font-weight: 820;
-    font-stretch: 125%;
-    font-size: 44px; /* app.js la regola per riempire la larghezza della colonna */
-    line-height: 0.8;
-    letter-spacing: -0.012em;
-    white-space: nowrap;
+    line-height: 0;
     text-decoration: none;
   }
+  .lato__firma .logo { width: 100%; }
   .lato__firma:hover { color: var(--rosso); }
   .lato__barra {
     height: 10px;
@@ -1115,6 +1242,7 @@ button { font: inherit; color: inherit; }
     line-height: 1.5;
   }
   .lato__email { overflow-wrap: anywhere; text-underline-offset: 3px; }
+  .lato__piede .tema { margin-top: 14px; font-size: 13px; }
   .lato__email:hover,
   .lato__social a:hover { color: var(--rosso); }
   .lato__social {
