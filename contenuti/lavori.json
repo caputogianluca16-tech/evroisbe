@@ -257,6 +257,36 @@
       "nascosto": false
     },
     {
+      "titolo": "EVROISBE: identità visiva",
+      "anno": "2026",
+      "categoria": "graphics",
+      "breve": "Il mio marchio: la firma del sito, ferma, e dietro la sua ombra che balla, disegnata solo a contorno. Con il manuale d'uso e l'immagine coordinata.",
+      "copertina": "/immagini/evroisbe/copertina.jpg",
+      "testo": "EVROISBE è il nome con cui firmo i miei lavori. Per dargli un marchio sono partito dal mio vecchio logo, con le lettere che ballavano, e dalla firma di questo sito: nera, larga e ferma.\n\n## Il marchio\n\nSi chiama Ombra. Davanti c'è la firma piena; dietro, la sua ombra si muove per conto suo: ogni lettera ruota, cambia scala e si sposta di poco, come faceva il vecchio logo. L'ombra è disegnata solo a contorno, come una traccia o un'eco, e da vicino ci si accorge che non corrisponde alle lettere. È nera sui fondi chiari o colorati e bianca su quelli scuri: il colore lo portano le opere.\n\n## Dalle bozze alla scelta\n\nLe direzioni erano cinque: Rimbalzo, Ombra, Genealogia, Salto e Blocco. Ne sono rimaste due, Ombra e Salto, e alla fine solo Ombra. L'ombra, che nelle bozze era piena e color corallo, è diventata un contorno, e il marchio un bianco e nero.\n\n## Il manuale\n\nVentuno pagine di regole: la gabbia di costruzione, che ha per modulo l'altezza delle maiuscole; le quattro versioni (Ombra, la Firma per gli usi piccoli, l'icona EVRO / ISBE per i formati quadrati, la favicon con la sola O); l'area di rispetto, le dimensioni minime, i colori, la tipografia e gli usi scorretti. I caratteri sono quelli del sito, Archivo e Space Mono; i colori sono il nero, la carta e il bianco, più un grigio per i testi secondari.\n\n## L'immagine coordinata\n\nBiglietto da visita, carta intestata e busta si stampano con un solo inchiostro, il nero. Per gli schermi ci sono la firma email, la foto profilo e la copertina dei social, la filigrana e il cartello finale dei video; sugli oggetti, la borsa, il taccuino, la maglietta e gli adesivi. Qui si sfoglia tutto il manuale.",
+      "libri": [
+        {
+          "titolo": "EVROISBE. Manuale d'uso del marchio e immagine coordinata",
+          "titolo_en": "EVROISBE. Brand manual and visual identity guidelines",
+          "nota": "21 pagine, A4 orizzontale",
+          "nota_en": "21 pages, landscape A4",
+          "copertina": "/libri/evroisbe/copertina.jpg",
+          "prima_pagina": 2,
+          "cartella": "/libri/evroisbe/",
+          "quante": 20
+        }
+      ],
+      "en": {
+        "titolo": "EVROISBE: visual identity",
+        "breve": "My own logo: the website's signature, standing still, with its shadow dancing behind it, drawn only as an outline. With the brand manual and the visual identity.",
+        "testo": "EVROISBE is the name I sign my work with. To give it a logo I started from my old one, with its dancing letters, and from the signature of this website: black, wide and still.\n\n## The logo\n\nIt is called Ombra (shadow). In front stands the solid signature; behind it, its shadow moves on its own: each letter rotates, changes scale and shifts a little, as the old logo used to do. The shadow is drawn only as an outline, like a trace or an echo, and up close you notice that it doesn't match the letters. It is black on light or coloured backgrounds and white on dark ones: the colour comes from the works.\n\n## From sketches to choice\n\nThere were five directions: Rimbalzo, Ombra, Genealogia, Salto and Blocco. Two survived, Ombra and Salto, and in the end only Ombra. The shadow, solid and coral in the sketches, became an outline, and the logo black and white.\n\n## The manual\n\nTwenty-one pages of rules: the construction grid, whose module is the cap height; the four versions (Ombra, the Firma, that is the signature alone, for small uses, the EVRO / ISBE icon for square formats, the favicon with the O alone); clear space, minimum sizes, colours, typography and misuses. The typefaces are the website's, Archivo and Space Mono; the colours are black, paper and white, plus a grey for secondary text.\n\n## The identity\n\nBusiness card, letterhead and envelope are printed in a single ink, black. For screens there are the email signature, the profile picture and the social banner, the watermark and the end card for videos; on objects, the tote bag, the notebook, the T-shirt and the stickers. The whole manual can be leafed through here.",
+        "tecnica": "Vector logo, brand manual in landscape A4 (21 pages), one-colour print",
+        "crediti": "Personal project"
+      },
+      "tecnica": "Marchio vettoriale, manuale d'uso in A4 orizzontale (21 pagine), stampa a un colore",
+      "crediti": "Progetto personale",
+      "nascosto": false
+    },
+    {
       "titolo": "We Matter",
       "anno": "2022",
       "categoria": "graphics",
@@ -271,29 +301,29 @@
           "anteprima": "/immagini/we-matter/video.jpg"
         }
       ],
-      "testo": "Il marchio di «We Matter» (noi valiamo), per una content creator che in diretta parla di attualità e di inclusione sociale: i diritti della comunità LGBTQ+, delle donne e delle categorie discriminate, contro tabù e luoghi comuni.\n\n## Il marchio\n\nFra cinque idee sulle due iniziali, la cliente ha scelto questa: una W in piedi, in assonometria, la cui ombra lunga, stesa a terra, forma la M. Nella bozza le lettere erano al contrario; insieme abbiamo deciso di scambiarle, perché si legga prima We e poi Matter. Su sua richiesta il marchio è in bianco e nero.\n\n## Il manuale\n\nHo ricostruito il marchio dai vettori originali e ne ho scritto le regole: la gabbia in assonometria (il modulo è la profondità del volume, la W è alta cinque moduli), la costruzione dell'ombra, i codici colore faccia per faccia, le prove di contrasto su grigi e colori, l'area di rispetto e le dimensioni minime. Accanto al marchio pieno c'è una versione al tratto, per la carta.\n\n## L'immagine coordinata\n\nLa griglia della costruzione diventa il pavimento su cui sta la W: nelle scene delle dirette, nei post, nella copertina del canale. In movimento l'ombra si allunga fino a scrivere la M. Sulla carta il foglio fa da pavimento: carta intestata, busta e biglietto da visita.",
+      "testo": "Il marchio di «We Matter» (noi valiamo), per una content creator che in diretta parla di attualità e di inclusione sociale: i diritti della comunità LGBTQ+, delle donne e delle categorie discriminate, contro tabù e luoghi comuni.\n\n## Il marchio\n\nFra cinque idee sulle due iniziali, la cliente ha scelto questa: una W in piedi, in assonometria, la cui ombra lunga, stesa a terra, forma la M. Nella bozza le lettere erano al contrario; insieme abbiamo deciso di scambiarle, perché si legga prima We e poi Matter. Su sua richiesta il marchio è in bianco e nero.\n\n## Il manuale\n\nHo ricostruito il marchio dai vettori originali e ne ho scritto le regole: la gabbia in assonometria (il modulo è la profondità del volume, la W è alta cinque moduli), la costruzione dell'ombra, i codici colore faccia per faccia, le prove di contrasto su grigi e colori, l'area di rispetto e le dimensioni minime. Accanto al marchio pieno c'è una versione al tratto, per la carta.\n\n## L'immagine coordinata\n\nLa griglia della costruzione diventa il pavimento su cui sta la W: nelle scene delle dirette, nei post, nella copertina del canale. In movimento l'ombra si allunga fino a scrivere la M. Sulla carta il foglio fa da pavimento: carta intestata, busta e biglietto da visita. Qui si sfoglia tutto il manuale.",
       "en": {
         "breve": "A visual identity for an activist content creator: a 3D W whose shadow spells M, with a brand manual and a full identity system.",
-        "testo": "The logo for \"We Matter\", for a content creator who talks live about current affairs and social inclusion: the rights of the LGBTQ+ community, of women and of discriminated groups, against taboos and clichés.\n\n## The logo\n\nOf five ideas built on the two initials, the client chose this one: a W standing upright, in axonometric view, whose long shadow on the ground forms the M. In the draft the letters were the other way round; together we decided to swap them, so that it reads We first and Matter second. At her request the logo is black and white.\n\n## The manual\n\nI rebuilt the logo from the original vectors and wrote its rules: the axonometric grid (the module is the depth of the volume, the W is five modules tall), the construction of the shadow, the colour codes face by face, contrast tests on greys and colours, clear space and minimum sizes. Next to the solid logo there is a line version, for print.\n\n## The identity\n\nThe construction grid becomes the floor the W stands on: in the live-stream scenes, in the posts, on the channel banner. In motion the shadow stretches until it spells the M. On paper the sheet itself is the floor: letterhead, envelope and business card.",
+        "testo": "The logo for \"We Matter\", for a content creator who talks live about current affairs and social inclusion: the rights of the LGBTQ+ community, of women and of discriminated groups, against taboos and clichés.\n\n## The logo\n\nOf five ideas built on the two initials, the client chose this one: a W standing upright, in axonometric view, whose long shadow on the ground forms the M. In the draft the letters were the other way round; together we decided to swap them, so that it reads We first and Matter second. At her request the logo is black and white.\n\n## The manual\n\nI rebuilt the logo from the original vectors and wrote its rules: the axonometric grid (the module is the depth of the volume, the W is five modules tall), the construction of the shadow, the colour codes face by face, contrast tests on greys and colours, clear space and minimum sizes. Next to the solid logo there is a line version, for print.\n\n## The identity\n\nThe construction grid becomes the floor the W stands on: in the live-stream scenes, in the posts, on the channel banner. In motion the shadow stretches until it spells the M. On paper the sheet itself is the floor: letterhead, envelope and business card. The whole manual can be leafed through here.",
         "tecnica": "Illustrator",
         "crediti": "Commissioned visual identity"
       },
-      "immagini": [
-        "/immagini/we-matter/manuale-01.jpg",
-        "/immagini/we-matter/manuale-02.jpg",
-        "/immagini/we-matter/manuale-03.jpg",
-        "/immagini/we-matter/manuale-04.jpg",
-        "/immagini/we-matter/manuale-05.jpg",
-        "/immagini/we-matter/manuale-06.jpg",
-        "/immagini/we-matter/manuale-07.jpg",
-        "/immagini/we-matter/manuale-08.jpg",
-        "/immagini/we-matter/manuale-09.jpg",
-        "/immagini/we-matter/manuale-10.jpg",
-        "/immagini/we-matter/manuale-11.jpg"
-      ],
       "tecnica": "Illustrator",
       "crediti": "Identità visiva su commissione",
-      "nascosto": false
+      "nascosto": false,
+      "libri": [
+        {
+          "titolo": "We Matter. Manuale d'uso del marchio e immagine coordinata",
+          "titolo_en": "We Matter. Brand manual and visual identity guidelines",
+          "nota": "23 pagine, A4 orizzontale",
+          "nota_en": "23 pages, landscape A4",
+          "copertina": "/libri/we-matter/copertina.jpg",
+          "prima_pagina": 2,
+          "lato_prima_pagina": "destra",
+          "cartella": "/libri/we-matter/",
+          "quante": 22
+        }
+      ]
     },
     {
       "titolo": "Slut Commandments",

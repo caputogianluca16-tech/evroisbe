@@ -1025,6 +1025,15 @@ button { font: inherit; color: inherit; }
 }
 .libro--chiuso .libro__volume { transform: translateX(-25%); }
 .libro--chiuso .libro__volume::before { left: 51.5%; }
+/* una pagina alla volta (pagine piccole o orizzontali): il libro aperto è largo quasi il doppio
+   della scena e scorre per mettere al centro la pagina di sinistra o quella di destra;
+   ai lati resta un filo della pagina accanto */
+.libro--singola .libro__volume {
+  width: min(180%, calc(74vh * 2 * var(--pagina)));
+  max-width: none;
+  transform: translateX(25%);
+}
+.libro--singola.libro--a-destra .libro__volume { transform: translateX(-25%); }
 
 .libro__base {
   position: absolute;
@@ -1554,7 +1563,6 @@ html.entrata .testata { animation: compare 0.5s ease both; }
   }
   .lightbox__freccia { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 4px); transform: none; }
   .libro__scena { padding: var(--s3) 0 var(--s4); }
-  .libro--sinistra-vuota .libro__volume { width: 180%; max-width: none; transform: translateX(-25%); }
   .libro__nota { align-items: flex-start; }
 }
 

@@ -1286,7 +1286,12 @@
     /* ---------- libri da sfogliare ----------
        Ogni foglio gira attorno al dorso: davanti ha la pagina di destra,
        dietro quella di sinistra. Le pagine sono sfondi, non immagini da aprire
-       o scaricare, e si caricano solo quando ci si avvicina. */
+       o scaricare, e si caricano solo quando ci si avvicina.
+       Quando le due pagine affiancate verrebbero troppo piccole (sul telefono, o con le pagine
+       orizzontali dei manuali) si vede una pagina alla volta, grande, con un filo della pagina
+       accanto: il libro scorre per mostrare l'altra pagina e, dopo quella di destra, si gira il foglio. */
+    var PAGINA_MINIMA = 125000;   /* area minima di una pagina (in pixel) per vedere il libro aperto intero */
+
     function libro(L) {
       var conCopertina = !!L.copertina;
       var titoloL = testo(trad(L.raw, "titolo")), notaL = testo(trad(L.raw, "nota"));
@@ -1311,7 +1316,15 @@
       var min = !conCopertina && aSinistra ? 1 : 0;
       var max = min;
       for (var k = min; k <= nFogli; k++) if (facce[2 * k - 1] || facce[2 * k]) max = k;
-      var pos = min;
+      /* pos = fogli già girati; lato = la pagina in vista quando se ne vede una sola */
+      var pos = min, lato = "dx", singola = false, rapporto = 0.7;
+      function sinistra(p) { return facce[2 * p - 1]; }
+      function destra(p) { return facce[2 * p]; }
+      /* arrivando a un'apertura: in avanti si comincia da sinistra, all'indietro da destra */
+      function latoPer(p, avanzando) {
+        if (avanzando) return sinistra(p) ? "sx" : "dx";
+        return destra(p) ? "dx" : "sx";
+      }
 
       var volume = el("div", { class: "libro__volume" }, [
         el("div", { class: "libro__base libro__base--sx" }),
@@ -1369,35 +1382,65 @@
           }
         });
         box.classList.toggle("libro--chiuso", conCopertina && pos === 0);
-        var sx = facce[2 * pos - 1], dx = facce[2 * pos];
-        /* sul telefono, se a sinistra non c'è niente, si vede solo la pagina di destra, più grande */
-        box.classList.toggle("libro--sinistra-vuota", !sx);
-        var numeri = [sx, dx].filter(function (f) { return f && f.numero; }).map(function (f) { return f.numero; });
+        box.classList.toggle("libro--a-destra", lato === "dx");
+        var sx = sinistra(pos), dx = destra(pos);
+        var visti = singola ? [lato === "sx" ? sx : dx] : [sx, dx];
+        var numeri = visti.filter(function (f) { return f && f.numero; }).map(function (f) { return f.numero; });
         var su = L.lungo ? " " + t("di") + " " + ultima : "";
         stato.textContent = conCopertina && pos === 0 ? t("apriLibro")
           : numeri.length === 2 ? "pp. " + numeri[0] + "–" + numeri[1] + su
           : numeri.length === 1 ? "p. " + numeri[0] + su : "";
-        prec.disabled = pos <= min;
-        succ.disabled = pos >= max;
+        prec.disabled = !puoIndietro();
+        succ.disabled = !puoAvanti();
         if (cursore) cursore.value = String(pos);
       }
+      function puoAvanti() { return pos < max || (singola && lato === "sx" && !!destra(pos)); }
+      function puoIndietro() { return pos > min || (singola && lato === "dx" && !!sinistra(pos)); }
       function gira(d) {
         var nuovo = pos + d;
         if (nuovo < min || nuovo > max) return;
         var mosso = d > 0 ? pos : pos - 1;
         pos = nuovo;
+        lato = latoPer(pos, d > 0);
         disponi(mosso);
       }
+      /* con una pagina alla volta, prima si passa all'altra pagina dell'apertura, poi si gira */
+      function avanti() {
+        if (singola && lato === "sx" && destra(pos)) { lato = "dx"; disponi(); return; }
+        gira(1);
+      }
+      function indietro() {
+        if (singola && lato === "dx" && sinistra(pos)) { lato = "sx"; disponi(); return; }
+        gira(-1);
+      }
+      function senzaAnimazione(fai) {
+        box.classList.add("libro--salto");
+        fai();
+        void volume.offsetWidth;
+        requestAnimationFrame(function () { box.classList.remove("libro--salto"); });
+      }
       /* salto di molte pagine (cursore): senza animazione */
-      function salta(nuovo) {
+      function salta(nuovo, avanzando) {
         nuovo = Math.max(min, Math.min(max, nuovo));
         if (nuovo === pos) return;
         if (Math.abs(nuovo - pos) === 1) { gira(nuovo - pos); return; }
-        box.classList.add("libro--salto");
-        pos = nuovo;
-        disponi();
-        void volume.offsetWidth;
-        requestAnimationFrame(function () { box.classList.remove("libro--salto"); });
+        senzaAnimazione(function () {
+          pos = nuovo;
+          lato = latoPer(pos, avanzando !== false);
+          disponi();
+        });
+      }
+      /* libro aperto intero o una pagina alla volta: dipende da quanto verrebbero grandi le pagine */
+      function scegliVista() {
+        var w = scena.clientWidth;
+        if (!w) return;
+        var aperto = Math.min(w, window.innerHeight * 0.74 * 2 * rapporto, 1120);
+        var nuova = (aperto / 2) * (aperto / 2 / rapporto) < PAGINA_MINIMA;
+        if (nuova === singola) return;
+        singola = nuova;
+        if (singola) lato = sinistra(pos) ? "sx" : "dx";
+        box.classList.toggle("libro--singola", singola);
+        senzaAnimazione(function () { disponi(); });
       }
       fogli.forEach(function (f, i) {
         f.addEventListener("transitionend", function (e) {
@@ -1406,30 +1449,49 @@
           atterra(f, i);
         });
       });
-      prec.addEventListener("click", function () { gira(-1); });
-      succ.addEventListener("click", function () { gira(1); });
+      prec.addEventListener("click", indietro);
+      succ.addEventListener("click", avanti);
       if (cursore) cursore.addEventListener("input", function () { salta(parseInt(cursore.value, 10)); });
+      var strisciato = 0;
       volume.addEventListener("click", function (e) {
-        var r = volume.getBoundingClientRect();
-        var aDestra = e.clientX > r.left + r.width / 2;
-        if (conCopertina && pos === 0) gira(1); else gira(aDestra ? 1 : -1);
+        if (Date.now() - strisciato < 600) return;
+        if (conCopertina && pos === 0) { avanti(); return; }
+        /* clic sulla metà destra: avanti; sulla sinistra: indietro */
+        var r = (singola ? scena : volume).getBoundingClientRect();
+        if (e.clientX > r.left + r.width / 2) avanti(); else indietro();
       });
+      /* sul telefono si sfoglia anche strisciando il dito */
+      var tocco = null;
+      scena.addEventListener("touchstart", function (e) {
+        tocco = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+      }, { passive: true });
+      scena.addEventListener("touchend", function (e) {
+        if (!tocco || !e.changedTouches.length) return;
+        var dx = e.changedTouches[0].clientX - tocco.x, dy = e.changedTouches[0].clientY - tocco.y;
+        tocco = null;
+        if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+        strisciato = Date.now();
+        if (dx < 0) avanti(); else indietro();
+      }, { passive: true });
       scena.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowRight") { e.preventDefault(); gira(1); }
-        else if (e.key === "ArrowLeft") { e.preventDefault(); gira(-1); }
+        if (e.key === "ArrowRight") { e.preventDefault(); avanti(); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); indietro(); }
         else if (e.key === "Home") { e.preventDefault(); salta(min); }
-        else if (e.key === "End") { e.preventDefault(); salta(max); }
+        else if (e.key === "End") { e.preventDefault(); salta(max, false); }
       });
 
       /* le proporzioni della pagina le prendo dalla prima pagina */
       var misura = new Image();
       misura.onload = function () {
         if (!misura.naturalWidth || !misura.naturalHeight) return;
-        var r = misura.naturalWidth / misura.naturalHeight;
-        volume.style.setProperty("--pagina", String(r));
-        volume.style.aspectRatio = String(2 * r);
+        rapporto = misura.naturalWidth / misura.naturalHeight;
+        volume.style.setProperty("--pagina", String(rapporto));
+        volume.style.aspectRatio = String(2 * rapporto);
+        scegliVista();
       };
       misura.src = L.pagine[0];
+      if (window.ResizeObserver) new ResizeObserver(scegliVista).observe(scena);
+      else window.addEventListener("resize", scegliVista);
 
       disponi();
       var nota = [titoloL, notaL].filter(Boolean);

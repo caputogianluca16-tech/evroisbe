@@ -222,7 +222,7 @@ singletons:
             required: false
             collapsed: true
             summary: "{{fields.titolo}}"
-            hint: Facoltativi. Le pagine compaiono dentro un libro che si apre con un clic e si sfoglia; non si possono scaricare.
+            hint: Facoltativi. Le pagine compaiono dentro un libro che si apre con un clic e si sfoglia; non si possono scaricare. Quando le pagine affiancate verrebbero piccole (sul telefono, o con pagine orizzontali come i manuali) si vede una pagina alla volta.
             fields:
               - name: titolo
                 label: Titolo del libro
